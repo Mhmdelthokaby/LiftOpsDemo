@@ -22,24 +22,29 @@
  * NOTE: NEXT_PUBLIC_ variables are embedded at BUILD TIME, so you must rebuild/redeploy
  * after changing them in Vercel.
  */
+// Updated API base URL handling
+// Prefer the environment variable, but fall back to the current origin (useful for dev/proxy setups)
+// and finally to a localhost default.
 const getApiBaseUrl = (): string => {
-    // Get from environment variable (available at build time and runtime)
-    const envUrl = process.env.NEXT_PUBLIC_API_URL;
-    
-    // Remove trailing slash if present
-    const cleanUrl = envUrl?.trim().replace(/\/$/, '') || "http://localhost:5295";
-    
-    return cleanUrl;
+  // Prefer explicit env var if set
+  const envUrl = process.env.NEXT_PUBLIC_API_URL?.trim().replace(/\/$/, "");
+  if (envUrl) {
+    return envUrl;
+  }
+
+  // If running in the browser, use the origin (e.g., http://localhost:3000)
+  if (typeof window !== "undefined") {
+    return window.location.origin;
+  }
+
+  // Fallback for non-browser environments
+  return "http://localhost:3000";
 };
 
-// Export as a function to ensure we always get the latest value
-// This is important for client-side code that might run after the module loads
-export const getApiBaseUrlValue = (): string => {
-    return getApiBaseUrl();
-};
+// Export as a function to ensure we always get the latest value (important for client-side code)
+export const getApiBaseUrlValue = (): string => getApiBaseUrl();
 
-// Export constant for backward compatibility
-// Note: This is evaluated at module load time (build time in production)
+// Export constant for backward compatibility (evaluated at module load time)
 export const API_BASE_URL = getApiBaseUrl();
 
 /**
