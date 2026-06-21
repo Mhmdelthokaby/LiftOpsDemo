@@ -35,9 +35,11 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import { useTranslation } from "@/lib/i18n/context"
 
 export default function TechniciansPage() {
     const router = useRouter()
+    const { t } = useTranslation()
     const [technicians, setTechnicians] = useState<Technician[]>([])
     const [loading, setLoading] = useState(true)
     const [searchTerm, setSearchTerm] = useState("")
@@ -156,8 +158,8 @@ export default function TechniciansPage() {
                     <main className="flex-1 p-6">
                         <div className="mb-6 flex items-center justify-between">
                             <div>
-                                <h1 className="text-3xl font-bold tracking-tight">Technicians</h1>
-                                <p className="text-muted-foreground">Manage technical team members</p>
+                                <h1 className="text-3xl font-bold tracking-tight">{t.technicians.title}</h1>
+                                <p className="text-muted-foreground">{t.technicians.subtitle}</p>
                             </div>
                             {canManage() && (
                                 <Link href="/technicians/new">
@@ -308,14 +310,14 @@ export default function TechniciansPage() {
                 </AlertDialogContent>
             </AlertDialog>
             <DemoGuidePanel
-              title="Technicians"
-              description="Manage your field team — their skills, ratings, and availability."
+              title={t.demoGuide.technicians.title}
+              description={t.demoGuide.technicians.description}
               features={[
                 { icon: "👨‍🔧", label: "Team List", description: "All technicians with specialization and rating" },
                 { icon: "✏️", label: "Add / Edit / Delete", description: "Full team management" },
                 { icon: "🔘", label: "Enable / Disable", description: "Temporarily deactivate a technician without deleting" },
               ]}
-              tip="Ratings are updated automatically based on completed job performance."
+              tip={t.demoGuide.technicians.tip}
             />
         </SidebarProvider>
     )

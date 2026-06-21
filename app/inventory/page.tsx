@@ -17,9 +17,11 @@ import { CategoryForm } from "@/components/inventory/category-form"
 import { createInventoryItem, createCategory, type CreateInventoryItemDto, type CreateCategoryDto } from "@/lib/api"
 import { toast } from "sonner"
 import { FolderPlus } from "lucide-react"
+import { useTranslation } from "@/lib/i18n/context"
 
 export default function InventoryPage() {
   const router = useRouter()
+  const { t } = useTranslation()
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const [isAddCategoryDialogOpen, setIsAddCategoryDialogOpen] = useState(false)
   const refreshTableRef = useRef<(() => void) | null>(null)
@@ -97,20 +99,20 @@ export default function InventoryPage() {
           <main className="flex-1 p-6">
             <div className="mb-6 flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-bold tracking-tight">Inventory & Procurement</h1>
-                <p className="text-muted-foreground">Manage spare parts and component stock levels</p>
+                <h1 className="text-3xl font-bold tracking-tight">{t.inventory.title}</h1>
+                <p className="text-muted-foreground">{t.inventory.subtitle}</p>
               </div>
               {canManage && (
                 <div className="flex gap-2">
                   <Button variant="outline">
                     <Download className="mr-2 h-4 w-4" />
-                    Export
+                    {t.inventory.export}
                   </Button>
                   <Dialog open={isAddCategoryDialogOpen} onOpenChange={setIsAddCategoryDialogOpen}>
                     <DialogTrigger asChild>
                       <Button variant="outline">
                         <FolderPlus className="mr-2 h-4 w-4" />
-                        Add Category
+                        {t.inventory.addCategory}
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="max-w-lg">
@@ -127,7 +129,7 @@ export default function InventoryPage() {
                     <DialogTrigger asChild>
                       <Button>
                         <Plus className="mr-2 h-4 w-4" />
-                        Add Item
+                        {t.inventory.addItem}
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="max-w-2xl">
@@ -148,15 +150,15 @@ export default function InventoryPage() {
             <InventoryTable onRefreshReady={(refreshFn) => { refreshTableRef.current = refreshFn }} />
           </main>
           <DemoGuidePanel
-            title="Inventory"
-            description="Track all spare parts and get alerts before you run out."
+            title={t.demoGuide.inventory.title}
+            description={t.demoGuide.inventory.description}
             features={[
               { icon: "📦", label: "Parts Overview", description: "Full catalog of spare parts with quantities" },
               { icon: "⚠️", label: "Low Stock Alerts", description: "Automatic warnings when stock falls below threshold" },
               { icon: "➕", label: "Add Items & Categories", description: "Organize your inventory your way" },
               { icon: "📤", label: "Export", description: "Download inventory data anytime" },
             ]}
-            tip="Set minimum stock levels so the system alerts you automatically."
+            tip={t.demoGuide.inventory.tip}
           />
         </div>
       </div>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { X } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useTranslation } from "@/lib/i18n/context"
 
 const features = [
   { icon: "🏗️", title: "Projects", desc: "Track elevator installation projects and timelines" },
@@ -15,6 +16,7 @@ const features = [
 
 export function OnboardingOverlay() {
   const [open, setOpen] = useState(false)
+  const { t } = useTranslation()
 
   useEffect(() => {
     const seen = localStorage.getItem("demo_onboarding_seen")
@@ -42,13 +44,13 @@ export function OnboardingOverlay() {
 
         <div className="mb-6">
           <span className="inline-block rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
-            🎯 Demo Mode
+            {t.common.demoMode}
           </span>
           <h2 className="mt-3 text-2xl font-bold tracking-tight text-foreground">
-            Welcome to LiftOps
+            {t.common.welcomeToLiftOps}
           </h2>
           <p className="mt-1 text-sm text-muted-foreground">
-            Here&apos;s what you can explore in this demo
+            {t.common.demoDescription}
           </p>
         </div>
 
@@ -66,16 +68,16 @@ export function OnboardingOverlay() {
 
         <div className="rounded-lg border border-primary/10 bg-primary/5 p-4 text-center">
           <p className="mb-3 text-xs text-muted-foreground">
-            All data in this demo is pre-filled for realistic experience
+            {t.common.allDataPrefilled}
           </p>
           <Button onClick={handleClose} className="w-full">
-            Start Exploring →
+            {t.common.startExploring}
           </Button>
           <a
             href="mailto:mhmdemad737@gmail.com"
             className="mt-2 inline-block text-xs text-muted-foreground underline underline-offset-2 hover:text-primary"
           >
-            Book a real demo
+            {t.common.bookRealDemo}
           </a>
         </div>
       </div>

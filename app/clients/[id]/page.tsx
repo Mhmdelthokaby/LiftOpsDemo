@@ -14,6 +14,7 @@ import { toast } from "sonner"
 import Link from "next/link"
 import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { canViewMaintenance } from "@/lib/user"
+import { useTranslation } from "@/lib/i18n/context"
 
 type CustomerStatusType = "Approved" | "PendingInspectionQuotation" | "Rejected";
 
@@ -24,6 +25,7 @@ interface CustomerWithProjects extends Customer {
 }
 
 export default function ClientDetailsPage() {
+    const { t } = useTranslation()
     const params = useParams()
     const router = useRouter()
     const id = params.id as string
@@ -228,7 +230,7 @@ export default function ClientDetailsPage() {
                         <Card className="border-border/40 bg-card/50 backdrop-blur-sm">
                             <CardHeader>
                                 <CardTitle className="text-2xl">{customer.name}</CardTitle>
-                                <CardDescription>Client Information</CardDescription>
+                                <CardDescription>{t.clients.subtitle}</CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -455,14 +457,14 @@ export default function ClientDetailsPage() {
                 </div>
             </div>
             <DemoGuidePanel
-              title="Clients"
-              description="Manage all your client relationships in one place."
+              title={t.demoGuide.clients.title}
+              description={t.demoGuide.clients.description}
               features={[
                 { icon: "🔍", label: "Search & Filter", description: "Quickly find any client by name or contact" },
                 { icon: "📋", label: "Client Details", description: "View client profile, projects, and contracts" },
                 { icon: "➕", label: "Add / Edit", description: "Full client management with contact info" },
               ]}
-              tip="Click any client row to see their full project and contract history."
+              tip={t.demoGuide.clients.tip}
             />
         </SidebarProvider>
     )

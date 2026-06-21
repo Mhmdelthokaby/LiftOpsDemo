@@ -24,9 +24,11 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { formatDate } from "@/lib/utils"
+import { useTranslation } from "@/lib/i18n/context"
 
 export default function ProjectsPage() {
   const router = useRouter()
+  const { t } = useTranslation()
   const [projects, setProjects] = useState<InstallationProject[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
@@ -135,7 +137,7 @@ export default function ProjectsPage() {
           <AppHeader />
           <main className="flex-1 p-8 pt-6 space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-3xl font-bold tracking-tight">Installation Projects</h2>
+              <h2 className="text-3xl font-bold tracking-tight">{t.projects.title}</h2>
               <div className="flex items-center space-x-2">
                 <Button 
                   variant="outline" 
@@ -235,15 +237,15 @@ export default function ProjectsPage() {
             </Card>
           </main>
           <DemoGuidePanel
-            title="Projects"
-            description="Track every elevator installation project from start to finish."
+            title={t.demoGuide.projects.title}
+            description={t.demoGuide.projects.description}
             features={[
               { icon: "📁", label: "Project List", description: "All active and completed installation projects" },
               { icon: "🔄", label: "Progress Stages", description: "Foundation → Mechanical → Electrical → Testing" },
               { icon: "🛗", label: "Elevator Management", description: "Manage individual elevators within each project" },
               { icon: "➕", label: "New Project Wizard", description: "Multi-step form to create a new project" },
             ]}
-            tip="Each project tracks its own elevators, timeline, and responsible team."
+            tip={t.demoGuide.projects.tip}
           />
         </div>
       </div>

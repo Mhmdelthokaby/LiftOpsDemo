@@ -33,8 +33,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import { useTranslation } from "@/lib/i18n/context"
 
 export default function MaintenanceElevatorsPage() {
+  const { t } = useTranslation()
   const router = useRouter()
   const [elevators, setElevators] = useState<MaintenanceElevator[]>([])
   const [searchTerm, setSearchTerm] = useState("")
@@ -192,8 +194,8 @@ export default function MaintenanceElevatorsPage() {
           <main className="flex-1 p-6">
             <div className="mb-6 flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-bold tracking-tight">Maintenance Elevators</h1>
-                <p className="text-muted-foreground">View and manage all maintenance elevators</p>
+                <h1 className="text-3xl font-bold tracking-tight">{t.maintenance.elevatorFleet}</h1>
+                <p className="text-muted-foreground">{t.maintenance.subtitle}</p>
               </div>
               <Button variant="outline" onClick={fetchElevators} disabled={loading}>
                 <RefreshCw className={`mr-2 h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
@@ -415,15 +417,15 @@ export default function MaintenanceElevatorsPage() {
         </AlertDialogContent>
       </AlertDialog>
       <DemoGuidePanel
-        title="Elevator Fleet"
-        description="Manage all elevators under maintenance contracts — monitor and control their operational status."
+        title={t.demoGuide.elevators.title}
+        description={t.demoGuide.elevators.description}
         features={[
           { icon: "🔍", label: "Search & Filter", description: "Quickly find any elevator by code or contract" },
           { icon: "❄️", label: "Freeze", description: "Pause an elevator temporarily without ending the contract" },
           { icon: "⏹️", label: "Stop", description: "Take an elevator out of service permanently" },
           { icon: "▶️", label: "Activate", description: "Reactivate a frozen or stopped elevator" },
         ]}
-        tip="Freezing an elevator keeps the contract active while pausing maintenance visits."
+        tip={t.demoGuide.elevators.tip}
       />
     </SidebarProvider>
   )

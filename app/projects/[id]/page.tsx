@@ -18,8 +18,10 @@ import { formatDate } from "@/lib/utils"
 import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { StageManagementDialog } from "@/components/installation/stage-management-dialog"
 import { EditProjectDialog } from "@/components/installation/edit-project-dialog"
+import { useTranslation } from "@/lib/i18n/context"
 
 export default function ProjectDetailsPage() {
+    const { t } = useTranslation()
     const params = useParams()
     const router = useRouter()
     const id = params.id as string
@@ -561,15 +563,15 @@ export default function ProjectDetailsPage() {
                 />
             )}
             <DemoGuidePanel
-              title="Projects"
-              description="Track every elevator installation project from start to finish."
+              title={t.demoGuide.projects.title}
+              description={t.demoGuide.projects.description}
               features={[
                 { icon: "📁", label: "Project List", description: "All active and completed installation projects" },
                 { icon: "🔄", label: "Progress Stages", description: "Foundation → Mechanical → Electrical → Testing" },
                 { icon: "🛗", label: "Elevator Management", description: "Manage individual elevators within each project" },
                 { icon: "➕", label: "New Project Wizard", description: "Multi-step form to create a new project" },
               ]}
-              tip="Each project tracks its own elevators, timeline, and responsible team."
+              tip={t.demoGuide.projects.tip}
             />
         </SidebarProvider>
     )

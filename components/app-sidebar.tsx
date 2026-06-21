@@ -46,78 +46,30 @@ import {
 } from "@/components/ui/sidebar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { LanguageToggle } from "@/components/language-toggle"
+import { useTranslation } from "@/lib/i18n/context"
 
-const navItems: Array<{
-  title: string;
-  icon: React.ComponentType<{ className?: string }>;
-  href: string;
-  canAccess: () => boolean;
-}> = [
-    {
-      title: "Dashboard",
-      icon: LayoutDashboard,
-      href: "/",
-      canAccess: () => !isTechnician(), // Technicians cannot see dashboard
-    },
-    {
-      title: "My Visits",
-      icon: Calendar,
-      href: "/technician/visits",
-      canAccess: canViewTechnicianVisits, // Only technicians can see this
-    },
-    {
-      title: "Clients",
-      icon: Users,
-      href: "/clients",
-      canAccess: canViewClients,
-    },
-    {
-      title: "Projects",
-      icon: FolderKanban,
-      href: "/projects",
-      canAccess: canViewProjects,
-    },
-    {
-      title: "Installation Pipeline",
-      icon: Wrench,
-      href: "/installation",
-      canAccess: canViewInstallation,
-    },
-    {
-      title: "Inventory",
-      icon: Package,
-      href: "/inventory",
-      canAccess: canViewInventory,
-    },
-    {
-      title: "Technicians",
-      icon: UserCog,
-      href: "/technicians",
-      canAccess: canManageTechnicians,
-    },
-    {
-      title: "Maintenance",
-      icon: Calendar,
-      href: "/maintenance?view=projects",
-      canAccess: canViewMaintenance,
-    },
-    {
-      title: "Emergency Tickets",
-      icon: AlertCircle,
-      href: "/emergency",
-      canAccess: canViewEmergency,
-    },
-    {
-      title: "Settings",
-      icon: Settings,
-      href: "/settings",
-      canAccess: canViewSettings,
-    },
+function useNavItems() {
+  const { t } = useTranslation()
+  return [
+    { title: t.nav.dashboard, icon: LayoutDashboard, href: "/", canAccess: () => !isTechnician() },
+    { title: t.nav.myVisits, icon: Calendar, href: "/technician/visits", canAccess: canViewTechnicianVisits },
+    { title: t.nav.clients, icon: Users, href: "/clients", canAccess: canViewClients },
+    { title: t.nav.projects, icon: FolderKanban, href: "/projects", canAccess: canViewProjects },
+    { title: t.nav.installationPipeline, icon: Wrench, href: "/installation", canAccess: canViewInstallation },
+    { title: t.nav.inventory, icon: Package, href: "/inventory", canAccess: canViewInventory },
+    { title: t.nav.technicians, icon: UserCog, href: "/technicians", canAccess: canManageTechnicians },
+    { title: t.nav.maintenance, icon: Calendar, href: "/maintenance?view=projects", canAccess: canViewMaintenance },
+    { title: t.nav.emergencyTickets, icon: AlertCircle, href: "/emergency", canAccess: canViewEmergency },
+    { title: t.nav.settings, icon: Settings, href: "/settings", canAccess: canViewSettings },
   ]
+}
 
 export function AppSidebar() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
+  const { t } = useTranslation()
+  const navItems = useNavItems()
   const [user, setUser] = useState<{ name: string, email: string } | null>(null);
 
   useEffect(() => {
@@ -142,17 +94,16 @@ export function AppSidebar() {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-semibold">LiftOps</span>
-            <span className="text-xs text-muted-foreground">Enterprise</span>
+            <span className="text-xs text-muted-foreground">{t.nav.management}</span>
           </div>
         </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Management</SidebarGroupLabel>
+          <SidebarGroupLabel>{t.nav.management}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {navItems.map((item) => {
-                // Filter menu items based on user roles
                 if (!item.canAccess()) {
                   return null;
                 }
@@ -178,6 +129,9 @@ export function AppSidebar() {
       <SidebarFooter className="border-t border-sidebar-border">
         <SidebarMenu>
           <SidebarMenuItem>
+            <LanguageToggle />
+          </SidebarMenuItem>
+          <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton className="h-12" id="sidebar-user-menu-button">
@@ -196,7 +150,7 @@ export function AppSidebar() {
                 <DropdownMenuItem onClick={() => {
                   logout();
                 }}>
-                  Log out
+                  {t.nav.logOut}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

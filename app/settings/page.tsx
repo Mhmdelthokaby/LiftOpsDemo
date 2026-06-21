@@ -13,8 +13,10 @@ import { Separator } from "@/components/ui/separator"
 import { AdminManagement } from "@/components/settings/admin-management"
 import { CategoryManagement } from "@/components/settings/category-management"
 import { hasRole } from "@/lib/user"
+import { useTranslation } from "@/lib/i18n/context"
 
 export default function SettingsPage() {
+  const { t } = useTranslation();
   const isManager = hasRole('Manager')
 
   return (
@@ -25,8 +27,8 @@ export default function SettingsPage() {
           <AppHeader />
           <main className="flex-1 p-6">
             <div className="mb-6">
-              <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
-              <p className="text-muted-foreground">Manage your system preferences</p>
+              <h1 className="text-3xl font-bold tracking-tight">{t.settings.title}</h1>
+              <p className="text-muted-foreground">{t.settings.subtitle}</p>
             </div>
 
             <div className="grid gap-6 max-w-4xl">
@@ -95,13 +97,13 @@ export default function SettingsPage() {
             </div>
           </main>
           <DemoGuidePanel
-            title="Settings"
-            description="Configure your system — manage admins and organize your categories."
+            title={t.demoGuide.settings.title}
+            description={t.demoGuide.settings.description}
             features={[
               { icon: "👤", label: "Admin Management", description: "Add and manage system administrators" },
               { icon: "🏷️", label: "Category Management", description: "Create categories for projects, parts, and more" },
             ]}
-            tip="Only super admins can add new administrators."
+            tip={t.demoGuide.settings.tip}
           />
         </div>
       </div>

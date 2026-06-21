@@ -1,7 +1,11 @@
+"use client"
+
 import { LoginForm } from "@/components/auth/login-form"
 import { Building2 } from "lucide-react"
+import { useTranslation } from "@/lib/i18n/context"
 
 export default function LoginPage() {
+  const { t } = useTranslation()
   return (
     <div className="container relative min-h-screen flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
       <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
@@ -37,7 +41,7 @@ export default function LoginPage() {
           <LoginForm />
           <div className="rounded-lg border border-primary/20 bg-primary/5 px-4 py-3 text-center">
             <p className="text-sm text-muted-foreground">
-              🔑 <span className="font-medium text-foreground">Demo Access</span> — use any email and any password to enter
+              🔑 <span className="font-medium text-foreground">{t.common.demoAccess}</span> — {t.common.demoAccessDesc}
             </p>
           </div>
           <p className="px-8 text-center text-sm text-muted-foreground">

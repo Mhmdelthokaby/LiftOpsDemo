@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { DollarSign, TrendingUp, AlertCircle, CheckCircle2 } from "lucide-react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useTranslation } from "@/lib/i18n/context"
 
 const payments = [
   {
@@ -47,6 +48,7 @@ const statusColors = {
 }
 
 export default function FinancePage() {
+  const { t } = useTranslation();
   return (
     <SidebarProvider defaultOpen>
       <div className="flex min-h-screen w-full">
@@ -55,8 +57,8 @@ export default function FinancePage() {
           <AppHeader />
           <main className="flex-1 p-6">
             <div className="mb-6">
-              <h1 className="text-3xl font-bold tracking-tight">Finance & Invoicing</h1>
-              <p className="text-muted-foreground">Track project payments and revenue</p>
+              <h1 className="text-3xl font-bold tracking-tight">{t.finance.title}</h1>
+              <p className="text-muted-foreground">{t.finance.subtitle}</p>
             </div>
 
             <div className="mb-6 grid gap-4 md:grid-cols-4">
@@ -139,13 +141,13 @@ export default function FinancePage() {
             </Card>
           </main>
           <DemoGuidePanel
-            title="Finance"
-            description="Track your revenue, collections, and outstanding payments."
+            title={t.demoGuide.finance.title}
+            description={t.demoGuide.finance.description}
             features={[
               { icon: "💰", label: "Revenue Summary", description: "Total revenue, due, overdue, and collected amounts" },
               { icon: "📅", label: "Payment Schedule", description: "Table of upcoming and past payment installments" },
             ]}
-            tip="Overdue payments are highlighted automatically so nothing slips through."
+            tip={t.demoGuide.finance.tip}
           />
         </div>
       </div>

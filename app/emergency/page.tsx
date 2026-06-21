@@ -10,8 +10,10 @@ import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { Plus } from "lucide-react"
 import { useState } from "react"
 import { EmergencyForm } from "@/components/emergency/emergency-form"
+import { useTranslation } from "@/lib/i18n/context"
 
 export default function EmergencyPage() {
+  const { t } = useTranslation();
   const [formOpen, setFormOpen] = useState(false)
   const [refreshTrigger, setRefreshTrigger] = useState(0)
 
@@ -30,12 +32,12 @@ export default function EmergencyPage() {
           <main className="flex-1 p-6">
             <div className="mb-6 flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-bold tracking-tight">Emergency Tickets</h1>
-                <p className="text-muted-foreground">Track and manage elevator/escalator breakdowns</p>
+                <h1 className="text-3xl font-bold tracking-tight">{t.emergency.title}</h1>
+                <p className="text-muted-foreground">{t.emergency.subtitle}</p>
               </div>
               <Button variant="destructive" onClick={() => setFormOpen(true)}>
                 <Plus className="mr-2 h-4 w-4" />
-                New Emergency
+                {t.emergency.newEmergency}
               </Button>
             </div>
 
@@ -49,14 +51,14 @@ export default function EmergencyPage() {
             />
           </main>
           <DemoGuidePanel
-            title="Emergency Tickets"
-            description="Handle urgent breakdown requests fast — from opening a ticket to resolution."
+            title={t.demoGuide.emergency.title}
+            description={t.demoGuide.emergency.description}
             features={[
               { icon: "📊", label: "Stats Overview", description: "Open, in-progress, and resolved ticket counts" },
               { icon: "📋", label: "Ticket List", description: "All emergency requests with priority and status" },
               { icon: "🚨", label: "New Emergency", description: "Quickly open a new ticket for a breakdown" },
             ]}
-            tip="Emergency tickets notify the assigned technician immediately."
+            tip={t.demoGuide.emergency.tip}
           />
         </div>
       </div>

@@ -16,8 +16,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { ChevronLeft, Save, Loader2, Eye, EyeOff } from "lucide-react"
 import { toast } from "sonner"
+import { useTranslation } from "@/lib/i18n/context"
 
 export default function NewTechnicianPage() {
+    const { t } = useTranslation()
     const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [checkingAccess, setCheckingAccess] = useState(true)
@@ -139,8 +141,8 @@ export default function NewTechnicianPage() {
 
                         <Card>
                             <CardHeader>
-                                <CardTitle className="text-2xl">Add New Technician</CardTitle>
-                                <CardDescription>Add a new technical team member to the system</CardDescription>
+                                <CardTitle className="text-2xl">{t.technicians.title}</CardTitle>
+                                <CardDescription>{t.technicians.subtitle}</CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -298,14 +300,14 @@ export default function NewTechnicianPage() {
                 </div>
             </div>
             <DemoGuidePanel
-              title="Technicians"
-              description="Manage your field team — their skills, ratings, and availability."
+              title={t.demoGuide.technicians.title}
+              description={t.demoGuide.technicians.description}
               features={[
                 { icon: "👨‍🔧", label: "Team List", description: "All technicians with specialization and rating" },
                 { icon: "✏️", label: "Add / Edit / Delete", description: "Full team management" },
                 { icon: "🔘", label: "Enable / Disable", description: "Temporarily deactivate a technician without deleting" },
               ]}
-              tip="Ratings are updated automatically based on completed job performance."
+              tip={t.demoGuide.technicians.tip}
             />
         </SidebarProvider>
     )

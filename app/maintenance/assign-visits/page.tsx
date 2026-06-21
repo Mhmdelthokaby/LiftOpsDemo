@@ -17,8 +17,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { canManageMaintenance } from "@/lib/user"
 import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { useRouter } from "next/navigation"
+import { useTranslation } from "@/lib/i18n/context"
 
 export default function AssignVisitsPage() {
+  const { t } = useTranslation()
   const router = useRouter()
   const [visits, setVisits] = useState<MaintenanceVisitListItem[]>([])
   const [technicians, setTechnicians] = useState<Technician[]>([])
@@ -156,8 +158,8 @@ export default function AssignVisitsPage() {
           <main className="flex-1 p-6 space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-bold">Assign Maintenance Visits</h1>
-                <p className="text-muted-foreground mt-1">Assign technicians to maintenance visits day by day</p>
+                <h1 className="text-3xl font-bold">{t.maintenance.assignVisits}</h1>
+                <p className="text-muted-foreground mt-1">{t.maintenance.subtitle}</p>
               </div>
               <Button onClick={fetchVisits} variant="outline" size="sm">
                 <RefreshCw className="h-4 w-4 mr-2" />
@@ -342,14 +344,14 @@ export default function AssignVisitsPage() {
         </DialogContent>
       </Dialog>
       <DemoGuidePanel
-        title="Assign Visits"
-        description="Assign monthly maintenance visits to technicians — ensuring every visit has a responsible field agent."
+        title={t.demoGuide.assignVisits.title}
+        description={t.demoGuide.assignVisits.description}
         features={[
           { icon: "📅", label: "Monthly Schedule", description: "See all generated visits grouped by date" },
           { icon: "👨‍🔧", label: "Assign to Technician", description: "Pick a technician for each unassigned visit" },
           { icon: "✅", label: "Track Assignment", description: "Know exactly who is handling each visit" },
         ]}
-        tip="Unassigned visits are shown first so you never miss a scheduling gap."
+        tip={t.demoGuide.assignVisits.tip}
       />
     </SidebarProvider>
   )

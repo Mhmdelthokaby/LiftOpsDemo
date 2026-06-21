@@ -7,8 +7,10 @@ import { AppSidebar } from "@/components/app-sidebar"
 import { InstallationPipeline } from "@/components/installation/installation-pipeline"
 import { InspectionList } from "@/components/installation/inspection-list"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useTranslation } from "@/lib/i18n/context"
 
 export default function InstallationPage() {
+  const { t } = useTranslation();
   return (
     <SidebarProvider defaultOpen>
       <div className="flex min-h-screen w-full">
@@ -17,14 +19,14 @@ export default function InstallationPage() {
           <AppHeader />
           <main className="flex-1 p-6">
             <div className="mb-6">
-              <h1 className="text-3xl font-bold tracking-tight">Installation Management</h1>
-              <p className="text-muted-foreground">Manage inspections and installation projects</p>
+              <h1 className="text-3xl font-bold tracking-tight">{t.installation.title}</h1>
+              <p className="text-muted-foreground">{t.installation.subtitle}</p>
             </div>
 
             <Tabs defaultValue="inspections" className="w-full">
               <TabsList>
-                <TabsTrigger value="inspections">Inspections</TabsTrigger>
-                <TabsTrigger value="pipeline">Installation Pipeline</TabsTrigger>
+                <TabsTrigger value="inspections">{t.installation.inspections}</TabsTrigger>
+                <TabsTrigger value="pipeline">{t.installation.pipeline}</TabsTrigger>
               </TabsList>
 
               <TabsContent value="inspections" className="space-y-4">
@@ -65,13 +67,13 @@ export default function InstallationPage() {
             </Tabs>
           </main>
           <DemoGuidePanel
-            title="Installation Pipeline"
-            description="Bird's-eye view of all installations and their inspection status."
+            title={t.demoGuide.installation.title}
+            description={t.demoGuide.installation.description}
             features={[
               { icon: "🔍", label: "Pipeline View", description: "See all installations filtered by stage" },
               { icon: "✅", label: "Inspections Tab", description: "Track inspection results per installation" },
             ]}
-            tip="Use the stage filter to focus on installations that need attention."
+            tip={t.demoGuide.installation.tip}
           />
         </div>
       </div>

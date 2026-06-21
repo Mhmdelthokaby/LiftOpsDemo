@@ -19,9 +19,11 @@ import { toast } from "sonner"
 import { canManageMaintenance } from "@/lib/user"
 import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
+import { useTranslation } from "@/lib/i18n/context"
 
 function MaintenancePageContent() {
   const router = useRouter()
+  const { t } = useTranslation()
   const searchParams = useSearchParams()
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
   const refreshTableRef = useRef<(() => void) | null>(null)
@@ -64,8 +66,8 @@ function MaintenancePageContent() {
           <main className="flex-1 p-6">
             <div className="mb-6 flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-bold tracking-tight">Maintenance Scheduler</h1>
-                <p className="text-muted-foreground">Schedule and track routine maintenance visits</p>
+                <h1 className="text-3xl font-bold tracking-tight">{t.maintenance.title}</h1>
+                <p className="text-muted-foreground">{t.maintenance.subtitle}</p>
               </div>
               {activeTab === 'calendar' && (
                 <Button>
@@ -81,11 +83,11 @@ function MaintenancePageContent() {
             }} className="w-full">
               <div className="flex items-center justify-between mb-4">
                 <TabsList>
-                  <TabsTrigger value="projects">Projects</TabsTrigger>
-                  <TabsTrigger value="calendar">Calendar View</TabsTrigger>
-                  <TabsTrigger value="list">List View</TabsTrigger>
+                  <TabsTrigger value="projects">{t.maintenance.projects}</TabsTrigger>
+                  <TabsTrigger value="calendar">{t.maintenance.calendar}</TabsTrigger>
+                  <TabsTrigger value="list">{t.maintenance.list}</TabsTrigger>
                   {/* <TabsTrigger value="checklist">Mobile Checklist</TabsTrigger> Disabled for now */}
-                  {canManage && <TabsTrigger value="manage-checklist">Manage Checklist Items</TabsTrigger>}
+                  {canManage && <TabsTrigger value="manage-checklist">{t.maintenance.checklist}</TabsTrigger>}
                 </TabsList>
                 {activeTab === 'calendar' && (
                   <div className="flex gap-2">
@@ -159,6 +161,7 @@ function MaintenancePageContent() {
 }
 
 export default function MaintenancePage() {
+  const { t } = useTranslation();
   return (
     <Suspense fallback={
       <SidebarProvider defaultOpen>
@@ -177,8 +180,8 @@ export default function MaintenancePage() {
     }>
       <MaintenancePageContent />
       <DemoGuidePanel
-        title="Maintenance"
-        description="The core of your operations — manage all maintenance contracts and scheduled visits."
+        title={t.demoGuide.maintenance.title}
+        description={t.demoGuide.maintenance.description}
         features={[
           { icon: "📁", label: "Projects Tab", description: "All maintenance contracts by client" },
           { icon: "📅", label: "Calendar Tab", description: "Visual monthly view of all scheduled visits" },
@@ -187,7 +190,7 @@ export default function MaintenancePage() {
           { icon: "👨‍🔧", label: "Assign Visits", description: "Assign technicians to specific visits" },
           { icon: "🔧", label: "Elevator Status", description: "Freeze, stop, or activate individual elevators" },
         ]}
-        tip="You can add a new maintenance contract directly from this page."
+        tip={t.demoGuide.maintenance.tip}
       />
     </Suspense>
   )

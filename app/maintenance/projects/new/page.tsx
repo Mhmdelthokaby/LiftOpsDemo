@@ -17,8 +17,10 @@ import { Badge } from "@/components/ui/badge"
 import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { ChevronLeft, Save, Plus, Trash2, Search, CheckCircle2, X } from "lucide-react"
 import { toast } from "sonner"
+import { useTranslation } from "@/lib/i18n/context"
 
 export default function NewMaintenanceProjectPage() {
+    const { t } = useTranslation()
     const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [searchingCustomer, setSearchingCustomer] = useState(false)
@@ -305,7 +307,7 @@ export default function NewMaintenanceProjectPage() {
                             <Button variant="ghost" onClick={() => router.back()} className="text-muted-foreground hover:text-foreground">
                                 <ChevronLeft className="mr-2 h-4 w-4" /> Back
                             </Button>
-                            <h2 className="text-3xl font-bold tracking-tight">New Maintenance Project</h2>
+                            <h2 className="text-3xl font-bold tracking-tight">{t.maintenance.newContract}</h2>
                             <div className="w-10"></div>
                         </div>
 
@@ -663,8 +665,8 @@ export default function NewMaintenanceProjectPage() {
                 </div>
             </div>
             <DemoGuidePanel
-              title="Maintenance"
-              description="The core of your operations — manage all maintenance contracts and scheduled visits."
+              title={t.demoGuide.maintenance.title}
+              description={t.demoGuide.maintenance.description}
               features={[
                 { icon: "📁", label: "Projects Tab", description: "All maintenance contracts by client" },
                 { icon: "📅", label: "Calendar Tab", description: "Visual monthly view of all scheduled visits" },
@@ -673,7 +675,7 @@ export default function NewMaintenanceProjectPage() {
                 { icon: "👨‍🔧", label: "Assign Visits", description: "Assign technicians to specific visits" },
                 { icon: "🔧", label: "Elevator Status", description: "Freeze, stop, or activate individual elevators" },
               ]}
-              tip="You can add a new maintenance contract directly from this page."
+              tip={t.demoGuide.maintenance.tip}
             />
         </SidebarProvider>
     )

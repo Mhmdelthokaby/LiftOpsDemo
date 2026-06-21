@@ -218,3 +218,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="rtl"] .ltr-only {
+  text-align: left;
+}

@@ -20,8 +20,10 @@ import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { formatDateInput, parseDateInput, formatDateInputValue, formatDateToLocalString, cn } from "@/lib/utils"
+import { useTranslation } from "@/lib/i18n/context"
 
 export default function NewProjectPage() {
+    const { t } = useTranslation()
     const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [step, setStep] = useState(1)
@@ -370,7 +372,7 @@ export default function NewProjectPage() {
                             <Button variant="ghost" onClick={() => router.back()} className="text-muted-foreground hover:text-foreground">
                                 <ChevronLeft className="mr-2 h-4 w-4" /> Back
                             </Button>
-                            <h2 className="text-3xl font-bold tracking-tight">New Installation Project</h2>
+                            <h2 className="text-3xl font-bold tracking-tight">{t.projects.title}</h2>
                             <div className="w-10"></div>
                         </div>
 
@@ -1101,15 +1103,15 @@ export default function NewProjectPage() {
                 </div>
             </div>
             <DemoGuidePanel
-              title="Projects"
-              description="Track every elevator installation project from start to finish."
+              title={t.demoGuide.projects.title}
+              description={t.demoGuide.projects.description}
               features={[
                 { icon: "📁", label: "Project List", description: "All active and completed installation projects" },
                 { icon: "🔄", label: "Progress Stages", description: "Foundation → Mechanical → Electrical → Testing" },
                 { icon: "🛗", label: "Elevator Management", description: "Manage individual elevators within each project" },
                 { icon: "➕", label: "New Project Wizard", description: "Multi-step form to create a new project" },
               ]}
-              tip="Each project tracks its own elevators, timeline, and responsible team."
+              tip={t.demoGuide.projects.tip}
             />
         </SidebarProvider>
     )

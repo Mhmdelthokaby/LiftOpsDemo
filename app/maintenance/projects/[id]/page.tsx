@@ -33,8 +33,10 @@ import {
 } from "@/components/ui/alert-dialog"
 import { freezeContract, stopContract, activateContract, freezeElevator, stopElevator, activateElevator, getVisitsByElevator, getVisitDetails, getVisitsByContractAndMonth, type MaintenanceContract } from "@/lib/api"
 import { generateMaintenanceProjectReportPDF } from "@/lib/pdf-utils"
+import { useTranslation } from "@/lib/i18n/context"
 
 export default function MaintenanceProjectDetailsPage() {
+    const { t } = useTranslation()
     const params = useParams()
     const router = useRouter()
     const id = params.id as string
@@ -884,8 +886,8 @@ export default function MaintenanceProjectDetailsPage() {
                 </AlertDialogContent>
             </AlertDialog>
             <DemoGuidePanel
-              title="Maintenance"
-              description="The core of your operations — manage all maintenance contracts and scheduled visits."
+              title={t.demoGuide.maintenance.title}
+              description={t.demoGuide.maintenance.description}
               features={[
                 { icon: "📁", label: "Projects Tab", description: "All maintenance contracts by client" },
                 { icon: "📅", label: "Calendar Tab", description: "Visual monthly view of all scheduled visits" },
@@ -894,7 +896,7 @@ export default function MaintenanceProjectDetailsPage() {
                 { icon: "👨‍🔧", label: "Assign Visits", description: "Assign technicians to specific visits" },
                 { icon: "🔧", label: "Elevator Status", description: "Freeze, stop, or activate individual elevators" },
               ]}
-              tip="You can add a new maintenance contract directly from this page."
+              tip={t.demoGuide.maintenance.tip}
             />
         </SidebarProvider>
     )

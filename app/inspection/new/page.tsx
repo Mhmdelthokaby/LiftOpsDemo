@@ -22,8 +22,10 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import { useTranslation } from "@/lib/i18n/context"
 
 export default function NewInspectionProjectPage() {
+    const { t } = useTranslation()
     const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [searchingCustomer, setSearchingCustomer] = useState(false)
@@ -195,10 +197,8 @@ export default function NewInspectionProjectPage() {
                                 <ArrowLeft className="h-4 w-4" />
                             </Button>
                             <div>
-                                <h1 className="text-3xl font-bold">New Inspection Project</h1>
-                                <p className="text-muted-foreground">
-                                    Create a new installation project that requires inspection and quotation approval
-                                </p>
+                                <h1 className="text-3xl font-bold">{t.inspection.title}</h1>
+                                <p className="text-muted-foreground">{t.inspection.subtitle}</p>
                             </div>
                         </div>
 
@@ -478,14 +478,14 @@ export default function NewInspectionProjectPage() {
                 </main>
             </div>
             <DemoGuidePanel
-              title="Inspection"
-              description="Create a new inspection project — the first step before an installation project is approved."
+              title={t.demoGuide.inspection.title}
+              description={t.demoGuide.inspection.description}
               features={[
                 { icon: "🔍", label: "Customer Search", description: "Search by phone to find existing customers" },
                 { icon: "📐", label: "Pit Measurements", description: "Record shaft dimensions, pit depth, and travel" },
                 { icon: "📝", label: "Notes & Details", description: "Add project address and GPS coordinates" },
               ]}
-              tip="Inspections feed into the Installation Pipeline once approved."
+              tip={t.demoGuide.inspection.tip}
             />
         </SidebarProvider>
     )

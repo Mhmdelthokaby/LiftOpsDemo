@@ -19,8 +19,10 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { useTranslation } from "@/lib/i18n/context"
 
 export default function TechnicianVisitsPage() {
+  const { t } = useTranslation();
   const [visits, setVisits] = useState<TechnicianVisit[]>([])
   const [emergencyTickets, setEmergencyTickets] = useState<EmergencyTicket[]>([])
   const [loading, setLoading] = useState(true)
@@ -286,8 +288,8 @@ export default function TechnicianVisitsPage() {
           <main className="flex-1 p-6 space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-bold">My Assignments</h1>
-                <p className="text-muted-foreground mt-1">View and manage your assigned maintenance visits and emergency tickets</p>
+                <h1 className="text-3xl font-bold">{t.myVisits.title}</h1>
+                <p className="text-muted-foreground mt-1">{t.myVisits.subtitle}</p>
               </div>
               <Button onClick={fetchData} variant="outline" size="sm">
                 <RefreshCw className="h-4 w-4 mr-2" />
@@ -298,10 +300,10 @@ export default function TechnicianVisitsPage() {
             <Tabs defaultValue="maintenance" className="w-full">
               <TabsList>
                 <TabsTrigger value="maintenance">
-                  Maintenance Visits ({visits.length})
+                  {t.myVisits.maintenanceVisits} ({visits.length})
                 </TabsTrigger>
                 <TabsTrigger value="emergency">
-                  Emergency Tickets ({emergencyTickets.filter(t => t.status !== "Resolved").length})
+                  {t.myVisits.emergencyTickets} ({emergencyTickets.filter(t => t.status !== "Resolved").length})
                 </TabsTrigger>
               </TabsList>
 
@@ -800,14 +802,14 @@ export default function TechnicianVisitsPage() {
         </DialogContent>
       </Dialog>
       <DemoGuidePanel
-        title="My Visits"
-        description="Designed for field technicians — manage your assigned visits for the day."
+        title={t.demoGuide.myVisits.title}
+        description={t.demoGuide.myVisits.description}
         features={[
           { icon: "📅", label: "Assigned Visits", description: "See all maintenance visits assigned to you" },
           { icon: "🚨", label: "Emergency Tickets", description: "Urgent breakdown requests that need immediate response" },
           { icon: "▶️", label: "Start & Complete", description: "Update visit status in real-time from the field" },
         ]}
-        tip="Technicians only see their own assigned visits — no access to other data."
+        tip={t.demoGuide.myVisits.tip}
       />
     </SidebarProvider>
   )

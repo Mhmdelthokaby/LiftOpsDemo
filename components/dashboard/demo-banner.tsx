@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from "react"
 import { X } from "lucide-react"
+import { useTranslation } from "@/lib/i18n/context"
 
 export function DemoBanner() {
   const [visible, setVisible] = useState(false)
+  const { t } = useTranslation()
 
   useEffect(() => {
     const dismissed = sessionStorage.getItem("demo_banner_dismissed")
@@ -23,9 +25,9 @@ export function DemoBanner() {
   return (
     <div className="mb-4 flex items-center justify-between rounded-lg border border-orange-500/20 bg-orange-500/10 px-4 py-3">
       <p className="text-sm text-orange-300">
-        👋 You&apos;re in Demo Mode — all data is sample data. Questions?{" "}
+        👋 {t.common.youAreInDemoMode}{" "}{t.common.questionsContact}{" "}
         <a href="mailto:mhmdemad737@gmail.com" className="underline underline-offset-2 hover:text-orange-200">
-          Contact us
+          {t.common.contactUs}
         </a>
       </p>
       <button

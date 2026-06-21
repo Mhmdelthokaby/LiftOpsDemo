@@ -15,9 +15,11 @@ import { useEffect, useState } from "react"
 import { getDashboardSummary, DashboardSummary, getEmergencyTickets } from "@/lib/api"
 import { canViewDashboard } from "@/lib/user"
 import { useRouter } from "next/navigation"
+import { useTranslation } from "@/lib/i18n/context"
 
 export default function DashboardPage() {
   const router = useRouter();
+  const { t } = useTranslation();
   const [summary, setSummary] = useState<DashboardSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [emergencyStats, setEmergencyStats] = useState({
@@ -77,34 +79,34 @@ export default function DashboardPage() {
             <OnboardingOverlay />
             <DemoBanner />
             <div className="mb-6">
-              <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-              <p className="text-muted-foreground">Welcome back! Here's an overview of your operations.</p>
+              <h1 className="text-3xl font-bold tracking-tight">{t.dashboard.title}</h1>
+              <p className="text-muted-foreground">{t.dashboard.subtitle}</p>
             </div>
 
             {/* KPI Cards */}
             <div className="mb-6 grid gap-4 md:grid-cols-2 lg:grid-cols-5">
               <KPICard
-                title="Total Projects"
+                title={t.dashboard.totalProjects}
                 value={summary?.totalProjects ?? 0}
                 change={loading ? "Loading..." : "+0% from last month"}
                 changeType="neutral"
                 icon={FolderKanban}
               />
               <KPICard
-                title="Active Installations"
+                title={t.dashboard.activeInstallations}
                 value={summary?.activeInstallations ?? 0}
                 description="Ongoing projects"
                 icon={Wrench}
               />
               <KPICard
-                title="Maintenance Due"
+                title={t.dashboard.maintenanceDue}
                 value={summary?.maintenanceDue ?? 0}
                 change="Scheduled visits"
                 changeType="neutral"
                 icon={Calendar}
               />
               <KPICard
-                title="Low Stock Items"
+                title={t.dashboard.lowStockItems}
                 value={summary?.lowStockItems ?? 0}
                 change="Reorder recommended"
                 changeType="negative"
@@ -117,7 +119,7 @@ export default function DashboardPage() {
               <div className="rounded-lg border border-destructive/20 bg-card p-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Open</p>
+                    <p className="text-sm font-medium text-muted-foreground">{t.dashboard.open}</p>
                     <p className="text-2xl font-bold text-destructive">{emergencyStats.open}</p>
                   </div>
                   <AlertTriangle className="h-5 w-5 text-destructive" />
@@ -126,7 +128,7 @@ export default function DashboardPage() {
               <div className="rounded-lg border border-chart-1/20 bg-card p-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">En Route</p>
+                    <p className="text-sm font-medium text-muted-foreground">{t.dashboard.enRoute}</p>
                     <p className="text-2xl font-bold text-chart-1">{emergencyStats.enRoute}</p>
                   </div>
                   <Navigation2 className="h-5 w-5 text-chart-1" />
@@ -135,7 +137,7 @@ export default function DashboardPage() {
               <div className="rounded-lg border border-warning/20 bg-card p-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">In Progress</p>
+                    <p className="text-sm font-medium text-muted-foreground">{t.dashboard.inProgress}</p>
                     <p className="text-2xl font-bold text-warning">{emergencyStats.inProgress}</p>
                   </div>
                   <Wrench className="h-5 w-5 text-warning" />
@@ -144,7 +146,7 @@ export default function DashboardPage() {
               <div className="rounded-lg border border-success/20 bg-card p-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground">Resolved</p>
+                    <p className="text-sm font-medium text-muted-foreground">{t.dashboard.resolved}</p>
                     <p className="text-2xl font-bold text-success">{emergencyStats.resolved}</p>
                   </div>
                   <CheckCircle2 className="h-5 w-5 text-success" />
@@ -164,15 +166,15 @@ export default function DashboardPage() {
             </div>
           </main>
           <DemoGuidePanel
-            title="Dashboard"
-            description="Your command center — see everything happening in your business at a glance."
+            title={t.demoGuide.dashboard.title}
+            description={t.demoGuide.dashboard.description}
             features={[
               { icon: "📊", label: "KPI Cards", description: "Total projects, active installations, maintenance due, low stock alerts" },
               { icon: "🚨", label: "Emergency Status", description: "Live view of open, en-route, in-progress, and resolved tickets" },
               { icon: "💹", label: "Revenue vs Expenses", description: "Monthly financial chart for 2024" },
               { icon: "📋", label: "Recent Activity", description: "Latest actions across the system" },
             ]}
-            tip="Check the Maintenance Due card daily — it shows how many visits are scheduled."
+            tip={t.demoGuide.dashboard.tip}
           />
         </div>
       </div>

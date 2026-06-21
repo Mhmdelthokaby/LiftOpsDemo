@@ -29,6 +29,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import { useTranslation } from "@/lib/i18n/context"
 
 type CustomerStatus = "Approved" | "PendingInspectionQuotation" | "Rejected";
 
@@ -45,6 +46,7 @@ type SortField = "name" | "last";
 type SortDirection = "asc" | "desc";
 
 export default function ClientsPage() {
+    const { t } = useTranslation();
     const [customers, setCustomers] = useState<CustomerWithProjects[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
@@ -229,8 +231,8 @@ export default function ClientsPage() {
                     <main className="flex-1 p-6">
                         <div className="mb-6 flex items-center justify-between">
                             <div>
-                                <h1 className="text-3xl font-bold tracking-tight">Clients</h1>
-                                <p className="text-muted-foreground">Manage your customer base and projects.</p>
+                                <h1 className="text-3xl font-bold tracking-tight">{t.clients.title}</h1>
+                                <p className="text-muted-foreground">{t.clients.subtitle}</p>
                             </div>
                         </div>
 
@@ -399,14 +401,14 @@ export default function ClientsPage() {
                         </Card>
                     </main>
                     <DemoGuidePanel
-                      title="Clients"
-                      description="Manage all your client relationships in one place."
+                      title={t.demoGuide.clients.title}
+                      description={t.demoGuide.clients.description}
                       features={[
                         { icon: "🔍", label: "Search & Filter", description: "Quickly find any client by name or contact" },
                         { icon: "📋", label: "Client Details", description: "View client profile, projects, and contracts" },
                         { icon: "➕", label: "Add / Edit", description: "Full client management with contact info" },
                       ]}
-                      tip="Click any client row to see their full project and contract history."
+                      tip={t.demoGuide.clients.tip}
                     />
                 </div>
             </div>

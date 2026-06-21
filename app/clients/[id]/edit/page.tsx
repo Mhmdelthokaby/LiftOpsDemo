@@ -14,8 +14,10 @@ import { Textarea } from "@/components/ui/textarea"
 import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { ChevronLeft, Save, Loader2 } from "lucide-react"
 import { toast } from "sonner"
+import { useTranslation } from "@/lib/i18n/context"
 
 export default function EditClientPage() {
+    const { t } = useTranslation()
     const params = useParams()
     const router = useRouter()
     const id = params.id as string
@@ -172,8 +174,8 @@ export default function EditClientPage() {
 
                         <Card>
                             <CardHeader>
-                                <CardTitle className="text-2xl">Edit Client</CardTitle>
-                                <CardDescription>Update client information</CardDescription>
+                                <CardTitle className="text-2xl">{t.clients.title}</CardTitle>
+                                <CardDescription>{t.clients.subtitle}</CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -294,14 +296,14 @@ export default function EditClientPage() {
                 </div>
             </div>
             <DemoGuidePanel
-              title="Clients"
-              description="Manage all your client relationships in one place."
+              title={t.demoGuide.clients.title}
+              description={t.demoGuide.clients.description}
               features={[
                 { icon: "🔍", label: "Search & Filter", description: "Quickly find any client by name or contact" },
                 { icon: "📋", label: "Client Details", description: "View client profile, projects, and contracts" },
                 { icon: "➕", label: "Add / Edit", description: "Full client management with contact info" },
               ]}
-              tip="Click any client row to see their full project and contract history."
+              tip={t.demoGuide.clients.tip}
             />
         </SidebarProvider>
     )
