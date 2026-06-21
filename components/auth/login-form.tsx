@@ -23,6 +23,10 @@ export function LoginForm() {
         formState: { errors },
     } = useForm<LoginFormData>({
         resolver: zodResolver(loginSchema),
+        defaultValues: {
+            email: "admin@liftops.com",
+            password: "123456",
+        },
     })
 
     const onSubmit = async (data: LoginFormData) => {
