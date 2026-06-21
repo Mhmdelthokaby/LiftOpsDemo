@@ -82,7 +82,7 @@ export default function MaintenanceElevatorsPage() {
       setElevators(data || [])
     } catch (error: any) {
       console.error("Failed to fetch maintenance elevators", error)
-      toast.error(error.message || "Failed to fetch maintenance elevators")
+      toast.error(error.message || t.maintenanceElevators.errorLoading)
     } finally {
       setLoading(false)
     }
@@ -134,21 +134,21 @@ export default function MaintenanceElevatorsPage() {
       switch (actionDialog.type) {
         case 'freeze':
           await freezeElevator(actionDialog.elevatorId)
-          toast.success("Elevator frozen successfully")
+          toast.success(t.maintenanceElevators.freezeSuccess)
           break
         case 'stop':
           await stopElevator(actionDialog.elevatorId)
-          toast.success("Elevator stopped successfully")
+          toast.success(t.maintenanceElevators.stopSuccess)
           break
         case 'activate':
           await activateElevator(actionDialog.elevatorId)
-          toast.success("Elevator activated successfully")
+          toast.success(t.maintenanceElevators.activateSuccess)
           break
       }
       closeActionDialog()
       fetchElevators()
     } catch (error: any) {
-      toast.error(error.message || `Failed to ${actionDialog.type} elevator`)
+      toast.error(error.message || t.maintenanceElevators.actionError)
     }
   }
 
@@ -156,30 +156,30 @@ export default function MaintenanceElevatorsPage() {
     switch (actionDialog.type) {
       case 'freeze':
         return {
-          title: "Freeze Elevator",
-          description: "Are you sure you want to freeze this elevator? Maintenance will be paused until reactivated.",
-          confirmText: "Freeze",
+          title: t.maintenanceElevators.freezeTitle,
+          description: t.maintenanceElevators.freezeDesc,
+          confirmText: t.maintenanceElevators.freeze,
           variant: "default" as const
         }
       case 'stop':
         return {
-          title: "Stop Elevator",
-          description: "Are you sure you want to stop this elevator? This action will permanently stop maintenance for this elevator.",
-          confirmText: "Stop",
+          title: t.maintenanceElevators.stopTitle,
+          description: t.maintenanceElevators.stopDesc,
+          confirmText: t.maintenanceElevators.stop,
           variant: "destructive" as const
         }
       case 'activate':
         return {
-          title: "Activate Elevator",
-          description: "Are you sure you want to activate this elevator? Maintenance will resume for this elevator.",
-          confirmText: "Activate",
+          title: t.maintenanceElevators.activateTitle,
+          description: t.maintenanceElevators.activateDesc,
+          confirmText: t.maintenanceElevators.activate,
           variant: "default" as const
         }
       default:
         return {
-          title: "Confirm Action",
-          description: "Are you sure you want to proceed?",
-          confirmText: "Confirm",
+          title: t.maintenanceElevators.confirmAction,
+          description: t.maintenanceElevators.confirmDefault,
+          confirmText: t.maintenanceElevators.confirmAction,
           variant: "default" as const
         }
     }
@@ -199,7 +199,7 @@ export default function MaintenanceElevatorsPage() {
               </div>
               <Button variant="outline" onClick={fetchElevators} disabled={loading}>
                 <RefreshCw className={`mr-2 h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-                Refresh
+                {t.common.refresh}
               </Button>
             </div>
 
@@ -207,13 +207,13 @@ export default function MaintenanceElevatorsPage() {
             <div className="grid gap-4 md:grid-cols-4 mb-6">
               <Card>
                 <CardHeader className="pb-3">
-                  <CardDescription>Total Elevators</CardDescription>
+                  <CardDescription>{t.maintenanceElevators.totalElevators}</CardDescription>
                   <CardTitle className="text-2xl">{filteredElevators.length}</CardTitle>
                 </CardHeader>
               </Card>
               <Card>
                 <CardHeader className="pb-3">
-                  <CardDescription>Active</CardDescription>
+                  <CardDescription>{t.maintenanceElevators.active}</CardDescription>
                   <CardTitle className="text-2xl text-success">
                     {filteredElevators.filter(e => e.status.toLowerCase() === 'active').length}
                   </CardTitle>
@@ -221,7 +221,7 @@ export default function MaintenanceElevatorsPage() {
               </Card>
               <Card>
                 <CardHeader className="pb-3">
-                  <CardDescription>Frozen</CardDescription>
+                  <CardDescription>{t.maintenanceElevators.frozen}</CardDescription>
                   <CardTitle className="text-2xl text-warning">
                     {filteredElevators.filter(e => e.status.toLowerCase() === 'frozen').length}
                   </CardTitle>
@@ -229,7 +229,7 @@ export default function MaintenanceElevatorsPage() {
               </Card>
               <Card>
                 <CardHeader className="pb-3">
-                  <CardDescription>Stopped</CardDescription>
+                  <CardDescription>{t.maintenanceElevators.stopped}</CardDescription>
                   <CardTitle className="text-2xl text-destructive">
                     {filteredElevators.filter(e => e.status.toLowerCase() === 'stopped').length}
                   </CardTitle>
@@ -241,16 +241,16 @@ export default function MaintenanceElevatorsPage() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
-                    <CardTitle>All Maintenance Elevators</CardTitle>
+                    <CardTitle>{t.maintenanceElevators.allElevators}</CardTitle>
                     <CardDescription>
-                      {filteredElevators.length} elevator{filteredElevators.length !== 1 ? 's' : ''} found
+                      {t.maintenanceElevators.elevatorsFound({ count: filteredElevators.length })}
                     </CardDescription>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="relative">
                       <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                       <Input
-                        placeholder="Search elevators..."
+                        placeholder={t.maintenanceElevators.searchElevators}
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="pl-8 w-64"
@@ -261,10 +261,10 @@ export default function MaintenanceElevatorsPage() {
                       onChange={(e) => setStatusFilter(e.target.value)}
                       className="h-10 rounded-md border border-input bg-background px-3 py-2 text-sm"
                     >
-                      <option value="all">All Status</option>
-                      <option value="active">Active</option>
-                      <option value="frozen">Frozen</option>
-                      <option value="stopped">Stopped</option>
+                      <option value="all">{t.maintenanceElevators.allStatus}</option>
+                      <option value="active">{t.maintenanceElevators.active}</option>
+                      <option value="frozen">{t.maintenanceElevators.frozen}</option>
+                      <option value="stopped">{t.maintenanceElevators.stopped}</option>
                     </select>
                   </div>
                 </div>
@@ -277,22 +277,22 @@ export default function MaintenanceElevatorsPage() {
                 ) : filteredElevators.length === 0 ? (
                   <div className="text-center py-8 text-muted-foreground">
                     {searchTerm || statusFilter !== "all" 
-                      ? "No elevators match your filters" 
-                      : "No maintenance elevators found"}
+                      ? t.maintenanceElevators.noElevatorsFilter 
+                      : t.maintenanceElevators.noElevators}
                   </div>
                 ) : (
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Code</TableHead>
-                        <TableHead>Customer</TableHead>
-                        <TableHead>Project</TableHead>
-                        <TableHead>Type</TableHead>
-                        <TableHead>Stops/Floors</TableHead>
-                        <TableHead>Next Maintenance</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Source</TableHead>
-                        <TableHead>Actions</TableHead>
+                        <TableHead>{t.maintenanceElevators.code}</TableHead>
+                        <TableHead>{t.maintenanceElevators.customer}</TableHead>
+                        <TableHead>{t.maintenanceElevators.project}</TableHead>
+                        <TableHead>{t.maintenanceElevators.type}</TableHead>
+                        <TableHead>{t.maintenanceElevators.stopsFloors}</TableHead>
+                        <TableHead>{t.maintenanceElevators.nextMaintenance}</TableHead>
+                        <TableHead>{t.maintenanceElevators.status}</TableHead>
+                        <TableHead>{t.maintenanceElevators.source}</TableHead>
+                        <TableHead>{t.maintenanceElevators.actions}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -311,7 +311,7 @@ export default function MaintenanceElevatorsPage() {
                             </div>
                           </TableCell>
                           <TableCell>
-                            <span className="font-mono text-sm">{elevator.projectNumber || "N/A"}</span>
+                            <span className="font-mono text-sm">{elevator.projectNumber || t.maintenanceElevators.nA}</span>
                           </TableCell>
                           <TableCell>{elevator.type}</TableCell>
                           <TableCell>
@@ -323,7 +323,7 @@ export default function MaintenanceElevatorsPage() {
                           <TableCell>
                             <div className="flex items-center gap-1">
                               <Calendar className="h-4 w-4 text-muted-foreground" />
-                              <span className="text-sm">{elevator.nextMaintenanceDate ? formatDate(elevator.nextMaintenanceDate) : "Not scheduled"}</span>
+                              <span className="text-sm">{elevator.nextMaintenanceDate ? formatDate(elevator.nextMaintenanceDate) : t.maintenanceElevators.notScheduled}</span>
                             </div>
                           </TableCell>
                           <TableCell>
@@ -333,7 +333,7 @@ export default function MaintenanceElevatorsPage() {
                           </TableCell>
                           <TableCell>
                             <Badge variant={elevator.isFromInstallation ? "default" : "outline"}>
-                              {elevator.isFromInstallation ? "Installation" : "Direct"}
+                              {elevator.isFromInstallation ? t.maintenanceElevators.installation : t.maintenanceElevators.direct}
                             </Badge>
                           </TableCell>
                           <TableCell>
@@ -344,7 +344,7 @@ export default function MaintenanceElevatorsPage() {
                                 onClick={() => router.push(`/maintenance/projects/${elevator.contractId}`)}
                               >
                                 <Eye className="h-4 w-4 mr-1" />
-                                Details
+                                {t.maintenanceElevators.details}
                               </Button>
                               {canManage && (
                                 <>
@@ -357,7 +357,7 @@ export default function MaintenanceElevatorsPage() {
                                         className="text-warning hover:text-warning"
                                       >
                                         <Snowflake className="h-4 w-4 mr-1" />
-                                        Freeze
+                                        {t.maintenanceElevators.freeze}
                                       </Button>
                                       <Button 
                                         variant="outline" 
@@ -366,7 +366,7 @@ export default function MaintenanceElevatorsPage() {
                                         className="text-destructive hover:text-destructive"
                                       >
                                         <Square className="h-4 w-4 mr-1" />
-                                        Stop
+                                        {t.maintenanceElevators.stop}
                                       </Button>
                                     </>
                                   )}
@@ -377,8 +377,8 @@ export default function MaintenanceElevatorsPage() {
                                       onClick={() => openActionDialog('activate', elevator.id)}
                                       className="text-success hover:text-success"
                                     >
-                                      <Play className="h-4 w-4 mr-1" />
-                                      Activate
+                                        <Play className="h-4 w-4 mr-1" />
+                                        {t.maintenanceElevators.activate}
                                     </Button>
                                   )}
                                 </>
@@ -406,7 +406,7 @@ export default function MaintenanceElevatorsPage() {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={closeActionDialog}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel onClick={closeActionDialog}>{t.maintenanceElevators.cancel}</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleConfirmAction}
               className={actionDialog.type === 'stop' ? 'bg-destructive text-destructive-foreground hover:bg-destructive/90' : ''}
@@ -420,10 +420,10 @@ export default function MaintenanceElevatorsPage() {
         title={t.demoGuide.elevators.title}
         description={t.demoGuide.elevators.description}
         features={[
-          { icon: "🔍", label: "Search & Filter", description: "Quickly find any elevator by code or contract" },
-          { icon: "❄️", label: "Freeze", description: "Pause an elevator temporarily without ending the contract" },
-          { icon: "⏹️", label: "Stop", description: "Take an elevator out of service permanently" },
-          { icon: "▶️", label: "Activate", description: "Reactivate a frozen or stopped elevator" },
+          { icon: "🔍", label: t.maintenanceElevators.searchFilter, description: t.maintenanceElevators.searchFilterDesc },
+          { icon: "❄️", label: t.maintenanceElevators.freeze, description: t.maintenanceElevators.freezeDesc },
+          { icon: "⏹️", label: t.maintenanceElevators.stop, description: t.maintenanceElevators.stopDesc },
+          { icon: "▶️", label: t.maintenanceElevators.activate, description: t.maintenanceElevators.activateDesc },
         ]}
         tip={t.demoGuide.elevators.tip}
       />

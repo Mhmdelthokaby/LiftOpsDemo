@@ -61,7 +61,7 @@ export default function AssignVisitsPage() {
       await fetchVisits()
     } catch (error: any) {
       console.error("Failed to fetch data", error)
-      toast.error(error.message || "Failed to fetch data")
+      toast.error(error.message || t.maintenanceAssign.errorLoading)
     } finally {
       setLoading(false)
     }
@@ -83,7 +83,7 @@ export default function AssignVisitsPage() {
       setVisits(filteredVisits)
     } catch (error: any) {
       console.error("Failed to fetch visits", error)
-      toast.error(error.message || "Failed to fetch visits")
+      toast.error(error.message || t.maintenanceAssign.errorLoadingVisits)
     }
   }
 
@@ -94,7 +94,7 @@ export default function AssignVisitsPage() {
 
   const handleAssign = async () => {
     if (!assignDialog.visit || !selectedTechnicianId) {
-      toast.error("Please select a technician")
+      toast.error(t.maintenanceAssign.selectTechnicianRequired)
       return
     }
 
@@ -105,12 +105,12 @@ export default function AssignVisitsPage() {
         technicianId: selectedTechnicianId,
         assignmentDate: selectedDate.toISOString().split('T')[0]
       })
-      toast.success("Visit assigned successfully")
+      toast.success(t.maintenanceAssign.success)
       setAssignDialog({ open: false, visit: null })
       setSelectedTechnicianId("")
       fetchVisits()
     } catch (error: any) {
-      toast.error(error.message || "Failed to assign visit")
+      toast.error(error.message || t.maintenanceAssign.error)
     } finally {
       setAssigning(false)
     }
@@ -119,20 +119,20 @@ export default function AssignVisitsPage() {
   const getStatusBadge = (status: string) => {
     switch (status.toLowerCase()) {
       case "pending":
-        return <Badge variant="outline" className="bg-yellow-500/10 text-yellow-600 border-yellow-500/20">Pending</Badge>
+        return <Badge variant="outline" className="bg-yellow-500/10 text-yellow-600 border-yellow-500/20">{t.maintenanceAssign.pending}</Badge>
       case "inprogress":
-        return <Badge variant="outline" className="bg-blue-500/10 text-blue-600 border-blue-500/20">In Progress</Badge>
+        return <Badge variant="outline" className="bg-blue-500/10 text-blue-600 border-blue-500/20">{t.maintenanceAssign.inProgress}</Badge>
       case "done":
-        return <Badge variant="outline" className="bg-green-500/10 text-green-600 border-green-500/20">Done</Badge>
+        return <Badge variant="outline" className="bg-green-500/10 text-green-600 border-green-500/20">{t.maintenanceAssign.done}</Badge>
       default:
         return <Badge variant="outline">{status}</Badge>
     }
   }
 
   const getTechnicianName = (technicianId?: string) => {
-    if (!technicianId) return "Unassigned"
+    if (!technicianId) return t.maintenanceAssign.unassigned
     const tech = technicians.find(t => t.id === technicianId)
-    return tech?.name || "Unknown"
+    return tech?.name || t.maintenanceAssign.unknown
   }
 
   if (loading) {
@@ -142,7 +142,7 @@ export default function AssignVisitsPage() {
           <AppSidebar />
           <div className="flex flex-1 flex-col">
             <AppHeader />
-            <main className="flex-1 p-6 text-center">Loading...</main>
+            <main className="flex-1 p-6 text-center">{t.maintenanceAssign.loading}</main>
           </div>
         </div>
       </SidebarProvider>
@@ -163,19 +163,19 @@ export default function AssignVisitsPage() {
               </div>
               <Button onClick={fetchVisits} variant="outline" size="sm">
                 <RefreshCw className="h-4 w-4 mr-2" />
-                Refresh
+                {t.common.refresh}
               </Button>
             </div>
 
             <Card>
               <CardHeader>
-                <CardTitle>Select Date</CardTitle>
-                <CardDescription>Choose the date to view and assign visits</CardDescription>
+                <CardTitle>{t.maintenanceAssign.selectDate}</CardTitle>
+                <CardDescription>{t.maintenanceAssign.selectDateDesc}</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="flex items-center gap-4">
                   <div className="flex-1">
-                    <Label htmlFor="visitDate">Visit Date</Label>
+                    <Label htmlFor="visitDate">{t.maintenanceAssign.visitDate}</Label>
                     <Input
                       id="visitDate"
                       type="date"
@@ -203,15 +203,15 @@ export default function AssignVisitsPage() {
               <Card>
                 <CardContent className="py-12 text-center">
                   <Calendar className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">No visits scheduled</h3>
-                  <p className="text-muted-foreground">There are no maintenance visits scheduled for {formatDate(selectedDate.toISOString())}.</p>
+                  <h3 className="text-lg font-semibold mb-2">{t.maintenanceAssign.noVisits}</h3>
+                  <p className="text-muted-foreground">{t.maintenanceAssign.noVisitsDate({ date: formatDate(selectedDate.toISOString()) })}</p>
                 </CardContent>
               </Card>
             ) : (
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-semibold">Visits for {formatDate(selectedDate.toISOString())}</h2>
-                  <Badge variant="outline">{visits.length} visit{visits.length !== 1 ? 's' : ''}</Badge>
+                  <h2 className="text-xl font-semibold">{t.maintenanceAssign.visitsFor({ date: formatDate(selectedDate.toISOString()) })}</h2>
+                  <Badge variant="outline">{t.maintenanceAssign.visitsCount({ count: visits.length })}</Badge>
                 </div>
                 <div className="grid gap-4">
                   {visits.map((visit) => (
@@ -232,7 +232,7 @@ export default function AssignVisitsPage() {
                           <div className="flex items-center gap-2">
                             <User className="h-4 w-4 text-muted-foreground" />
                             <div>
-                              <p className="text-sm font-medium">Technician</p>
+                              <p className="text-sm font-medium">{t.maintenanceAssign.technician}</p>
                               <p className="text-sm text-muted-foreground">
                                 {visit.technicianId ? (
                                   <span className="flex items-center gap-2">
@@ -242,7 +242,7 @@ export default function AssignVisitsPage() {
                                 ) : (
                                   <span className="flex items-center gap-2 text-yellow-600">
                                     <AlertCircle className="h-3 w-3" />
-                                    Unassigned
+                                    {t.maintenanceAssign.unassigned}
                                   </span>
                                 )}
                               </p>
@@ -251,14 +251,14 @@ export default function AssignVisitsPage() {
                           <div className="flex items-center gap-2">
                             <Clock className="h-4 w-4 text-muted-foreground" />
                             <div>
-                              <p className="text-sm font-medium">Status</p>
+                              <p className="text-sm font-medium">{t.maintenanceAssign.status}</p>
                               <p className="text-sm text-muted-foreground">{visit.status}</p>
                             </div>
                           </div>
                           <div className="flex items-center gap-2">
                             <Calendar className="h-4 w-4 text-muted-foreground" />
                             <div>
-                              <p className="text-sm font-medium">Visit Date</p>
+                              <p className="text-sm font-medium">{t.maintenanceAssign.visitDate}</p>
                               <p className="text-sm text-muted-foreground">{formatDate(visit.visitDate)}</p>
                             </div>
                           </div>
@@ -273,12 +273,12 @@ export default function AssignVisitsPage() {
                               {visit.technicianId ? (
                                 <>
                                   <User className="h-4 w-4 mr-2" />
-                                  Reassign Technician
+                                  {t.maintenanceAssign.reassign}
                                 </>
                               ) : (
                                 <>
                                   <User className="h-4 w-4 mr-2" />
-                                  Assign Technician
+                                  {t.maintenanceAssign.assign}
                                 </>
                               )}
                             </Button>
@@ -298,25 +298,25 @@ export default function AssignVisitsPage() {
       <Dialog open={assignDialog.open} onOpenChange={(open) => setAssignDialog({ open, visit: null })}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Assign Technician</DialogTitle>
+            <DialogTitle>{t.maintenanceAssign.assignDialog}</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             {assignDialog.visit && (
               <div className="space-y-2">
-                <p className="text-sm font-medium">Project: {assignDialog.visit.projectNumber || assignDialog.visit.elevatorCode}</p>
-                <p className="text-sm text-muted-foreground">Customer: {assignDialog.visit.customerName}</p>
-                <p className="text-sm text-muted-foreground">Date: {formatDate(assignDialog.visit.visitDate)}</p>
+                <p className="text-sm font-medium">{t.maintenanceAssign.project} {assignDialog.visit.projectNumber || assignDialog.visit.elevatorCode}</p>
+                <p className="text-sm text-muted-foreground">{t.maintenanceAssign.customer} {assignDialog.visit.customerName}</p>
+                <p className="text-sm text-muted-foreground">{t.maintenanceAssign.date} {formatDate(assignDialog.visit.visitDate)}</p>
               </div>
             )}
             <div className="space-y-2">
-              <Label htmlFor="technician">Select Technician</Label>
+              <Label htmlFor="technician">{t.maintenanceAssign.selectTechnician}</Label>
               <select
                 id="technician"
                 value={selectedTechnicianId}
                 onChange={(e) => setSelectedTechnicianId(e.target.value)}
                 className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
               >
-                <option value="">Select a technician...</option>
+                <option value="">{t.maintenanceAssign.selectTechnician}</option>
                 {technicians
                   .filter(tech => !tech.isDisabled)
                   .map(tech => (
@@ -329,16 +329,16 @@ export default function AssignVisitsPage() {
             <div className="rounded-md bg-yellow-50 border border-yellow-200 p-3">
               <p className="text-sm text-yellow-800">
                 <AlertCircle className="h-4 w-4 inline mr-2" />
-                Note: A technician can only complete one maintenance visit per elevator per month.
+                {t.maintenanceAssign.noteHint}
               </p>
             </div>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setAssignDialog({ open: false, visit: null })}>
-              Cancel
+              {t.maintenanceAssign.cancel}
             </Button>
             <Button onClick={handleAssign} disabled={!selectedTechnicianId || assigning}>
-              {assigning ? "Assigning..." : "Assign"}
+              {assigning ? t.maintenanceAssign.assigning : t.maintenanceAssign.assign}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -347,9 +347,9 @@ export default function AssignVisitsPage() {
         title={t.demoGuide.assignVisits.title}
         description={t.demoGuide.assignVisits.description}
         features={[
-          { icon: "📅", label: "Monthly Schedule", description: "See all generated visits grouped by date" },
-          { icon: "👨‍🔧", label: "Assign to Technician", description: "Pick a technician for each unassigned visit" },
-          { icon: "✅", label: "Track Assignment", description: "Know exactly who is handling each visit" },
+          { icon: "📅", label: t.maintenanceAssign.monthlySchedule, description: t.maintenanceAssign.monthlyScheduleDesc },
+          { icon: "👨‍🔧", label: t.maintenanceAssign.assignToTechnician, description: t.maintenanceAssign.assignToTechnicianDesc },
+          { icon: "✅", label: t.maintenanceAssign.trackAssignment, description: t.maintenanceAssign.trackAssignmentDesc },
         ]}
         tip={t.demoGuide.assignVisits.tip}
       />

@@ -38,7 +38,7 @@ export default function NewTechnicianPage() {
     useEffect(() => {
         // Check if user can create technicians (Manager only)
         if (!canManage()) {
-            toast.error("Access denied. Manager role required.")
+            toast.error(t.technicianNew.accessDenied)
             router.push("/technicians")
             return
         }
@@ -60,19 +60,19 @@ export default function NewTechnicianPage() {
         
         // Validation
         if (!formData.name.trim()) {
-            toast.error("Name is required")
+            toast.error(t.technicianNew.nameRequired)
             return
         }
         if (!formData.phone.trim()) {
-            toast.error("Phone is required")
+            toast.error(t.technicianNew.phoneRequired)
             return
         }
         if (formData.username && !formData.password) {
-            toast.error("Password is required when username is provided")
+            toast.error(t.technicianNew.passwordRequiredWithUsername)
             return
         }
         if (formData.password && !formData.username) {
-            toast.error("Username is required when password is provided")
+            toast.error(t.technicianNew.usernameRequiredWithPassword)
             return
         }
 
@@ -87,11 +87,11 @@ export default function NewTechnicianPage() {
                 password: formData.password || undefined
             })
             
-            toast.success("Technician added successfully")
+            toast.success(t.technicianNew.success)
             router.push("/technicians")
         } catch (error: any) {
             console.error("Error creating technician:", error)
-            const errorMessage = error?.message || error?.response?.data?.message || "Failed to add technician"
+            const errorMessage = error?.message || error?.response?.data?.message || t.technicianNew.error
             toast.error(errorMessage)
         } finally {
             setLoading(false)
@@ -114,7 +114,7 @@ export default function NewTechnicianPage() {
                         <AppHeader />
                         <main className="flex-1 p-8 text-center">
                             <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
-                            <p>Checking access...</p>
+                            <p>{t.technicianNew.loading}</p>
                         </main>
                     </div>
                 </div>
@@ -135,62 +135,62 @@ export default function NewTechnicianPage() {
                                 onClick={() => router.push("/technicians")} 
                                 className="text-muted-foreground hover:text-foreground"
                             >
-                                <ChevronLeft className="mr-2 h-4 w-4" /> Back to Technicians
+                                <ChevronLeft className="mr-2 h-4 w-4" /> {t.technicianNew.backToTechnicians}
                             </Button>
                         </div>
 
                         <Card>
                             <CardHeader>
-                                <CardTitle className="text-2xl">{t.technicians.title}</CardTitle>
-                                <CardDescription>{t.technicians.subtitle}</CardDescription>
+                                <CardTitle className="text-2xl">{t.technicianNew.title}</CardTitle>
+                                <CardDescription>{t.technicianNew.subtitle}</CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <form onSubmit={handleSubmit} className="space-y-6">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <Label htmlFor="name">
-                                                Name <span className="text-destructive">*</span>
+                                                {t.technicianNew.name}
                                             </Label>
                                             <Input
                                                 id="name"
                                                 value={formData.name}
                                                 onChange={(e) => handleChange("name", e.target.value)}
-                                                placeholder="Technician full name"
+                                                placeholder={t.technicianNew.namePlaceholder}
                                                 required
                                             />
                                         </div>
 
                                         <div className="space-y-2">
                                             <Label htmlFor="phone">
-                                                Phone <span className="text-destructive">*</span>
+                                                {t.technicianNew.phone}
                                             </Label>
                                             <Input
                                                 id="phone"
                                                 type="tel"
                                                 value={formData.phone}
                                                 onChange={(e) => handleChange("phone", e.target.value)}
-                                                placeholder="Phone number"
+                                                placeholder={t.technicianNew.phonePlaceholder}
                                                 required
                                             />
                                         </div>
                                     </div>
 
                                     <div className="space-y-2">
-                                        <Label htmlFor="specialization">Specialization</Label>
+                                        <Label htmlFor="specialization">{t.common.specialization}</Label>
                                         <Textarea
                                             id="specialization"
                                             value={formData.specialization || ""}
                                             onChange={(e) => handleChange("specialization", e.target.value)}
-                                            placeholder="e.g., Passenger Elevators, Freight Elevators, Maintenance"
+                                            placeholder={t.technicianNew.specializationPlaceholder}
                                             rows={3}
                                         />
                                         <p className="text-xs text-muted-foreground">
-                                            Optional: Describe the technician's area of expertise
+                                            {t.technicianNew.specializationHint}
                                         </p>
                                     </div>
 
                                     <div className="space-y-2">
-                                        <Label htmlFor="leaderId">Leader</Label>
+                                        <Label htmlFor="leaderId">{t.technicianNew.leader}</Label>
                                         <Select
                                             value={formData.leaderId || "none"}
                                             onValueChange={(value) => {
@@ -201,10 +201,10 @@ export default function NewTechnicianPage() {
                                             }}
                                         >
                                             <SelectTrigger id="leaderId">
-                                                <SelectValue placeholder="Select a leader (or leave empty to be a leader)" />
+                                                <SelectValue placeholder={t.technicianNew.leaderPlaceholder} />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="none">No Leader (This technician will be a leader)</SelectItem>
+                                                <SelectItem value="none">{t.technicianNew.noLeader}</SelectItem>
                                                 {availableLeaders.map((leader) => (
                                                     <SelectItem key={leader.id} value={leader.id}>
                                                         {leader.name}
@@ -213,39 +213,39 @@ export default function NewTechnicianPage() {
                                             </SelectContent>
                                         </Select>
                                         <p className="text-xs text-muted-foreground">
-                                            Optional: Select a leader for this technician. If no leader is selected, this technician will be a leader.
+                                            {t.technicianNew.leaderHint}
                                         </p>
                                     </div>
 
                                     <div className="border-t pt-4">
-                                        <h3 className="text-lg font-semibold mb-4">Login Credentials (Optional)</h3>
+                                        <h3 className="text-lg font-semibold mb-4">{t.technicianNew.loginCredentials}</h3>
                                         <p className="text-sm text-muted-foreground mb-4">
-                                            Provide username and password to allow this technician to sign in and view their assigned maintenance visits.
+                                            {t.technicianNew.loginHint}
                                         </p>
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             <div className="space-y-2">
-                                                <Label htmlFor="username">Username/Email</Label>
+                                                <Label htmlFor="username">{t.technicianNew.usernameEmail}</Label>
                                                 <Input
                                                     id="username"
                                                     type="email"
                                                     value={formData.username || ""}
                                                     onChange={(e) => handleChange("username", e.target.value)}
-                                                    placeholder="technician@example.com"
+                                                    placeholder={t.technicianNew.emailPlaceholder}
                                                 />
                                                 <p className="text-xs text-muted-foreground">
-                                                    Email address to use for login
+                                                    {t.technicianNew.emailHint}
                                                 </p>
                                             </div>
 
                                             <div className="space-y-2">
-                                                <Label htmlFor="password">Password</Label>
+                                                <Label htmlFor="password">{t.technicianNew.password}</Label>
                                                 <div className="relative">
                                                     <Input
                                                         id="password"
                                                         type={showPassword ? "text" : "password"}
                                                         value={formData.password || ""}
                                                         onChange={(e) => handleChange("password", e.target.value)}
-                                                        placeholder="Enter password"
+                                                        placeholder={t.technicianNew.passwordPlaceholder}
                                                         className="pr-10"
                                                     />
                                                     <Button
@@ -254,7 +254,7 @@ export default function NewTechnicianPage() {
                                                         size="sm"
                                                         className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                                                         onClick={() => setShowPassword(!showPassword)}
-                                                        aria-label={showPassword ? "Hide password" : "Show password"}
+                                                        aria-label={showPassword ? t.technicianNew.hidePassword : t.technicianNew.showPassword}
                                                     >
                                                         {showPassword ? (
                                                             <EyeOff className="h-4 w-4 text-muted-foreground" />
@@ -264,7 +264,7 @@ export default function NewTechnicianPage() {
                                                     </Button>
                                                 </div>
                                                 <p className="text-xs text-muted-foreground">
-                                                    Minimum 8 characters with uppercase, lowercase, number, and special character
+                                                    {t.technicianNew.passwordHint}
                                                 </p>
                                             </div>
                                         </div>
@@ -277,18 +277,18 @@ export default function NewTechnicianPage() {
                                             onClick={() => router.push("/technicians")}
                                             disabled={loading}
                                         >
-                                            Cancel
+                                            {t.technicianNew.cancel}
                                         </Button>
                                         <Button type="submit" disabled={loading}>
                                             {loading ? (
                                                 <>
                                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                                    Adding...
+                                                    {t.technicianNew.adding}
                                                 </>
                                             ) : (
                                                 <>
                                                     <Save className="mr-2 h-4 w-4" />
-                                                    Add Technician
+                                                    {t.technicianNew.addTechnician}
                                                 </>
                                             )}
                                         </Button>
@@ -303,9 +303,9 @@ export default function NewTechnicianPage() {
               title={t.demoGuide.technicians.title}
               description={t.demoGuide.technicians.description}
               features={[
-                { icon: "👨‍🔧", label: "Team List", description: "All technicians with specialization and rating" },
-                { icon: "✏️", label: "Add / Edit / Delete", description: "Full team management" },
-                { icon: "🔘", label: "Enable / Disable", description: "Temporarily deactivate a technician without deleting" },
+                { icon: "👨‍🔧", label: t.technicians.teamList, description: t.technicians.teamListDesc },
+                { icon: "✏️", label: t.technicians.addEditDelete, description: t.technicians.addEditDeleteDesc },
+                { icon: "🔘", label: t.technicians.enableDisable, description: t.technicians.enableDisableDesc },
               ]}
               tip={t.demoGuide.technicians.tip}
             />

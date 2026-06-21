@@ -36,11 +36,11 @@ export default function InstallationPage() {
               <TabsContent value="pipeline" className="space-y-4">
                 <Tabs defaultValue="all" className="w-full">
                   <TabsList>
-                    <TabsTrigger value="all">All Units</TabsTrigger>
-                    <TabsTrigger value="phase1">Phase 1: Foundation</TabsTrigger>
-                    <TabsTrigger value="phase2">Phase 2: Mechanical</TabsTrigger>
-                    <TabsTrigger value="phase3">Phase 3: Electrical</TabsTrigger>
-                    <TabsTrigger value="phase4">Phase 4: Testing</TabsTrigger>
+                    <TabsTrigger value="all">{t.installation.allUnits}</TabsTrigger>
+                    <TabsTrigger value="phase1">{t.installation.phase1}</TabsTrigger>
+                    <TabsTrigger value="phase2">{t.installation.phase2}</TabsTrigger>
+                    <TabsTrigger value="phase3">{t.installation.phase3}</TabsTrigger>
+                    <TabsTrigger value="phase4">{t.installation.phase4}</TabsTrigger>
                   </TabsList>
 
                   <TabsContent value="all" className="space-y-4">
@@ -70,8 +70,8 @@ export default function InstallationPage() {
             title={t.demoGuide.installation.title}
             description={t.demoGuide.installation.description}
             features={[
-              { icon: "🔍", label: "Pipeline View", description: "See all installations filtered by stage" },
-              { icon: "✅", label: "Inspections Tab", description: "Track inspection results per installation" },
+              { icon: "🔍", label: t.installation.pipelineView, description: t.installation.pipelineViewDesc },
+              { icon: "✅", label: t.installation.inspectionsTab, description: t.installation.inspectionsTabDesc },
             ]}
             tip={t.demoGuide.installation.tip}
           />

@@ -50,7 +50,7 @@ export default function TechniciansPage() {
     useEffect(() => {
         // Check if user can view technicians (Manager only)
         if (!canManage()) {
-            toast.error("Access denied. Manager role required.")
+            toast.error(t.technicians.accessDenied)
             router.push("/")
             return
         }
@@ -61,7 +61,7 @@ export default function TechniciansPage() {
                 setTechnicians(data)
             } catch (error: any) {
                 console.error("Failed to load technicians", error)
-                toast.error("Failed to load technicians")
+                toast.error(t.technicians.errorLoading)
             } finally {
                 setLoading(false)
             }
@@ -78,13 +78,13 @@ export default function TechniciansPage() {
     const handleToggleStatus = async (technicianId: string, currentStatus: boolean) => {
         try {
             await disableTechnician(technicianId, !currentStatus)
-            toast.success(`Technician ${!currentStatus ? 'disabled' : 'enabled'} successfully`)
+            toast.success(t.technicians.statusUpdated.replace("{action}", !currentStatus ? t.technicians.disabled : t.technicians.enabled))
             // Refresh the list
             const data = await getTechnicians()
             setTechnicians(data)
         } catch (error: any) {
             console.error("Failed to toggle technician status", error)
-            toast.error(error?.message || "Failed to update technician status")
+            toast.error(error?.message || t.technicians.statusUpdateError)
         }
     }
 
@@ -99,7 +99,7 @@ export default function TechniciansPage() {
         try {
             setDeleting(true)
             await deleteTechnician(technicianToDelete.id)
-            toast.success("Technician deleted successfully")
+            toast.success(t.technicians.deleteSuccess)
             setDeleteDialogOpen(false)
             setTechnicianToDelete(null)
             // Refresh the list
@@ -107,7 +107,7 @@ export default function TechniciansPage() {
             setTechnicians(data)
         } catch (error: any) {
             console.error("Failed to delete technician", error)
-            toast.error(error?.message || "Failed to delete technician")
+            toast.error(error?.message || t.technicians.deleteError)
         } finally {
             setDeleting(false)
         }
@@ -124,15 +124,15 @@ export default function TechniciansPage() {
 
     const getStatusBadge = (technician: Technician) => {
         if (technician.isDisabled) {
-            return <Badge variant="destructive">Inactive</Badge>
+            return <Badge variant="destructive">{t.technicians.inactive}</Badge>
         }
         if (technician.currentActiveElevatorsCount === 0) {
-            return <Badge className="bg-green-500/10 text-green-500 border-green-500/20">Available</Badge>
+            return <Badge className="bg-green-500/10 text-green-500 border-green-500/20">{t.technicians.available}</Badge>
         }
         if (technician.currentActiveElevatorsCount < 5) {
-            return <Badge className="bg-blue-500/10 text-blue-500 border-blue-500/20">Active</Badge>
+            return <Badge className="bg-blue-500/10 text-blue-500 border-blue-500/20">{t.technicians.active}</Badge>
         }
-        return <Badge className="bg-yellow-500/10 text-yellow-500 border-yellow-500/20">Busy</Badge>
+        return <Badge className="bg-yellow-500/10 text-yellow-500 border-yellow-500/20">{t.technicians.busy}</Badge>
     }
 
     if (loading) {
@@ -142,7 +142,7 @@ export default function TechniciansPage() {
                     <AppSidebar />
                     <div className="flex flex-1 flex-col">
                         <AppHeader />
-                        <main className="flex-1 p-6 text-center">Loading technicians...</main>
+                        <main className="flex-1 p-6 text-center">{t.technicians.loading}</main>
                     </div>
                 </div>
             </SidebarProvider>
@@ -165,7 +165,7 @@ export default function TechniciansPage() {
                                 <Link href="/technicians/new">
                                     <Button>
                                         <Plus className="mr-2 h-4 w-4" />
-                                        Add Technician
+                                        {t.technicians.addTechnician}
                                     </Button>
                                 </Link>
                             )}
@@ -174,12 +174,12 @@ export default function TechniciansPage() {
                         <Card>
                             <CardHeader>
                                 <div className="flex items-center justify-between">
-                                    <CardTitle>All Technicians</CardTitle>
+                                    <CardTitle>{t.technicians.allTechnicians}</CardTitle>
                                     <div className="flex items-center gap-4">
                                         <div className="relative">
                                             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                                             <Input
-                                                placeholder="Search technicians..."
+                                                placeholder={t.technicians.searchTechnicians}
                                                 value={searchTerm}
                                                 onChange={(e) => setSearchTerm(e.target.value)}
                                                 className="pl-8 w-64"
@@ -191,19 +191,19 @@ export default function TechniciansPage() {
                             <CardContent>
                                 {filteredTechnicians.length === 0 ? (
                                     <div className="text-center py-8 text-muted-foreground">
-                                        {searchTerm ? "No technicians found matching your search." : "No technicians found."}
+                                        {searchTerm ? t.technicians.noTechniciansSearch : t.technicians.noTechnicians}
                                     </div>
                                 ) : (
                                     <Table>
                                         <TableHeader>
                                             <TableRow>
-                                                <TableHead>Name</TableHead>
-                                                <TableHead>Phone</TableHead>
-                                                <TableHead>Specialization</TableHead>
-                                                <TableHead>Leader</TableHead>
-                                                <TableHead>Status</TableHead>
-                                                <TableHead>Rating</TableHead>
-                                                <TableHead>Actions</TableHead>
+                                                <TableHead>{t.technicians.name}</TableHead>
+                                                <TableHead>{t.technicians.phone}</TableHead>
+                                                <TableHead>{t.technicians.specialization}</TableHead>
+                                                <TableHead>{t.technicians.leader}</TableHead>
+                                                <TableHead>{t.technicians.status}</TableHead>
+                                                <TableHead>{t.technicians.rating}</TableHead>
+                                                <TableHead>{t.technicians.actions}</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
@@ -227,7 +227,7 @@ export default function TechniciansPage() {
                                                     </TableCell>
                                                     <TableCell>
                                                         {technician.isLeader ? (
-                                                            <Badge className="bg-blue-500/10 text-blue-500 border-blue-500/20">Leader</Badge>
+                                                            <Badge className="bg-blue-500/10 text-blue-500 border-blue-500/20">{t.technicians.leader}</Badge>
                                                         ) : technician.leaderName ? (
                                                             <span>{technician.leaderName}</span>
                                                         ) : (
@@ -248,14 +248,14 @@ export default function TechniciansPage() {
                                                     <TableCell>
                                                         <div className="flex items-center gap-3">
                                                             <Link href={`/technicians/${technician.id}/edit`}>
-                                                                <Button variant="outline" size="sm" title="Edit technician">
+                                                                <Button variant="outline" size="sm" title={t.technicians.editTechnician}>
                                                                     <Edit className="h-4 w-4" />
                                                                 </Button>
                                                             </Link>
                                                             <Button 
                                                                 variant="outline" 
                                                                 size="sm" 
-                                                                title="Delete technician"
+                                                                title={t.technicians.deleteTechnician}
                                                                 onClick={() => handleDeleteClick(technician)}
                                                                 className="text-destructive hover:text-destructive"
                                                             >
@@ -271,7 +271,7 @@ export default function TechniciansPage() {
                                                                     htmlFor={`status-${technician.id}`}
                                                                     className="text-sm cursor-pointer"
                                                                 >
-                                                                    {technician.isDisabled ? "Inactive" : "Active"}
+                                                                    {technician.isDisabled ? t.technicians.inactive : t.technicians.active}
                                                                 </Label>
                                                             </div>
                                                         </div>
@@ -291,20 +291,19 @@ export default function TechniciansPage() {
             <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
-                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                        <AlertDialogTitle>{t.technicians.areYouSure}</AlertDialogTitle>
                         <AlertDialogDescription>
-                            This will permanently delete technician <strong>{technicianToDelete?.name}</strong> and their associated user account.
-                            This action cannot be undone.
+                            {t.technicians.deleteConfirm.replace("{name}", technicianToDelete?.name || "")}
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel disabled={deleting}>Cancel</AlertDialogCancel>
+                        <AlertDialogCancel disabled={deleting}>{t.technicians.cancel}</AlertDialogCancel>
                         <AlertDialogAction
                             onClick={handleDeleteConfirm}
                             disabled={deleting}
                             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                         >
-                            {deleting ? "Deleting..." : "Delete"}
+                            {deleting ? t.technicians.deleting : t.technicians.delete}
                         </AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
@@ -313,9 +312,9 @@ export default function TechniciansPage() {
               title={t.demoGuide.technicians.title}
               description={t.demoGuide.technicians.description}
               features={[
-                { icon: "👨‍🔧", label: "Team List", description: "All technicians with specialization and rating" },
-                { icon: "✏️", label: "Add / Edit / Delete", description: "Full team management" },
-                { icon: "🔘", label: "Enable / Disable", description: "Temporarily deactivate a technician without deleting" },
+                { icon: "👨‍🔧", label: t.technicians.teamList, description: t.technicians.teamListDesc },
+                { icon: "✏️", label: t.technicians.addEditDelete, description: t.technicians.addEditDeleteDesc },
+                { icon: "🔘", label: t.technicians.enableDisable, description: t.technicians.enableDisableDesc },
               ]}
               tip={t.demoGuide.technicians.tip}
             />

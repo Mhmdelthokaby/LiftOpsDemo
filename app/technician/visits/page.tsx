@@ -51,7 +51,7 @@ export default function TechnicianVisitsPage() {
       setEmergencyTickets(ticketsData || [])
     } catch (error: any) {
       console.error("Failed to fetch data", error)
-      toast.error(error.message || "Failed to fetch data")
+      toast.error(error.message || t.technicianVisits.errorLoading)
     } finally {
       setLoading(false)
     }
@@ -63,17 +63,17 @@ export default function TechnicianVisitsPage() {
       setVisits(data || [])
     } catch (error: any) {
       console.error("Failed to fetch visits", error)
-      toast.error(error.message || "Failed to fetch visits")
+      toast.error(error.message || t.technicianVisits.errorLoadingVisits)
     }
   }
 
   const handleStartVisit = async (visit: TechnicianVisit) => {
     try {
       await updateVisitStatus(visit.visitId, "InProgress")
-      toast.success("Visit marked as In Progress")
+      toast.success(t.technicianVisits.visitStarted)
       fetchVisits()
     } catch (error: any) {
-      toast.error(error.message || "Failed to update visit status")
+      toast.error(error.message || t.technicianVisits.visitStartError)
     }
   }
 
@@ -130,7 +130,7 @@ export default function TechnicianVisitsPage() {
         status: error.status,
         data: error.data
       })
-      toast.error("Failed to load checklist items: " + (error.message || "Unknown error"))
+      toast.error(t.technicianVisits.errorLoading + ": " + (error.message || "Unknown error"))
       setChecklistItems([])
     } finally {
       setLoadingChecklist(false)
@@ -179,7 +179,7 @@ export default function TechnicianVisitsPage() {
         // For now, paymentNotes is included in completeVisit
       }
 
-      toast.success("Visit completed successfully")
+      toast.success(t.technicianVisits.visitCompleted)
       setCompleteDialogOpen(false)
       setSelectedVisit(null)
       setNotes("")
@@ -188,7 +188,7 @@ export default function TechnicianVisitsPage() {
       setChecklistState(new Map())
       fetchVisits()
     } catch (error: any) {
-      toast.error(error.message || "Failed to complete visit")
+      toast.error(error.message || t.technicianVisits.visitCompleteError)
     } finally {
       setCompletingVisit(false)
     }
@@ -197,11 +197,11 @@ export default function TechnicianVisitsPage() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "Pending":
-        return <Badge variant="outline" className="bg-yellow-500/10 text-yellow-600 border-yellow-500/20">Pending</Badge>
+        return <Badge variant="outline" className="bg-yellow-500/10 text-yellow-600 border-yellow-500/20">{t.technicianVisits.pending}</Badge>
       case "InProgress":
-        return <Badge variant="outline" className="bg-blue-500/10 text-blue-600 border-blue-500/20">In Progress</Badge>
+        return <Badge variant="outline" className="bg-blue-500/10 text-blue-600 border-blue-500/20">{t.technicianVisits.inProgress}</Badge>
       case "Done":
-        return <Badge variant="outline" className="bg-green-500/10 text-green-600 border-green-500/20">Done</Badge>
+        return <Badge variant="outline" className="bg-green-500/10 text-green-600 border-green-500/20">{t.technicianVisits.done}</Badge>
       default:
         return <Badge variant="outline">{status}</Badge>
     }
@@ -210,13 +210,13 @@ export default function TechnicianVisitsPage() {
   const getEmergencyStatusBadge = (status: string) => {
     switch (status) {
       case "Open":
-        return <Badge className="bg-destructive text-destructive-foreground">Open</Badge>
+        return <Badge className="bg-destructive text-destructive-foreground">{t.technicianVisits.open}</Badge>
       case "EnRoute":
-        return <Badge className="bg-chart-1 text-primary-foreground">En Route</Badge>
+        return <Badge className="bg-chart-1 text-primary-foreground">{t.technicianVisits.enRoute}</Badge>
       case "InProgress":
-        return <Badge className="bg-warning text-warning-foreground">In Progress</Badge>
+        return <Badge className="bg-warning text-warning-foreground">{t.technicianVisits.inProgress}</Badge>
       case "Resolved":
-        return <Badge className="bg-success text-success-foreground">Resolved</Badge>
+        return <Badge className="bg-success text-success-foreground">{t.technicianVisits.resolved}</Badge>
       default:
         return <Badge variant="outline">{status}</Badge>
     }
@@ -225,11 +225,11 @@ export default function TechnicianVisitsPage() {
   const getPriorityBadge = (priority: string) => {
     switch (priority) {
       case "High":
-        return <Badge className="bg-destructive text-destructive-foreground">High</Badge>
+        return <Badge className="bg-destructive text-destructive-foreground">{t.technicianVisits.high}</Badge>
       case "Medium":
-        return <Badge className="bg-warning text-warning-foreground">Medium</Badge>
+        return <Badge className="bg-warning text-warning-foreground">{t.technicianVisits.medium}</Badge>
       case "Low":
-        return <Badge className="bg-secondary text-secondary-foreground">Low</Badge>
+        return <Badge className="bg-secondary text-secondary-foreground">{t.technicianVisits.low}</Badge>
       default:
         return <Badge variant="outline">{priority}</Badge>
     }
@@ -242,7 +242,7 @@ export default function TechnicianVisitsPage() {
 
       if (newStatus === "Resolved") {
         await resolveEmergencyTicket(ticketId)
-        toast.success("Emergency ticket resolved")
+        toast.success(t.technicianVisits.emergencyResolved)
       } else {
         await updateEmergencyTicket(ticketId, {
           project: ticket.project,
@@ -257,11 +257,11 @@ export default function TechnicianVisitsPage() {
           assignedTechnicianId: ticket.assignedTechnicianId,
           notes: ticket.notes,
         })
-        toast.success(`Emergency ticket status updated to ${newStatus}`)
+        toast.success(t.technicianVisits.emergencyStatusUpdated.replace("{status}", newStatus))
       }
       fetchData()
     } catch (error: any) {
-      toast.error(error.message || "Failed to update emergency ticket status")
+      toast.error(error.message || t.technicianVisits.emergencyResolveError)
     }
   }
 
@@ -272,7 +272,7 @@ export default function TechnicianVisitsPage() {
           <AppSidebar />
           <div className="flex flex-1 flex-col">
             <AppHeader />
-            <main className="flex-1 p-6 text-center">Loading visits...</main>
+            <main className="flex-1 p-6 text-center">{t.technicianVisits.loading}</main>
           </div>
         </div>
       </SidebarProvider>
@@ -288,22 +288,22 @@ export default function TechnicianVisitsPage() {
           <main className="flex-1 p-6 space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-3xl font-bold">{t.myVisits.title}</h1>
-                <p className="text-muted-foreground mt-1">{t.myVisits.subtitle}</p>
+                <h1 className="text-3xl font-bold">{t.technicianVisits.title}</h1>
+                <p className="text-muted-foreground mt-1">{t.technicianVisits.subtitle}</p>
               </div>
               <Button onClick={fetchData} variant="outline" size="sm">
                 <RefreshCw className="h-4 w-4 mr-2" />
-                Refresh
+                {t.technicianVisits.refresh}
               </Button>
             </div>
 
             <Tabs defaultValue="maintenance" className="w-full">
               <TabsList>
                 <TabsTrigger value="maintenance">
-                  {t.myVisits.maintenanceVisits} ({visits.length})
+                  {t.technicianVisits.maintenanceVisits} ({visits.length})
                 </TabsTrigger>
                 <TabsTrigger value="emergency">
-                  {t.myVisits.emergencyTickets} ({emergencyTickets.filter(t => t.status !== "Resolved").length})
+                  {t.technicianVisits.emergencyTickets} ({emergencyTickets.filter(t => t.status !== "Resolved").length})
                 </TabsTrigger>
               </TabsList>
 
@@ -312,8 +312,8 @@ export default function TechnicianVisitsPage() {
                   <Card>
                     <CardContent className="py-12 text-center">
                       <Calendar className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                      <h3 className="text-lg font-semibold mb-2">No visits assigned</h3>
-                      <p className="text-muted-foreground">You don't have any maintenance visits assigned for today.</p>
+                      <h3 className="text-lg font-semibold mb-2">{t.technicianVisits.noVisits}</h3>
+                      <p className="text-muted-foreground">{t.technicianVisits.noVisitsDesc}</p>
                     </CardContent>
                   </Card>
                 ) : (
@@ -334,11 +334,11 @@ export default function TechnicianVisitsPage() {
                         <div className="flex items-start gap-2">
                           <FileText className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
                           <div className="flex-1">
-                            <p className="text-sm font-medium text-blue-900 mb-1">Notes for Visit</p>
+                            <p className="text-sm font-medium text-blue-900 mb-1">{t.technicianVisits.notesForVisit}</p>
                             {visit.notes ? (
                               <p className="text-sm text-blue-800 whitespace-pre-wrap">{visit.notes}</p>
                             ) : (
-                              <p className="text-sm text-blue-600 italic">No notes available for this visit</p>
+                              <p className="text-sm text-blue-600 italic">{t.technicianVisits.noNotes}</p>
                             )}
                           </div>
                         </div>
@@ -348,7 +348,7 @@ export default function TechnicianVisitsPage() {
                           <div className="flex items-start gap-2">
                             <FileText className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
                             <div className="flex-1">
-                              <p className="text-sm font-medium text-green-900 mb-1">Payment Notes</p>
+                              <p className="text-sm font-medium text-green-900 mb-1">{t.technicianVisits.paymentNotes}</p>
                               <p className="text-sm text-green-800 whitespace-pre-wrap">{visit.paymentNotes}</p>
                             </div>
                           </div>
@@ -358,12 +358,12 @@ export default function TechnicianVisitsPage() {
                         <div className="space-y-2">
                           <div className="flex items-center gap-2 text-sm">
                             <MapPin className="h-4 w-4 text-muted-foreground" />
-                            <span className="font-medium">Address:</span>
+                            <span className="font-medium">{t.technicianVisits.address}</span>
                             <span>{visit.customerAddress}, {visit.city}</span>
                           </div>
                           <div className="flex items-center gap-2 text-sm">
                             <Phone className="h-4 w-4 text-muted-foreground" />
-                            <span className="font-medium">Phone:</span>
+                            <span className="font-medium">{t.technicianVisits.phone}</span>
                             <a href={`tel:${visit.customerPhone}`} className="text-blue-600 hover:underline">
                               {visit.customerPhone}
                             </a>
@@ -377,7 +377,7 @@ export default function TechnicianVisitsPage() {
                                 rel="noopener noreferrer"
                                 className="text-blue-600 hover:underline flex items-center gap-1"
                               >
-                                View on Google Maps
+                                {t.technicianVisits.viewOnGoogleMaps}
                                 <ExternalLink className="h-3 w-3" />
                               </a>
                             </div>
@@ -386,17 +386,17 @@ export default function TechnicianVisitsPage() {
                         <div className="space-y-2">
                           <div className="flex items-center gap-2 text-sm">
                             <Calendar className="h-4 w-4 text-muted-foreground" />
-                            <span className="font-medium">Visit Date:</span>
+                            <span className="font-medium">{t.technicianVisits.visitDate}</span>
                             <span>{formatDate(visit.visitDate)}</span>
                           </div>
                           <div className="flex items-center gap-2 text-sm">
                             <FileText className="h-4 w-4 text-muted-foreground" />
-                            <span className="font-medium">Elevator:</span>
+                            <span className="font-medium">{t.technicianVisits.elevator}</span>
                             <span>{visit.elevatorCode}</span>
                           </div>
                           {visit.projectNotes && (
                             <div className="text-sm">
-                              <span className="font-medium">Notes: </span>
+                              <span className="font-medium">{t.technicianVisits.notes}</span>
                               <span className="text-muted-foreground">{visit.projectNotes}</span>
                             </div>
                           )}
@@ -409,7 +409,7 @@ export default function TechnicianVisitsPage() {
                           <div className="space-y-2">
                             <div className="flex items-center gap-2">
                               <MapIcon className="h-4 w-4 text-muted-foreground" />
-                              <span className="font-medium text-sm">Location Map</span>
+                              <span className="font-medium text-sm">{t.technicianVisits.locationMap}</span>
                             </div>
                             <div className="w-full h-64 rounded-lg overflow-hidden border bg-gray-100">
                               {(() => {
@@ -466,7 +466,7 @@ export default function TechnicianVisitsPage() {
                               rel="noopener noreferrer"
                               className="text-sm text-blue-600 hover:underline flex items-center gap-1"
                             >
-                              Open in Google Maps
+                              {t.technicianVisits.openInGoogleMaps}
                               <ExternalLink className="h-3 w-3" />
                             </a>
                           </div>
@@ -479,19 +479,19 @@ export default function TechnicianVisitsPage() {
                         {visit.status === "Pending" && (
                           <Button onClick={() => handleStartVisit(visit)} className="flex-1">
                             <Clock className="h-4 w-4 mr-2" />
-                            Start Visit
+                            {t.technicianVisits.startVisit}
                           </Button>
                         )}
                         {visit.status === "InProgress" && (
                           <Button onClick={() => handleCompleteVisit(visit)} className="flex-1">
                             <CheckCircle2 className="h-4 w-4 mr-2" />
-                            Complete Visit
+                            {t.technicianVisits.completeVisit}
                           </Button>
                         )}
                         {visit.status === "Done" && (
                           <div className="flex-1 text-sm text-muted-foreground flex items-center gap-2">
                             <CheckCircle2 className="h-4 w-4 text-green-600" />
-                            Completed {visit.completedDate ? formatDate(visit.completedDate) : ""}
+                            {t.technicianVisits.completed} {visit.completedDate ? formatDate(visit.completedDate) : ""}
                           </div>
                         )}
                       </div>
@@ -507,8 +507,8 @@ export default function TechnicianVisitsPage() {
                   <Card>
                     <CardContent className="py-12 text-center">
                       <AlertTriangle className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                      <h3 className="text-lg font-semibold mb-2">No emergency tickets assigned</h3>
-                      <p className="text-muted-foreground">You don't have any active emergency tickets assigned to you.</p>
+                      <h3 className="text-lg font-semibold mb-2">{t.technicianVisits.noEmergencies}</h3>
+                      <p className="text-muted-foreground">{t.technicianVisits.noEmergenciesDesc}</p>
                     </CardContent>
                   </Card>
                 ) : (
@@ -535,7 +535,7 @@ export default function TechnicianVisitsPage() {
                             <div className="flex items-start gap-2">
                               <FileText className="h-4 w-4 text-red-600 mt-0.5 flex-shrink-0" />
                               <div className="flex-1">
-                                <p className="text-sm font-medium text-red-900 mb-1">Emergency Description</p>
+                                <p className="text-sm font-medium text-red-900 mb-1">{t.technicianVisits.emergencyDescription}</p>
                                 <p className="text-sm text-red-800 whitespace-pre-wrap">{ticket.description}</p>
                               </div>
                             </div>
@@ -545,7 +545,7 @@ export default function TechnicianVisitsPage() {
                               <div className="flex items-start gap-2">
                                 <FileText className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
                                 <div className="flex-1">
-                                  <p className="text-sm font-medium text-blue-900 mb-1">Notes</p>
+                                  <p className="text-sm font-medium text-blue-900 mb-1">{t.common.notes}</p>
                                   <p className="text-sm text-blue-800 whitespace-pre-wrap">{ticket.notes}</p>
                                 </div>
                               </div>
@@ -555,7 +555,7 @@ export default function TechnicianVisitsPage() {
                             <div className="space-y-2">
                               <div className="flex items-center gap-2 text-sm">
                                 <MapPin className="h-4 w-4 text-muted-foreground" />
-                                <span className="font-medium">Location:</span>
+                                <span className="font-medium">{t.technicianVisits.location}</span>
                                 <span>{ticket.location}</span>
                               </div>
                               {ticket.googleMapsLink && (
@@ -567,7 +567,7 @@ export default function TechnicianVisitsPage() {
                                     rel="noopener noreferrer"
                                     className="text-blue-600 hover:underline flex items-center gap-1"
                                   >
-                                    Open map
+                                    {t.technicianVisits.openMap}
                                     <ExternalLink className="h-3 w-3" />
                                   </a>
                                 </div>
@@ -575,7 +575,7 @@ export default function TechnicianVisitsPage() {
                               {ticket.contact && (
                                 <div className="flex items-center gap-2 text-sm">
                                   <Phone className="h-4 w-4 text-muted-foreground" />
-                                  <span className="font-medium">Contact:</span>
+                                  <span className="font-medium">{t.technicianVisits.contact}</span>
                                   <a href={`tel:${ticket.contact}`} className="text-blue-600 hover:underline">
                                     {ticket.contact}
                                   </a>
@@ -585,12 +585,12 @@ export default function TechnicianVisitsPage() {
                             <div className="space-y-2">
                               <div className="flex items-center gap-2 text-sm">
                                 <Clock className="h-4 w-4 text-muted-foreground" />
-                                <span className="font-medium">Reported:</span>
+                                <span className="font-medium">{t.technicianVisits.reported}</span>
                                 <span>{formatDate(ticket.reportedAt)}</span>
                               </div>
                               <div className="flex items-center gap-2 text-sm">
                                 <User className="h-4 w-4 text-muted-foreground" />
-                                <span className="font-medium">Reported By:</span>
+                                <span className="font-medium">{t.technicianVisits.reportedBy}</span>
                                 <span>{ticket.reportedBy}</span>
                               </div>
                             </div>
@@ -607,7 +607,7 @@ export default function TechnicianVisitsPage() {
                                 disabled={ticket.status === "Open"}
                                 className={ticket.status === "Open" ? "bg-destructive text-destructive-foreground" : ""}
                               >
-                                Open
+                                {t.technicianVisits.open}
                               </Button>
                             )}
                             {ticket.status !== "EnRoute" && (
@@ -619,7 +619,7 @@ export default function TechnicianVisitsPage() {
                                 className={ticket.status === "EnRoute" ? "bg-chart-1 text-primary-foreground" : ""}
                               >
                                 <Navigation2 className="mr-1 h-3 w-3" />
-                                En Route
+                                {t.technicianVisits.enRoute}
                               </Button>
                             )}
                             {ticket.status !== "InProgress" && (
@@ -631,7 +631,7 @@ export default function TechnicianVisitsPage() {
                                 className={ticket.status === "InProgress" ? "bg-warning text-warning-foreground" : ""}
                               >
                                 <Wrench className="mr-1 h-3 w-3" />
-                                In Progress
+                                {t.technicianVisits.inProgress}
                               </Button>
                             )}
                             {ticket.status !== "Resolved" && (
@@ -643,7 +643,7 @@ export default function TechnicianVisitsPage() {
                                 className={ticket.status === "Resolved" ? "bg-success text-success-foreground" : ""}
                               >
                                 <CheckCircle2 className="mr-1 h-3 w-3" />
-                                Resolve
+                                {t.technicianVisits.resolved}
                               </Button>
                             )}
                           </div>
@@ -662,34 +662,34 @@ export default function TechnicianVisitsPage() {
       <Dialog open={completeDialogOpen} onOpenChange={setCompleteDialogOpen}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Complete Maintenance Visit</DialogTitle>
+            <DialogTitle>{t.technicianVisits.completeVisitDialog}</DialogTitle>
           </DialogHeader>
           <div className="space-y-6">
             {selectedVisit && (
               <div className="space-y-2">
-                <p className="text-sm font-medium">Project: {selectedVisit.projectNumber}</p>
-                <p className="text-sm text-muted-foreground">Customer: {selectedVisit.customerName}</p>
+                <p className="text-sm font-medium">{t.technicianVisits.project} {selectedVisit.projectNumber}</p>
+                <p className="text-sm text-muted-foreground">{t.technicianVisits.customer} {selectedVisit.customerName}</p>
               </div>
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="notes">Maintenance Notes</Label>
+              <Label htmlFor="notes">{t.technicianVisits.maintenanceNotes}</Label>
               <Textarea
                 id="notes"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                placeholder="Enter maintenance notes..."
+                placeholder={t.technicianVisits.notesPlaceholder}
                 rows={4}
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="paymentNotes">Payment Notes (Optional)</Label>
+              <Label htmlFor="paymentNotes">{t.technicianVisits.paymentNotesOptional}</Label>
               <Textarea
                 id="paymentNotes"
                 value={paymentNotes}
                 onChange={(e) => setPaymentNotes(e.target.value)}
-                placeholder="Enter payment notes..."
+                placeholder={t.technicianVisits.paymentNotesPlaceholder}
                 rows={2}
               />
             </div>
@@ -701,7 +701,7 @@ export default function TechnicianVisitsPage() {
                 onCheckedChange={(checked) => setIsPaid(checked === true)}
               />
               <Label htmlFor="isPaid" className="cursor-pointer">
-                Client has paid
+                {t.technicianVisits.clientHasPaid}
               </Label>
             </div>
 
@@ -709,24 +709,19 @@ export default function TechnicianVisitsPage() {
 
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <Label className="text-base font-semibold">Maintenance Checklist</Label>
+                <Label className="text-base font-semibold">{t.technicianVisits.maintenanceChecklist}</Label>
                 {loadingChecklist && (
-                  <span className="text-sm text-muted-foreground">Loading checklist...</span>
+                  <span className="text-sm text-muted-foreground">{t.technicianVisits.loadingChecklist}</span>
                 )}
               </div>
               {loadingChecklist ? (
                 <div className="text-center py-8 text-muted-foreground">
-                  Loading checklist items...
+                  {t.technicianVisits.loadingChecklistItems}
                 </div>
               ) : checklistItems.length === 0 ? (
                 <div className="text-center py-8 text-muted-foreground border rounded-lg bg-blue-50 border-blue-200">
-                  <p className="text-sm font-medium text-blue-900">No checklist items configured.</p>
-                  <p className="text-xs mt-2 text-blue-700">
-                    You can complete this visit by filling in the maintenance notes above and clicking "Complete Visit" below.
-                  </p>
-                  <p className="text-xs mt-1 text-blue-600">
-                    Checklist items are optional - you can proceed without them.
-                  </p>
+                  <p className="text-sm font-medium text-blue-900">{t.technicianVisits.noChecklistItems}</p>
+                  <p className="text-xs mt-2 text-blue-700">{t.technicianVisits.noChecklistHint}</p>
                 </div>
               ) : (
                 <div className="space-y-3 max-h-[400px] overflow-y-auto">
@@ -755,7 +750,7 @@ export default function TechnicianVisitsPage() {
                             className={`flex items-center gap-2 ${isGood ? "bg-green-600 hover:bg-green-700 text-white" : ""}`}
                           >
                             <CheckCircle className="h-4 w-4" />
-                            Good
+                            {t.technicianVisits.good}
                           </Button>
                           <Button
                             type="button"
@@ -769,7 +764,7 @@ export default function TechnicianVisitsPage() {
                             className={`flex items-center gap-2 ${!isGood ? "bg-red-600 hover:bg-red-700 text-white" : ""}`}
                           >
                             <XCircle className="h-4 w-4" />
-                            Bad
+                            {t.technicianVisits.bad}
                           </Button>
                         </div>
                         
@@ -780,7 +775,7 @@ export default function TechnicianVisitsPage() {
                             newState.set(item.id, { ...state, notes: e.target.value })
                             setChecklistState(newState)
                           }}
-                          placeholder="Add notes for this item (optional)"
+                          placeholder={t.technicianVisits.addNotesForItem}
                           rows={2}
                           className="mt-2"
                         />
@@ -793,10 +788,10 @@ export default function TechnicianVisitsPage() {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setCompleteDialogOpen(false)}>
-              Cancel
+              {t.technicianVisits.cancel}
             </Button>
             <Button onClick={handleSubmitComplete} disabled={completingVisit}>
-              {completingVisit ? "Completing..." : "Complete Visit"}
+              {completingVisit ? t.technicianVisits.completing : t.technicianVisits.complete}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -805,9 +800,9 @@ export default function TechnicianVisitsPage() {
         title={t.demoGuide.myVisits.title}
         description={t.demoGuide.myVisits.description}
         features={[
-          { icon: "📅", label: "Assigned Visits", description: "See all maintenance visits assigned to you" },
-          { icon: "🚨", label: "Emergency Tickets", description: "Urgent breakdown requests that need immediate response" },
-          { icon: "▶️", label: "Start & Complete", description: "Update visit status in real-time from the field" },
+          { icon: "📅", label: t.technicianVisits.assignedVisits, description: t.technicianVisits.assignedVisitsDesc },
+          { icon: "🚨", label: t.technicianVisits.emergencyTickets, description: t.technicianVisits.emergencyTicketsDesc },
+          { icon: "▶️", label: t.technicianVisits.startComplete, description: t.technicianVisits.startCompleteDesc },
         ]}
         tip={t.demoGuide.myVisits.tip}
       />

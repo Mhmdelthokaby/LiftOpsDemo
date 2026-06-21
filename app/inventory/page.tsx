@@ -40,7 +40,7 @@ export default function InventoryPage() {
       console.log("Creating inventory item with data:", data)
       const itemId = await createInventoryItem(data)
       console.log("Item created with ID:", itemId)
-      toast.success("Item created successfully")
+      toast.success(t.inventory.itemCreated)
       setIsAddDialogOpen(false)
       
       // Small delay to ensure backend has processed the request
@@ -67,14 +67,14 @@ export default function InventoryPage() {
         status: error?.status,
         data: error?.data
       })
-      toast.error(error?.message || "Failed to create item")
+      toast.error(error?.message || t.inventory.itemError)
     }
   }
 
   const handleCreateCategory = async (data: CreateCategoryDto) => {
     try {
       const categoryId = await createCategory(data)
-      toast.success("Category created successfully")
+      toast.success(t.inventory.categoryCreated)
       setIsAddCategoryDialogOpen(false)
       // Refresh the page to update category lists in forms
       setTimeout(() => {
@@ -82,7 +82,7 @@ export default function InventoryPage() {
       }, 300)
     } catch (error: any) {
       console.error("Error creating category:", error)
-      toast.error(error?.message || "Failed to create category")
+      toast.error(error?.message || t.inventory.categoryError)
     }
   }
 
@@ -117,7 +117,7 @@ export default function InventoryPage() {
                     </DialogTrigger>
                     <DialogContent className="max-w-lg">
                       <DialogHeader>
-                        <DialogTitle>Add New Category</DialogTitle>
+                        <DialogTitle>{t.inventory.addNewCategory}</DialogTitle>
                       </DialogHeader>
                       <CategoryForm
                         onSubmit={handleCreateCategory}
@@ -134,7 +134,7 @@ export default function InventoryPage() {
                     </DialogTrigger>
                     <DialogContent className="max-w-2xl">
                       <DialogHeader>
-                        <DialogTitle>Add New Inventory Item</DialogTitle>
+                        <DialogTitle>{t.inventory.addNewItem}</DialogTitle>
                       </DialogHeader>
                       <InventoryItemForm
                         onSubmit={handleCreate}
@@ -153,10 +153,10 @@ export default function InventoryPage() {
             title={t.demoGuide.inventory.title}
             description={t.demoGuide.inventory.description}
             features={[
-              { icon: "📦", label: "Parts Overview", description: "Full catalog of spare parts with quantities" },
-              { icon: "⚠️", label: "Low Stock Alerts", description: "Automatic warnings when stock falls below threshold" },
-              { icon: "➕", label: "Add Items & Categories", description: "Organize your inventory your way" },
-              { icon: "📤", label: "Export", description: "Download inventory data anytime" },
+              { icon: "📦", label: t.inventory.partsOverview, description: t.inventory.partsOverviewDesc },
+              { icon: "⚠️", label: t.inventory.lowStockAlerts, description: t.inventory.lowStockAlertsDesc },
+              { icon: "➕", label: t.inventory.addItemsCategories, description: t.inventory.addItemsCategoriesDesc },
+              { icon: "📤", label: t.inventory.export, description: t.inventory.exportDesc },
             ]}
             tip={t.demoGuide.inventory.tip}
           />

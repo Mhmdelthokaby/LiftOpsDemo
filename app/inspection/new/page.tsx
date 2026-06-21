@@ -90,7 +90,7 @@ export default function NewInspectionProjectPage() {
             customerAddress: existingCustomer.address || prev.customerAddress
         }))
         setUseExistingCustomer(true)
-        toast.success("Using existing customer data")
+        toast.success(t.inspection.usingExistingCustomer)
     }
 
     const useNewCustomer = () => {
@@ -100,7 +100,7 @@ export default function NewInspectionProjectPage() {
             ...prev,
             customerId: undefined
         }))
-        toast.info("Creating new customer")
+        toast.info(t.inspection.creatingCustomer)
     }
 
     // Auto-search when phone changes (with debouncing)
@@ -132,23 +132,23 @@ export default function NewInspectionProjectPage() {
 
         // Validation
         if (!formData.customerPhone.trim()) {
-            toast.error("Customer phone is required")
+            toast.error(t.inspection.phoneRequired)
             return
         }
 
         if (!formData.projectAddress.trim()) {
-            toast.error("Project address is required")
+            toast.error(t.inspection.addressRequired)
             return
         }
 
         if (!formData.pitType) {
-            toast.error("Pit type is required")
+            toast.error(t.inspection.pitTypeRequired)
             return
         }
 
         if (formData.pitWidth <= 0 || formData.pitDepth <= 0 || formData.lastFloorHeight <= 0 ||
             formData.holeDepth <= 0 || formData.travelLength <= 0) {
-            toast.error("All pit measurements must be greater than 0")
+            toast.error(t.inspection.measurementsRequired)
             return
         }
 
@@ -171,11 +171,11 @@ export default function NewInspectionProjectPage() {
                 notes: formData.notes || undefined
             })
 
-            toast.success("Inspection project created successfully!")
+            toast.success(t.inspection.success)
             router.push(`/inspection`)
         } catch (error: any) {
             console.error("Error creating inspection project:", error)
-            toast.error(error?.message || "Failed to create inspection project")
+            toast.error(error?.message || t.inspection.error)
         } finally {
             setLoading(false)
         }
@@ -206,15 +206,15 @@ export default function NewInspectionProjectPage() {
                             {/* Customer Section */}
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Customer Information</CardTitle>
+                                    <CardTitle>{t.inspection.customerInformation}</CardTitle>
                                     <CardDescription>
-                                        Search for existing customer or create a new one
+                                        {t.inspection.customerInfoDesc}
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent className="space-y-4">
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="space-y-2">
-                                            <Label htmlFor="customerPhone">Phone *</Label>
+                                            <Label htmlFor="customerPhone">{t.inspection.phone}</Label>
                                             <div className="relative">
                                                 <Input
                                                     id="customerPhone"
@@ -224,7 +224,7 @@ export default function NewInspectionProjectPage() {
                                                         setExistingCustomer(null)
                                                         setUseExistingCustomer(false)
                                                     }}
-                                                    placeholder="Enter phone number"
+                                                    placeholder={t.inspection.phonePlaceholder}
                                                     required
                                                 />
                                                 {searchingCustomer && (
@@ -233,13 +233,13 @@ export default function NewInspectionProjectPage() {
                                             </div>
                                         </div>
                                         <div className="space-y-2">
-                                            <Label htmlFor="customerEmail">Email</Label>
+                                            <Label htmlFor="customerEmail">{t.inspection.email}</Label>
                                             <Input
                                                 id="customerEmail"
                                                 type="email"
                                                 value={formData.customerEmail}
                                                 onChange={(e) => setFormData(prev => ({ ...prev, customerEmail: e.target.value }))}
-                                                placeholder="Enter email"
+                                                placeholder={t.inspection.emailPlaceholder}
                                             />
                                         </div>
                                     </div>
@@ -248,7 +248,7 @@ export default function NewInspectionProjectPage() {
                                         <div className="p-4 border rounded-lg bg-muted/50">
                                             <div className="flex items-start justify-between">
                                                 <div>
-                                                    <p className="font-medium">Customer Found</p>
+                                                    <p className="font-medium">{t.inspection.customerFound}</p>
                                                     <p className="text-sm text-muted-foreground">
                                                         {existingCustomer.name} - {existingCustomer.phone}
                                                     </p>
@@ -263,7 +263,7 @@ export default function NewInspectionProjectPage() {
                                                         onClick={useExistingCustomerData}
                                                     >
                                                         <CheckCircle2 className="h-4 w-4 mr-2" />
-                                                        Use This Customer
+                                                        {t.inspection.useThisCustomer}
                                                     </Button>
                                                     <Button
                                                         type="button"
@@ -272,7 +272,7 @@ export default function NewInspectionProjectPage() {
                                                         onClick={useNewCustomer}
                                                     >
                                                         <X className="h-4 w-4 mr-2" />
-                                                        Create New
+                                                        {t.inspection.createNew}
                                                     </Button>
                                                 </div>
                                             </div>
@@ -281,29 +281,29 @@ export default function NewInspectionProjectPage() {
 
                                     {useExistingCustomer && existingCustomer && (
                                         <Badge variant="outline" className="w-fit">
-                                            Using existing customer: {existingCustomer.name}
+                                            {t.inspection.usingExisting.replace("{name}", existingCustomer.name)}
                                         </Badge>
                                     )}
 
                                     <div className="space-y-2">
-                                        <Label htmlFor="customerName">Name *</Label>
+                                        <Label htmlFor="customerName">{t.inspection.name}</Label>
                                         <Input
                                             id="customerName"
                                             value={formData.customerName}
                                             onChange={(e) => setFormData(prev => ({ ...prev, customerName: e.target.value }))}
-                                            placeholder="Enter customer name"
+                                            placeholder={t.inspection.namePlaceholder}
                                             required
                                             disabled={useExistingCustomer}
                                         />
                                     </div>
 
                                     <div className="space-y-2">
-                                        <Label htmlFor="customerAddress">Address</Label>
+                                        <Label htmlFor="customerAddress">{t.inspection.address}</Label>
                                         <Textarea
                                             id="customerAddress"
                                             value={formData.customerAddress}
                                             onChange={(e) => setFormData(prev => ({ ...prev, customerAddress: e.target.value }))}
-                                            placeholder="Enter customer address"
+                                            placeholder={t.inspection.addressPlaceholder}
                                             disabled={useExistingCustomer}
                                         />
                                     </div>
@@ -313,30 +313,30 @@ export default function NewInspectionProjectPage() {
                             {/* Project Section */}
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Project Information</CardTitle>
+                                    <CardTitle>{t.inspection.projectInformation}</CardTitle>
                                     <CardDescription>
-                                        Enter project details and location
+                                        {t.inspection.projectInfoDesc}
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent className="space-y-4">
                                     <div className="space-y-2">
-                                        <Label htmlFor="projectAddress">Project Address *</Label>
+                                        <Label htmlFor="projectAddress">{t.inspection.projectAddress}</Label>
                                         <Textarea
                                             id="projectAddress"
                                             value={formData.projectAddress}
                                             onChange={(e) => setFormData(prev => ({ ...prev, projectAddress: e.target.value }))}
-                                            placeholder="Enter project address"
+                                            placeholder={t.inspection.projectAddressPlaceholder}
                                             required
                                         />
                                     </div>
 
                                     <div className="space-y-2">
-                                        <Label htmlFor="googleMapsLink">Google Maps Link</Label>
+                                        <Label htmlFor="googleMapsLink">{t.inspection.googleMapsLink}</Label>
                                         <Input
                                             id="googleMapsLink"
                                             value={formData.googleMapsLink}
                                             onChange={(e) => setFormData(prev => ({ ...prev, googleMapsLink: e.target.value }))}
-                                            placeholder="https://maps.google.com/..."
+                                            placeholder={t.inspection.googleMapsPlaceholder}
                                         />
                                     </div>
                                 </CardContent>
@@ -345,31 +345,31 @@ export default function NewInspectionProjectPage() {
                             {/* Pit Measurements Section */}
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Pit Measurements *</CardTitle>
+                                    <CardTitle>{t.inspection.pitMeasurements}</CardTitle>
                                     <CardDescription>
-                                        Enter all required pit measurements
+                                        {t.inspection.pitMeasurementsDesc}
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent className="space-y-4">
                                     <div className="space-y-2">
-                                        <Label htmlFor="pitType">Pit Type *</Label>
+                                        <Label htmlFor="pitType">{t.inspection.pitType}</Label>
                                         <Select
                                             value={formData.pitType}
                                             onValueChange={(value) => setFormData(prev => ({ ...prev, pitType: value }))}
                                         >
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Select pit type" />
+                                                <SelectValue placeholder={t.inspection.selectPitType} />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="Concrete">Concrete</SelectItem>
-                                                <SelectItem value="Brick">Brick</SelectItem>
+                                                <SelectItem value="Concrete">{t.inspection.concrete}</SelectItem>
+                                                <SelectItem value="Brick">{t.inspection.brick}</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </div>
 
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="space-y-2">
-                                            <Label htmlFor="pitWidth">Shaft Width</Label>
+                                            <Label htmlFor="pitWidth">{t.inspection.shaftWidth}</Label>
                                             <Input
                                                 id="pitWidth"
                                                 type="number"
@@ -377,12 +377,12 @@ export default function NewInspectionProjectPage() {
                                                 min="0"
                                                 value={formData.pitWidth || ""}
                                                 onChange={(e) => setFormData(prev => ({ ...prev, pitWidth: parseFloat(e.target.value) || 0 }))}
-                                                placeholder="0.00"
+                                                placeholder={t.inspection.placeholderValue}
                                                 required
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label htmlFor="pitDepth">Shaft Depth</Label>
+                                            <Label htmlFor="pitDepth">{t.inspection.shaftDepth}</Label>
                                             <Input
                                                 id="pitDepth"
                                                 type="number"
@@ -390,12 +390,12 @@ export default function NewInspectionProjectPage() {
                                                 min="0"
                                                 value={formData.pitDepth || ""}
                                                 onChange={(e) => setFormData(prev => ({ ...prev, pitDepth: parseFloat(e.target.value) || 0 }))}
-                                                placeholder="0.00"
+                                                placeholder={t.inspection.placeholderValue}
                                                 required
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label htmlFor="lastFloorHeight">Over Head</Label>
+                                            <Label htmlFor="lastFloorHeight">{t.inspection.overHead}</Label>
                                             <Input
                                                 id="lastFloorHeight"
                                                 type="number"
@@ -403,12 +403,12 @@ export default function NewInspectionProjectPage() {
                                                 min="0"
                                                 value={formData.lastFloorHeight || ""}
                                                 onChange={(e) => setFormData(prev => ({ ...prev, lastFloorHeight: parseFloat(e.target.value) || 0 }))}
-                                                placeholder="0.00"
+                                                placeholder={t.inspection.placeholderValue}
                                                 required
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label htmlFor="holeDepth">Pit Depth</Label>
+                                            <Label htmlFor="holeDepth">{t.inspection.pitDepth}</Label>
                                             <Input
                                                 id="holeDepth"
                                                 type="number"
@@ -416,12 +416,12 @@ export default function NewInspectionProjectPage() {
                                                 min="0"
                                                 value={formData.holeDepth || ""}
                                                 onChange={(e) => setFormData(prev => ({ ...prev, holeDepth: parseFloat(e.target.value) || 0 }))}
-                                                placeholder="0.00"
+                                                placeholder={t.inspection.placeholderValue}
                                                 required
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label htmlFor="travelLength">Total travel</Label>
+                                            <Label htmlFor="travelLength">{t.inspection.totalTravel}</Label>
                                             <Input
                                                 id="travelLength"
                                                 type="number"
@@ -429,7 +429,7 @@ export default function NewInspectionProjectPage() {
                                                 min="0"
                                                 value={formData.travelLength || ""}
                                                 onChange={(e) => setFormData(prev => ({ ...prev, travelLength: parseFloat(e.target.value) || 0 }))}
-                                                placeholder="0.00"
+                                                placeholder={t.inspection.placeholderValue}
                                                 required
                                             />
                                         </div>
@@ -440,14 +440,14 @@ export default function NewInspectionProjectPage() {
                             {/* Notes Section */}
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Additional Notes</CardTitle>
+                                    <CardTitle>{t.inspection.additionalNotes}</CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     <Textarea
                                         id="notes"
                                         value={formData.notes}
                                         onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
-                                        placeholder="Enter any additional notes..."
+                                        placeholder={t.inspection.notesPlaceholder}
                                         rows={4}
                                     />
                                 </CardContent>
@@ -460,16 +460,16 @@ export default function NewInspectionProjectPage() {
                                     variant="outline"
                                     onClick={() => router.push('/inspection')}
                                 >
-                                    Cancel
+                                    {t.inspection.cancel}
                                 </Button>
                                 <Button type="submit" disabled={loading}>
                                     {loading ? (
                                         <>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            Creating...
+                                            {t.inspection.creating}
                                         </>
                                     ) : (
-                                        "Create Inspection Project"
+                                        t.inspection.createProject
                                     )}
                                 </Button>
                             </div>
@@ -481,9 +481,9 @@ export default function NewInspectionProjectPage() {
               title={t.demoGuide.inspection.title}
               description={t.demoGuide.inspection.description}
               features={[
-                { icon: "🔍", label: "Customer Search", description: "Search by phone to find existing customers" },
-                { icon: "📐", label: "Pit Measurements", description: "Record shaft dimensions, pit depth, and travel" },
-                { icon: "📝", label: "Notes & Details", description: "Add project address and GPS coordinates" },
+                { icon: "🔍", label: t.inspection.customerSearch, description: t.inspection.customerSearchDesc },
+                { icon: "📐", label: t.inspection.pitMeasurementsFeature, description: t.inspection.pitMeasurementsFeatureDesc },
+                { icon: "📝", label: t.inspection.notesDetails, description: t.inspection.notesDetailsDesc },
               ]}
               tip={t.demoGuide.inspection.tip}
             />

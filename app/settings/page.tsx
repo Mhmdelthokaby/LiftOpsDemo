@@ -100,8 +100,8 @@ export default function SettingsPage() {
             title={t.demoGuide.settings.title}
             description={t.demoGuide.settings.description}
             features={[
-              { icon: "👤", label: "Admin Management", description: "Add and manage system administrators" },
-              { icon: "🏷️", label: "Category Management", description: "Create categories for projects, parts, and more" },
+              { icon: "👤", label: t.settings.adminManagement, description: t.settings.adminManagementDesc },
+              { icon: "🏷️", label: t.settings.categoryManagement, description: t.settings.categoryManagementDesc },
             ]}
             tip={t.demoGuide.settings.tip}
           />

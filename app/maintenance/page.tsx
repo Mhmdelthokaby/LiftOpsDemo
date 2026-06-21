@@ -42,7 +42,7 @@ function MaintenancePageContent() {
   const handleCreate = async (data: CreateMaintenanceChecklistItemDto) => {
     try {
       await createMaintenanceChecklistItem(data)
-      toast.success("Checklist item created successfully")
+      toast.success(t.maintenance.itemCreated)
       setIsAddDialogOpen(false)
       
       // Trigger refresh of the checklist items table
@@ -53,7 +53,7 @@ function MaintenancePageContent() {
       }, 500)
     } catch (error: any) {
       console.error("Failed to create checklist item:", error)
-      toast.error(error.message || "Failed to create checklist item")
+      toast.error(error.message || t.maintenance.itemError)
     }
   }
 
@@ -72,7 +72,7 @@ function MaintenancePageContent() {
               {activeTab === 'calendar' && (
                 <Button>
                   <Plus className="mr-2 h-4 w-4" />
-                  Schedule Visit
+                  {t.maintenance.scheduleVisit}
                 </Button>
               )}
             </div>
@@ -93,7 +93,7 @@ function MaintenancePageContent() {
                   <div className="flex gap-2">
                     <Link href="/maintenance/elevators">
                       <Button variant="outline">
-                        View Elevators
+                        {t.maintenance.viewElevators}
                       </Button>
                     </Link>
                   </div>
@@ -126,19 +126,19 @@ function MaintenancePageContent() {
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h2 className="text-2xl font-bold tracking-tight">Maintenance Checklist Items</h2>
-                        <p className="text-muted-foreground">Manage checklist items that can be used during maintenance visits</p>
+                        <h2 className="text-2xl font-bold tracking-tight">{t.maintenance.checklistItems}</h2>
+                        <p className="text-muted-foreground">{t.maintenance.checklistItemsDesc}</p>
                       </div>
                       <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
                         <DialogTrigger asChild>
                           <Button>
                             <Plus className="mr-2 h-4 w-4" />
-                            Add Checklist Item
+                            {t.maintenance.addChecklistItem}
                           </Button>
                         </DialogTrigger>
                         <DialogContent className="max-w-2xl">
                           <DialogHeader>
-                            <DialogTitle>Add Checklist Item</DialogTitle>
+                            <DialogTitle>{t.maintenance.addChecklistItemDialog}</DialogTitle>
                           </DialogHeader>
                           <ChecklistItemForm
                             item={null}
@@ -171,7 +171,7 @@ export default function MaintenancePage() {
             <AppHeader />
             <main className="flex-1 p-6">
               <div className="flex items-center justify-center p-8">
-                <div className="text-muted-foreground">Loading...</div>
+                <div className="text-muted-foreground">{t.maintenance.loading}</div>
               </div>
             </main>
           </div>
@@ -183,12 +183,12 @@ export default function MaintenancePage() {
         title={t.demoGuide.maintenance.title}
         description={t.demoGuide.maintenance.description}
         features={[
-          { icon: "📁", label: "Projects Tab", description: "All maintenance contracts by client" },
-          { icon: "📅", label: "Calendar Tab", description: "Visual monthly view of all scheduled visits" },
-          { icon: "📋", label: "List Tab", description: "Detailed list of all visits with status" },
-          { icon: "✅", label: "Checklist Tab", description: "Per-visit checklist for technicians" },
-          { icon: "👨‍🔧", label: "Assign Visits", description: "Assign technicians to specific visits" },
-          { icon: "🔧", label: "Elevator Status", description: "Freeze, stop, or activate individual elevators" },
+          { icon: "📁", label: t.maintenance.projects, description: t.maintenance.projectsDesc },
+          { icon: "📅", label: t.maintenance.calendar, description: t.maintenance.calendarDesc },
+          { icon: "📋", label: t.maintenance.list, description: t.maintenance.listDesc },
+          { icon: "✅", label: t.maintenance.checklist, description: t.maintenance.checklistDesc },
+          { icon: "👨‍🔧", label: t.maintenance.assignVisits, description: t.maintenance.assignVisitsDesc },
+          { icon: "🔧", label: t.maintenance.elevatorFleet, description: t.maintenance.elevatorFleetDesc },
         ]}
         tip={t.demoGuide.maintenance.tip}
       />

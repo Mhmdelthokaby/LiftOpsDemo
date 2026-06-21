@@ -77,7 +77,7 @@ export default function ProjectDetailsPage() {
         if (!project) return;
         try {
             await approveInspection(project.id)
-            toast.success("Inspection approved successfully. Project is now active.")
+            toast.success(t.projectDetail.inspectionApproved)
             fetchProject()
         } catch (error: any) {
             toast.error(error.response?.data?.message || "Failed to approve inspection")
@@ -88,7 +88,7 @@ export default function ProjectDetailsPage() {
         if (!project) return;
         try {
             await rejectProject(project.id)
-            toast.success("Project rejected successfully.")
+            toast.success(t.projectDetail.inspectionRejected)
             fetchProject()
         } catch (error: any) {
             toast.error(error.response?.data?.message || "Failed to reject project")
@@ -107,15 +107,15 @@ export default function ProjectDetailsPage() {
         // Prevent starting stages if project is pending or rejected
         if (isStagesDisabled()) {
             const statusMessage = project.status?.toLowerCase() === "pending" 
-                ? "Project inspection must be approved first."
-                : "Cannot start stage. Project has been rejected."
-            toast.error(`Cannot start stage. ${statusMessage}`)
+                ? t.projectDetail.cannotStartStage
+                : t.projectDetail.cannotStartRejected
+            toast.error(statusMessage)
             return;
         }
 
         try {
             await startStage(stageId)
-            toast.success("Stage started")
+            toast.success(t.projectDetail.stageStarted)
             fetchProject()
         } catch (error: any) {
             toast.error(error.response?.data?.message || "Failed to start stage")
@@ -126,8 +126,8 @@ export default function ProjectDetailsPage() {
         // Prevent opening stage dialog if stages are disabled
         if (isStagesDisabled()) {
             const statusMessage = project?.status?.toLowerCase() === "pending" 
-                ? "Project inspection must be approved first."
-                : "Cannot complete stage. Project has been rejected."
+                ? t.projectDetail.approvalRequired
+                : t.projectDetail.cannotCompleteStage
             toast.error(statusMessage)
             return;
         }
@@ -177,7 +177,7 @@ export default function ProjectDetailsPage() {
                 <AppSidebar />
                 <div className="flex flex-1 flex-col">
                     <AppHeader />
-                    <main className="flex-1 p-8 text-center">Loading project details...</main>
+                    <main className="flex-1 p-8 text-center">{t.projectDetail.loading}</main>
                 </div>
             </div>
         </SidebarProvider>
@@ -189,7 +189,7 @@ export default function ProjectDetailsPage() {
                 <AppSidebar />
                 <div className="flex flex-1 flex-col">
                     <AppHeader />
-                    <main className="flex-1 p-8 text-center">Project not found</main>
+                    <main className="flex-1 p-8 text-center">{t.projectDetail.notFound}</main>
                 </div>
             </div>
         </SidebarProvider>
@@ -204,7 +204,7 @@ export default function ProjectDetailsPage() {
                     <main className="flex-1 p-8 pt-6 max-w-6xl mx-auto space-y-4">
                         <div className="flex items-center justify-between">
                             <Button variant="ghost" onClick={() => router.back()} className="text-muted-foreground hover:text-foreground">
-                                <ChevronLeft className="mr-2 h-4 w-4" /> Back to Projects
+                                <ChevronLeft className="mr-2 h-4 w-4" /> {t.projectDetail.backToProjects}
                             </Button>
                             <div className="flex space-x-2 items-center">
                                 {project.status?.toLowerCase() === "pending" && (
@@ -213,27 +213,27 @@ export default function ProjectDetailsPage() {
                                             onClick={handleApproveInspection}
                                             className="bg-green-600 hover:bg-green-700 text-white"
                                         >
-                                            <CheckCircle2 className="mr-2 h-4 w-4" /> Approve
+                                            <CheckCircle2 className="mr-2 h-4 w-4" /> {t.projectDetail.approve}
                                         </Button>
                                         <Button 
                                             onClick={handleRejectProject}
                                             className="bg-red-600 hover:bg-red-700 text-white"
                                         >
-                                            <XCircle className="mr-2 h-4 w-4" /> Reject
+                                            <XCircle className="mr-2 h-4 w-4" /> {t.projectDetail.reject}
                                         </Button>
                                     </>
                                 )}
                                 <Button variant="outline" onClick={() => setEditDialogOpen(true)}>
-                                    <Edit className="mr-2 h-4 w-4" /> Edit Project
+                                    <Edit className="mr-2 h-4 w-4" /> {t.projectDetail.editProject}
                                 </Button>
                                 {project.status?.toLowerCase() === "completed" ? (
-                                    <Badge className="bg-green-600 text-white px-3 py-1">Overall Status: Completed</Badge>
+                                    <Badge className="bg-green-600 text-white px-3 py-1">{t.projectDetail.overallStatus.replace('{status}', t.projectDetail.completed)}</Badge>
                                 ) : project.status?.toLowerCase() === "pending" ? (
-                                    <Badge className="bg-yellow-500/10 text-yellow-500 border-yellow-500/20 px-3 py-1">Overall Status: Pending Inspection</Badge>
+                                    <Badge className="bg-yellow-500/10 text-yellow-500 border-yellow-500/20 px-3 py-1">{t.projectDetail.overallStatus.replace('{status}', t.projectDetail.pendingInspection)}</Badge>
                                 ) : project.status?.toLowerCase() === "rejected" ? (
-                                    <Badge className="bg-red-500/10 text-red-500 border-red-500/20 px-3 py-1">Overall Status: Rejected</Badge>
+                                    <Badge className="bg-red-500/10 text-red-500 border-red-500/20 px-3 py-1">{t.projectDetail.overallStatus.replace('{status}', t.projectDetail.rejected)}</Badge>
                                 ) : (
-                                    <Badge className="bg-blue-500/10 text-blue-500 border-blue-500/20 px-3 py-1">Overall Status: {project.status}</Badge>
+                                    <Badge className="bg-blue-500/10 text-blue-500 border-blue-500/20 px-3 py-1">{t.projectDetail.overallStatus.replace('{status}', project.status)}</Badge>
                                 )}
                             </div>
                         </div>
@@ -244,9 +244,9 @@ export default function ProjectDetailsPage() {
                                     <div className="flex items-center space-x-3">
                                         <Clock className="h-5 w-5 text-yellow-500" />
                                         <div className="flex-1">
-                                            <div className="font-semibold text-yellow-700 dark:text-yellow-400">Project Pending Inspection Approval</div>
+                                            <div className="font-semibold text-yellow-700 dark:text-yellow-400">{t.projectDetail.pendingInspectionTitle}</div>
                                             <div className="text-sm text-yellow-600 dark:text-yellow-300">
-                                                This project is waiting for inspection approval. Stages cannot be started until the inspection is approved.
+                                                {t.projectDetail.pendingInspectionDesc}
                                             </div>
                                         </div>
                                         <div className="flex space-x-2">
@@ -254,13 +254,13 @@ export default function ProjectDetailsPage() {
                                                 onClick={handleApproveInspection}
                                                 className="bg-green-600 hover:bg-green-700 text-white"
                                             >
-                                                <CheckCircle2 className="mr-2 h-4 w-4" /> Approve
+                                                <CheckCircle2 className="mr-2 h-4 w-4" /> {t.projectDetail.approve}
                                             </Button>
                                             <Button 
                                                 onClick={handleRejectProject}
                                                 className="bg-red-600 hover:bg-red-700 text-white"
                                             >
-                                                <XCircle className="mr-2 h-4 w-4" /> Reject
+                                                <XCircle className="mr-2 h-4 w-4" /> {t.projectDetail.reject}
                                             </Button>
                                         </div>
                                     </div>
@@ -274,9 +274,9 @@ export default function ProjectDetailsPage() {
                                     <div className="flex items-center space-x-3">
                                         <XCircle className="h-5 w-5 text-red-500" />
                                         <div className="flex-1">
-                                            <div className="font-semibold text-red-700 dark:text-red-400">Project Rejected</div>
+                                            <div className="font-semibold text-red-700 dark:text-red-400">{t.projectDetail.rejectedTitle}</div>
                                             <div className="text-sm text-red-600 dark:text-red-300">
-                                                This project has been rejected. Stages cannot be started or completed.
+                                                {t.projectDetail.rejectedDesc}
                                             </div>
                                         </div>
                                     </div>
@@ -290,14 +290,14 @@ export default function ProjectDetailsPage() {
                                 <Card className="border-border/40 bg-card/50 backdrop-blur-sm">
                                     <CardHeader>
                                         <CardTitle className="text-xl text-primary">{project.projectNumber}</CardTitle>
-                                        <CardDescription>Project identification</CardDescription>
+                                        <CardDescription>{t.projectDetail.projectIdentification}</CardDescription>
                                     </CardHeader>
                                     <CardContent className="space-y-4">
                                         {(project.projectAddress || project.city) && (
                                             <div className="flex items-start space-x-3">
                                                 <MapPin className="h-4 w-4 text-muted-foreground mt-1" />
                                                 <div className="text-sm">
-                                                    <div className="text-muted-foreground">Project Address</div>
+                                                    <div className="text-muted-foreground">{t.projectDetail.projectAddress}</div>
                                                     <div className="font-medium">
                                                         {project.projectAddress || project.customerAddress}
                                                         {project.city && `, ${project.city}`}
@@ -338,7 +338,7 @@ export default function ProjectDetailsPage() {
                                                 <div className="space-y-2">
                                                     <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                                                         <MapPin className="h-4 w-4" />
-                                                        <span>Google Maps Location</span>
+                                                        <span>{t.projectDetail.googleMapsLocation}</span>
                                                     </div>
                                                     <div className="w-full h-48 rounded-lg overflow-hidden border border-border/40">
                                                         {project.googleMapsLink.includes('/embed') ? (
@@ -364,7 +364,7 @@ export default function ProjectDetailsPage() {
                                                             >
                                                                 <div className="text-center">
                                                                     <MapPin className="h-8 w-8 mx-auto mb-2" />
-                                                                    <span className="text-sm font-medium">View on Google Maps</span>
+                                                                    <span className="text-sm font-medium">{t.projectDetail.viewOnGoogleMaps}</span>
                                                                 </div>
                                                             </a>
                                                         )}
@@ -374,20 +374,20 @@ export default function ProjectDetailsPage() {
                                         })()}
                                         <div className="flex items-center space-x-3">
                                             <Clock className="h-4 w-4 text-muted-foreground" />
-                                            <span className="text-sm">Contract: {formatDate(project.contractDate)}</span>
+                                            <span className="text-sm">{t.projectDetail.contract} {formatDate(project.contractDate)}</span>
                                         </div>
                                     </CardContent>
                                 </Card>
 
                                 <Card className="border-border/40 bg-card/50 backdrop-blur-sm">
                                     <CardHeader>
-                                        <CardTitle className="text-xl">Customer Contact</CardTitle>
+                                        <CardTitle className="text-xl">{t.projectDetail.customerContact}</CardTitle>
                                     </CardHeader>
                                     <CardContent className="space-y-4">
                                         <div className="font-semibold">{project.customerName}</div>
                                         <div className="flex items-center space-x-3 text-sm">
                                             <Mail className="h-4 w-4 text-muted-foreground" />
-                                            <span>Contact via Project Logs</span>
+                                            <span>{t.projectDetail.contactViaLogs}</span>
                                         </div>
                                     </CardContent>
                                 </Card>
@@ -409,11 +409,11 @@ export default function ProjectDetailsPage() {
                                                         key={elevator.id} 
                                                         value={`elevator-${elevator.id}`} 
                                                         className="data-[state=active]:bg-card data-[state=active]:text-primary py-2"
-                                                        title={allCompleted ? "All stages completed - Cannot be updated" : ""}
+                                                        title={allCompleted ? t.projectDetail.allStagesCompleted : ""}
                                                     >
                                                         Elevator {i + 1} ({elevator.elevatorType})
                                                         {allCompleted && (
-                                                            <span className="ml-2 text-xs" title="Cannot update - All stages completed">
+                                                            <span className="ml-2 text-xs" title={t.projectDetail.allStagesCompleted}>
                                                                 🔒
                                                             </span>
                                                         )}
@@ -435,13 +435,13 @@ export default function ProjectDetailsPage() {
                                                                 </div>
                                                                 <div className="flex-1">
                                                                     <div className="font-semibold text-green-700 dark:text-green-400 mb-1">
-                                                                        ✅ Elevator Installation Completed
+                                                                        {t.projectDetail.elevatorInstallationCompleted}
                                                                     </div>
                                                                     <div className="text-sm text-green-600 dark:text-green-300">
-                                                                        All stages are completed. This elevator installation is finished and details cannot be modified.
+                                                                        {t.projectDetail.elevatorCompletedDesc}
                                                                     </div>
                                                                     <div className="text-xs text-green-500/80 dark:text-green-400/80 mt-2 font-medium">
-                                                                        Locked: Price, dimensions, type, and other specifications are now permanent.
+                                                                        {t.projectDetail.lockedPermanent}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -449,7 +449,7 @@ export default function ProjectDetailsPage() {
                                                     </Card>
                                                 )}
                                                 <div className="flex items-center justify-between mb-2 px-2">
-                                                    <div className="text-sm font-medium">Installation Progress</div>
+                                                    <div className="text-sm font-medium">{t.projectDetail.installationProgress}</div>
                                                     <div className="text-sm font-bold text-primary">{Math.round(getProgress(elevator.stages))}%</div>
                                                 </div>
                                                 <Progress value={getProgress(elevator.stages)} className="h-2 mb-6" />
@@ -466,7 +466,7 @@ export default function ProjectDetailsPage() {
                                                                     {stage.status.toLowerCase() === 'success' ? <CheckCircle2 className="h-5 w-5" /> : stage.stageNumber}
                                                                 </div>
                                                                 <div>
-                                                                    <div className="font-semibold">Stage {stage.stageNumber}</div>
+                                                                    <div className="font-semibold">{t.projectDetail.stage.replace('{number}', String(stage.stageNumber))}</div>
                                                                     <div className={`text-xs capitalize ${getStatusColor(stage.status)}`}>{stage.status}</div>
                                                                 </div>
                                                             </div>
@@ -477,9 +477,9 @@ export default function ProjectDetailsPage() {
                                                                         size="sm" 
                                                                         onClick={() => handleStartStage(stage.id)}
                                                                         disabled={isStagesDisabled()}
-                                                                        title={isStagesDisabled() ? (project.status?.toLowerCase() === "pending" ? "Project inspection must be approved first" : "Project has been rejected") : ""}
+                                                                        title={isStagesDisabled() ? (project.status?.toLowerCase() === "pending" ? t.projectDetail.approvalRequired : t.projectDetail.projectRejectedAlert) : ""}
                                                                     >
-                                                                        Start Stage
+                                                                        {t.projectDetail.startStage}
                                                                     </Button>
                                                                 )}
                                                                 {stage.status.toLowerCase() === 'inprogress' && (
@@ -488,20 +488,20 @@ export default function ProjectDetailsPage() {
                                                                         onClick={() => handleOpenStageDialog(stage.id, stage.stageNumber, elevator.id)} 
                                                                         className="bg-green-600 hover:bg-green-700"
                                                                         disabled={isStagesDisabled()}
-                                                                        title={isStagesDisabled() ? (project.status?.toLowerCase() === "pending" ? "Project inspection must be approved first" : "Project has been rejected") : ""}
+                                                                        title={isStagesDisabled() ? (project.status?.toLowerCase() === "pending" ? t.projectDetail.approvalRequired : t.projectDetail.projectRejectedAlert) : ""}
                                                                     >
-                                                                        <Hammer className="mr-2 h-4 w-4" /> Complete Stage
+                                                                        <Hammer className="mr-2 h-4 w-4" /> {t.projectDetail.completeStage}
                                                                     </Button>
                                                                 )}
                                                                 {stage.status.toLowerCase() === 'success' && (
                                                                     <div className="flex items-center space-x-2">
                                                                         {stage.stagePrice && (
                                                                             <Badge variant="outline" className="text-xs">
-                                                                        {stage.isPriceCollected ? "Paid" : "Unpaid"}: {stage.stagePrice.toFixed(2)}
+                                                                        {stage.isPriceCollected ? t.projectDetail.paid : t.projectDetail.unpaid}: {stage.stagePrice.toFixed(2)}
                                                                             </Badge>
                                                                         )}
                                                                         <Button variant="ghost" size="sm" className="text-primary hover:bg-primary/10">
-                                                                            <FileText className="mr-2 h-4 w-4" /> Report
+                                                                            <FileText className="mr-2 h-4 w-4" /> {t.projectDetail.report}
                                                                         </Button>
                                                                     </div>
                                                                 )}
@@ -517,7 +517,7 @@ export default function ProjectDetailsPage() {
                                 ) : (
                                     <Card className="border-border/40 bg-card/50 backdrop-blur-sm">
                                         <CardContent className="p-8 text-center text-muted-foreground">
-                                            <p>No elevators found for this project.</p>
+                                            <p>{t.projectDetail.noElevators}</p>
                                         </CardContent>
                                     </Card>
                                 )}
@@ -565,12 +565,11 @@ export default function ProjectDetailsPage() {
             <DemoGuidePanel
               title={t.demoGuide.projects.title}
               description={t.demoGuide.projects.description}
-              features={[
-                { icon: "📁", label: "Project List", description: "All active and completed installation projects" },
-                { icon: "🔄", label: "Progress Stages", description: "Foundation → Mechanical → Electrical → Testing" },
-                { icon: "🛗", label: "Elevator Management", description: "Manage individual elevators within each project" },
-                { icon: "➕", label: "New Project Wizard", description: "Multi-step form to create a new project" },
-              ]}
+              features={(t.demoGuide.projects.features || []).map((f, i) => ({
+                icon: ["📁", "🔄", "🛗", "➕"][i] || "📁",
+                label: f.label,
+                description: f.desc,
+              }))}
               tip={t.demoGuide.projects.tip}
             />
         </SidebarProvider>

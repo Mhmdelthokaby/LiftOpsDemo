@@ -173,13 +173,13 @@ export default function NewProjectPage() {
             }
         }))
         setUseExistingCustomer(true)
-        toast.success("Using existing customer data")
+        toast.success(t.projectNew.usingExisting)
     }
 
     const useNewCustomer = () => {
         setUseExistingCustomer(false)
         setExistingCustomer(null)
-        toast.info("Creating new customer")
+        toast.info(t.projectNew.creatingCustomer)
     }
 
     const updateCustomer = (field: string, value: string) => {
@@ -272,21 +272,21 @@ export default function NewProjectPage() {
     const handleSubmit = async () => {
         // Validate phone is required
         if (!formData.customer.phone || formData.customer.phone.trim() === "") {
-            toast.error("Phone number is required and must be unique")
+            toast.error(t.projectNew.phoneRequiredValidation)
             setLoading(false)
             return
         }
 
         // Validate project number is required
         if (!formData.customer.projectNumber || formData.customer.projectNumber.trim() === "") {
-            toast.error("Project number is required")
+            toast.error(t.projectNew.projectNumberRequired)
             setLoading(false)
             return
         }
 
         // Validate project number is unique (final check before submission)
         if (projectNumberExists) {
-            toast.error("This project number already exists. Please use a different one.")
+            toast.error(t.projectNew.projectNumberExists)
             setLoading(false)
             return
         }
@@ -347,14 +347,14 @@ export default function NewProjectPage() {
             }
 
             const result = await createProject(projectData)
-            toast.success("Project created successfully")
+            toast.success(t.projectNew.success)
             // Small delay to ensure backend has processed the request
             setTimeout(() => {
                 router.push("/projects")
             }, 500)
         } catch (error: any) {
             console.error("Error creating project:", error)
-            const errorMessage = error?.message || error?.data?.message || error?.errors?.[0] || "Failed to create project"
+            const errorMessage = error?.message || error?.data?.message || error?.errors?.[0] || t.projectNew.error
             toast.error(errorMessage)
         } finally {
             setLoading(false)
@@ -370,7 +370,7 @@ export default function NewProjectPage() {
                     <main className="flex-1 p-8 pt-6 max-w-4xl mx-auto space-y-4">
                         <div className="flex items-center justify-between">
                             <Button variant="ghost" onClick={() => router.back()} className="text-muted-foreground hover:text-foreground">
-                                <ChevronLeft className="mr-2 h-4 w-4" /> Back
+                                <ChevronLeft className="mr-2 h-4 w-4" /> {t.common.back}
                             </Button>
                             <h2 className="text-3xl font-bold tracking-tight">{t.projects.title}</h2>
                             <div className="w-10"></div>
@@ -392,25 +392,25 @@ export default function NewProjectPage() {
                         {step === 1 && (
                             <Card className="border-border/40 bg-card/50 backdrop-blur-sm">
                                 <CardHeader>
-                                    <CardTitle>Customer & Project Info</CardTitle>
-                                    <CardDescription>Enter the customer details and project identification. Search for existing customer first.</CardDescription>
+                                    <CardTitle>{t.projectNew.step1Title}</CardTitle>
+                                    <CardDescription>{t.projectNew.step1Desc}</CardDescription>
                                 </CardHeader>
                                 <CardContent className="space-y-4">
                                     {/* Customer Search Section */}
                                     <div className="bg-muted/50 p-4 rounded-lg space-y-3">
                                         <div className="flex items-center justify-between">
                                             <div>
-                                                <Label className="text-sm font-semibold">Customer Search (Auto)</Label>
+                                                <Label className="text-sm font-semibold">{t.projectNew.customerSearch}</Label>
                                                 <p className="text-xs text-muted-foreground mt-1">
                                                     {searchingCustomer
-                                                        ? "Searching for existing customer..."
-                                                        : "Type phone number to automatically search for existing customer"}
+                                                        ? t.projectNew.searchPlaceholder
+                                                        : t.projectNew.step1Desc}
                                                 </p>
                                             </div>
                                             {searchingCustomer && (
                                                 <div className="flex items-center text-sm text-muted-foreground">
                                                     <Search className="mr-2 h-4 w-4 animate-pulse" />
-                                                    Searching...
+                                                    {t.projectNew.searching}
                                                 </div>
                                             )}
                                         </div>
@@ -420,15 +420,15 @@ export default function NewProjectPage() {
                                                 <div className="flex items-center justify-between">
                                                     <div className="flex items-center gap-2">
                                                         <CheckCircle2 className="h-4 w-4 text-primary" />
-                                                        <span className="text-sm font-medium">Customer Found</span>
+                                                        <span className="text-sm font-medium">{t.projectNew.customerFound}</span>
                                                     </div>
-                                                    <Badge variant="secondary">Existing</Badge>
+                                                    <Badge variant="secondary">{t.projectNew.existing}</Badge>
                                                 </div>
                                                 <div className="text-sm space-y-1 text-muted-foreground">
-                                                    <p><strong>Name:</strong> {existingCustomer.name}</p>
-                                                    <p><strong>Email:</strong> {existingCustomer.email}</p>
-                                                    <p><strong>Phone:</strong> {existingCustomer.phone}</p>
-                                                    {existingCustomer.address && <p><strong>Address:</strong> {existingCustomer.address}{existingCustomer.city && `, ${existingCustomer.city}`}</p>}
+                                                    <p><strong>{t.projectNew.name}</strong> {existingCustomer.name}</p>
+                                                    <p><strong>{t.projectNew.email}</strong> {existingCustomer.email}</p>
+                                                    <p><strong>{t.projectNew.phone}</strong> {existingCustomer.phone}</p>
+                                                    {existingCustomer.address && <p><strong>{t.projectNew.address}</strong> {existingCustomer.address}{existingCustomer.city && `, ${existingCustomer.city}`}</p>}
                                                 </div>
                                                 <div className="flex gap-2 pt-2">
                                                     {!useExistingCustomer ? (
@@ -438,7 +438,7 @@ export default function NewProjectPage() {
                                                             onClick={useExistingCustomerData}
                                                             className="flex-1"
                                                         >
-                                                            Use This Customer
+                                                            {t.projectNew.useThisCustomer}
                                                         </Button>
                                                     ) : (
                                                         <Button
@@ -449,7 +449,7 @@ export default function NewProjectPage() {
                                                             className="flex-1"
                                                         >
                                                             <X className="mr-2 h-4 w-4" />
-                                                            Create New Instead
+                                                            {t.projectNew.createNewInstead}
                                                         </Button>
                                                     )}
                                                 </div>
@@ -459,7 +459,7 @@ export default function NewProjectPage() {
                                         {existingCustomer === null && formData.customer.phone && formData.customer.phone.trim().length >= 5 && !searchingCustomer && (
                                             <div className="bg-yellow-500/10 border border-yellow-500/20 p-3 rounded-lg">
                                                 <p className="text-sm text-yellow-600 dark:text-yellow-400">
-                                                    Customer not found. A new customer will be created when you submit.
+                                                    {t.projectNew.notFound}
                                                 </p>
                                             </div>
                                         )}
@@ -469,65 +469,65 @@ export default function NewProjectPage() {
 
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="space-y-2">
-                                            <Label htmlFor="cust-name">Customer Name {useExistingCustomer && <span className="text-xs text-muted-foreground">(from existing)</span>}</Label>
+                                            <Label htmlFor="cust-name">{t.projectNew.customerName} {useExistingCustomer && <span className="text-xs text-muted-foreground">{t.projectNew.fromExisting}</span>}</Label>
                                             <Input
                                                 id="cust-name"
                                                 value={formData.customer.name}
                                                 onChange={e => updateCustomer("name", e.target.value)}
-                                                placeholder="Full Name or Company"
+                                                placeholder={t.projectNew.namePlaceholder}
                                                 className="bg-background/50"
                                                 disabled={useExistingCustomer}
                                             />
                                         </div>
                                         <div className="space-y-2">
                                             <Label htmlFor="cust-email">
-                                                Email Address (Optional) {useExistingCustomer && <span className="text-xs text-muted-foreground">(from existing)</span>}
-                                                <span className="text-xs text-muted-foreground block mt-1">If provided, must be unique</span>
+                                                {t.projectNew.emailOptional} {useExistingCustomer && <span className="text-xs text-muted-foreground">{t.projectNew.fromExisting}</span>}
+                                                <span className="text-xs text-muted-foreground block mt-1">{t.projectNew.emailUnique}</span>
                                             </Label>
                                             <Input
                                                 id="cust-email"
                                                 type="email"
                                                 value={formData.customer.email}
                                                 onChange={e => updateCustomer("email", e.target.value)}
-                                                placeholder="email@example.com"
+                                                placeholder={t.projectNew.emailPlaceholder}
                                                 className="bg-background/50"
                                                 disabled={useExistingCustomer}
                                             />
                                         </div>
                                         <div className="space-y-2">
                                             <Label htmlFor="cust-phone">
-                                                Phone Number * {useExistingCustomer && <span className="text-xs text-muted-foreground">(from existing)</span>}
-                                                <span className="text-xs text-muted-foreground block mt-1">Required - Must be unique</span>
+                                                {t.projectNew.phoneRequired} {useExistingCustomer && <span className="text-xs text-muted-foreground">{t.projectNew.fromExisting}</span>}
+                                                <span className="text-xs text-muted-foreground block mt-1">{t.projectNew.phoneUnique}</span>
                                             </Label>
                                             <Input
                                                 id="cust-phone"
                                                 value={formData.customer.phone}
                                                 onChange={e => updateCustomer("phone", e.target.value)}
-                                                placeholder="+1 (555) 000-0000"
+                                                placeholder={t.projectNew.phonePlaceholder}
                                                 className="bg-background/50"
                                                 disabled={useExistingCustomer}
                                                 required
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label htmlFor="proj-num">Project Number *</Label>
+                                            <Label htmlFor="proj-num">{t.projectNew.projectNumber}</Label>
                                             <div className="space-y-1">
                                                 <Input
                                                     id="proj-num"
                                                     value={formData.customer.projectNumber}
                                                     onChange={e => updateCustomer("projectNumber", e.target.value)}
-                                                    placeholder="PRJ-2024-XXX"
+                                                    placeholder={t.projectNew.projectNumberPlaceholder}
                                                     className={`bg-background/50 ${projectNumberExists ? "border-red-500" : ""}`}
                                                     required
                                                 />
                                                 {checkingProjectNumber && formData.customer.projectNumber && (
-                                                    <p className="text-xs text-muted-foreground">Checking availability...</p>
+                                                    <p className="text-xs text-muted-foreground">{t.projectNew.checking}</p>
                                                 )}
                                                 {!checkingProjectNumber && projectNumberExists && formData.customer.projectNumber && (
-                                                    <p className="text-xs text-red-500">This project number already exists. Please use a different one.</p>
+                                                    <p className="text-xs text-red-500">{t.projectNew.alreadyExists}</p>
                                                 )}
                                                 {!checkingProjectNumber && !projectNumberExists && formData.customer.projectNumber && (
-                                                    <p className="text-xs text-green-500">✓ Project number is available</p>
+                                                    <p className="text-xs text-green-500">{t.projectNew.available}</p>
                                                 )}
                                             </div>
                                         </div>
@@ -535,20 +535,20 @@ export default function NewProjectPage() {
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="space-y-2">
                                             <Label htmlFor="cust-addr">
-                                                Client Address {useExistingCustomer && <span className="text-xs text-muted-foreground">(from existing)</span>}
+                                                {t.projectNew.clientAddress} {useExistingCustomer && <span className="text-xs text-muted-foreground">{t.projectNew.fromExisting}</span>}
                                             </Label>
                                             <Input
                                                 id="cust-addr"
                                                 value={formData.customer.address}
                                                 onChange={e => updateCustomer("address", e.target.value)}
-                                                placeholder="Enter client address"
+                                                placeholder={t.projectNew.addressPlaceholder}
                                                 className="bg-background/50"
                                                 disabled={useExistingCustomer}
                                             />
                                         </div>
                                         <div className="space-y-2">
                                             <Label htmlFor="cust-city">
-                                                City <span className="text-destructive">*</span> {useExistingCustomer && <span className="text-xs text-muted-foreground">(from existing)</span>}
+                                                {t.projectNew.city} {useExistingCustomer && <span className="text-xs text-muted-foreground">{t.projectNew.fromExisting}</span>}
                                             </Label>
                                             <Input
                                                 id="cust-city"
@@ -561,10 +561,10 @@ export default function NewProjectPage() {
                                         </div>
                                     </div>
                                     <p className="text-xs text-muted-foreground">
-                                        Client's address and city. You can specify a different project address in step 3 if needed.
+                                        {t.projectNew.addressHint}
                                     </p>
                                     <div className="space-y-2">
-                                        <Label htmlFor="maps">Google Maps Link</Label>
+                                        <Label htmlFor="maps">{t.projectNew.googleMapsLink}</Label>
                                         <Input
                                             id="maps"
                                             type="url"
@@ -578,11 +578,11 @@ export default function NewProjectPage() {
                                                 }
                                                 updateCustomer("googleMapsLink", value)
                                             }}
-                                            placeholder="https://maps.google.com/... or https://maps.app.goo.gl/..."
+                                            placeholder={t.projectNew.googleMapsPlaceholder}
                                             className="bg-background/50"
                                         />
                                         <p className="text-xs text-muted-foreground">
-                                            Enter a valid Google Maps URL (e.g., https://maps.google.com/... or https://maps.app.goo.gl/...)
+                                            {t.projectNew.googleMapsHint}
                                         </p>
                                     </div>
                                     <div className="flex justify-end pt-4">
@@ -590,7 +590,7 @@ export default function NewProjectPage() {
                                             onClick={() => setStep(2)}
                                             disabled={!formData.customer.projectNumber}
                                         >
-                                            Next Step <ChevronRight className="ml-2 h-4 w-4" />
+                                            {t.projectNew.nextStep} <ChevronRight className="ml-2 h-4 w-4" />
                                         </Button>
                                     </div>
                                 </CardContent>
@@ -600,8 +600,8 @@ export default function NewProjectPage() {
                         {step === 2 && (
                             <Card className="border-border/40 bg-card/50 backdrop-blur-sm">
                                 <CardHeader>
-                                    <CardTitle>Elevator Details</CardTitle>
-                                    <CardDescription>Specify the quantity and types of elevators for this project.</CardDescription>
+                                    <CardTitle>{t.projectNew.step2Title}</CardTitle>
+                                    <CardDescription>{t.projectNew.step2Desc}</CardDescription>
                                 </CardHeader>
                                 <CardContent className="space-y-6">
                                     {formData.elevators.map((elevator, index) => (
@@ -614,16 +614,16 @@ export default function NewProjectPage() {
                                             <div className="space-y-4">
                                                 <div className="grid grid-cols-2 gap-4">
                                                     <div className="space-y-2">
-                                                        <Label>Elevator Type *</Label>
+                                                        <Label>{t.projectNew.elevatorType}</Label>
                                                         <select
                                                             className="flex h-10 w-full rounded-md border border-input bg-background/50 px-3 py-2 text-sm ring-offset-background"
                                                             value={elevator.elevatorType}
                                                             onChange={e => updateElevator(index, "elevatorType", e.target.value)}
                                                             required
                                                         >
-                                                            <option value="WithMachineRoom">With Machine Room (مع غرفة)</option>
-                                                            <option value="MachineRoomLess">Machine Room Less - MRL (بدون غرفة)</option>
-                                                            <option value="Hydraulic">Hydraulic (هيدروليك)</option>
+                                                            <option value="WithMachineRoom">{t.projectNew.withMachineRoom}</option>
+                                                            <option value="MachineRoomLess">{t.projectNew.machineRoomLess}</option>
+                                                            <option value="Hydraulic">{t.projectNew.hydraulic}</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -632,13 +632,13 @@ export default function NewProjectPage() {
 
                                                 <div className="grid grid-cols-2 gap-4">
                                                     <div className="space-y-2">
-                                                        <Label>Floors Count *</Label>
+                                                        <Label>{t.projectNew.floorsCount}</Label>
                                                         <Input
                                                             type="number"
                                                             min="1"
                                                             max="99"
                                                             value={elevator.floorsCount}
-                                                            placeholder="2"
+                                                            placeholder={t.projectNew.floorsPlaceholder}
                                                             onChange={e => {
                                                                 const inputVal = e.target.value;
                                                                 if (inputVal === "") {
@@ -655,16 +655,16 @@ export default function NewProjectPage() {
                                                             className="bg-background/50"
                                                             required
                                                         />
-                                                        <p className="text-xs text-muted-foreground">Enter a number between 1 and 99</p>
+                                                        <p className="text-xs text-muted-foreground">{t.projectNew.floorsHint}</p>
                                                     </div>
                                                     <div className="space-y-2">
-                                                        <Label>Stops Count *</Label>
+                                                        <Label>{t.projectNew.stopsCount}</Label>
                                                         <Input
                                                             type="number"
                                                             min="1"
                                                             max="99"
                                                             value={elevator.stopsCount}
-                                                            placeholder="2"
+                                                            placeholder={t.projectNew.stopsPlaceholder}
                                                             onChange={e => {
                                                                 const inputVal = e.target.value;
                                                                 if (inputVal === "") {
@@ -681,22 +681,22 @@ export default function NewProjectPage() {
                                                             className="bg-background/50"
                                                             required
                                                         />
-                                                        <p className="text-xs text-muted-foreground">Enter a number between 1 and 99</p>
+                                                        <p className="text-xs text-muted-foreground">{t.projectNew.stopsHint}</p>
                                                     </div>
                                                 </div>
 
                                                 <Separator />
 
                                                 <div className="space-y-2">
-                                                    <Label>Pit Type *</Label>
+                                                    <Label>{t.projectNew.pitType}</Label>
                                                     <select
                                                         className="flex h-10 w-full rounded-md border border-input bg-background/50 px-3 py-2 text-sm ring-offset-background"
                                                         value={elevator.pitType || "Concrete"}
                                                         onChange={e => updateElevator(index, "pitType", e.target.value)}
                                                         required
                                                     >
-                                                        <option value="Concrete">Concrete (خرسانة)</option>
-                                                        <option value="Brick">Brick (طوب)</option>
+                                                        <option value="Concrete">{t.projectNew.concrete}</option>
+                                                        <option value="Brick">{t.projectNew.brick}</option>
                                                     </select>
                                                 </div>
 
@@ -704,7 +704,7 @@ export default function NewProjectPage() {
 
                                                 <div className="grid grid-cols-3 gap-4">
                                                     <div className="space-y-2">
-                                                        <Label>Shaft Width</Label>
+                                                        <Label>{t.projectNew.shaftWidth}</Label>
                                                         <Input
                                                             type="number"
                                                             min="0"
@@ -716,7 +716,7 @@ export default function NewProjectPage() {
                                                         />
                                                     </div>
                                                     <div className="space-y-2">
-                                                        <Label>Shaft Depth</Label>
+                                                        <Label>{t.projectNew.shaftDepth}</Label>
                                                         <Input
                                                             type="number"
                                                             min="0"
@@ -728,7 +728,7 @@ export default function NewProjectPage() {
                                                         />
                                                     </div>
                                                     <div className="space-y-2">
-                                                        <Label>Over Head</Label>
+                                                        <Label>{t.projectNew.overHead}</Label>
                                                         <Input
                                                             type="number"
                                                             min="0"
@@ -740,7 +740,7 @@ export default function NewProjectPage() {
                                                         />
                                                     </div>
                                                     <div className="space-y-2">
-                                                        <Label>Pit Depth</Label>
+                                                        <Label>{t.projectNew.pitDepth}</Label>
                                                         <Input
                                                             type="number"
                                                             min="0"
@@ -752,7 +752,7 @@ export default function NewProjectPage() {
                                                         />
                                                     </div>
                                                     <div className="space-y-2">
-                                                        <Label>Total travel</Label>
+                                                        <Label>{t.projectNew.totalTravel}</Label>
                                                         <Input
                                                             type="number"
                                                             min="0"
@@ -766,11 +766,11 @@ export default function NewProjectPage() {
                                                 </div>
 
                                                 <div className="space-y-2">
-                                                    <Label>Notes (Optional)</Label>
+                                                    <Label>{t.projectNew.notesOptional}</Label>
                                                     <Textarea
                                                         value={elevator.notes || ""}
                                                         onChange={e => updateElevator(index, "notes", e.target.value)}
-                                                        placeholder="Additional notes about this elevator..."
+                                                        placeholder={t.projectNew.notesPlaceholder}
                                                         className="bg-background/50 min-h-[80px]"
                                                     />
                                                 </div>
@@ -778,11 +778,11 @@ export default function NewProjectPage() {
                                         </div>
                                     ))}
                                     <Button variant="outline" className="w-full border-dashed border-primary/50 text-primary hover:bg-primary/5" onClick={addElevator}>
-                                        <Plus className="mr-2 h-4 w-4" /> Add Another Elevator Type
+                                        <Plus className="mr-2 h-4 w-4" /> {t.projectNew.addAnotherElevator}
                                     </Button>
                                     <div className="flex justify-between pt-4">
-                                        <Button variant="outline" onClick={() => setStep(1)}><ChevronLeft className="mr-2 h-4 w-4" /> Previous</Button>
-                                        <Button onClick={() => setStep(3)}>Next Step <ChevronRight className="ml-2 h-4 w-4" /></Button>
+                                        <Button variant="outline" onClick={() => setStep(1)}><ChevronLeft className="mr-2 h-4 w-4" /> {t.projectNew.previous}</Button>
+                                        <Button onClick={() => setStep(3)}>{t.projectNew.nextStep} <ChevronRight className="ml-2 h-4 w-4" /></Button>
                                     </div>
                                 </CardContent>
                             </Card>
@@ -791,19 +791,19 @@ export default function NewProjectPage() {
                         {step === 3 && (
                             <Card className="border-border/40 bg-card/50 backdrop-blur-sm">
                                 <CardHeader>
-                                    <CardTitle>Contract & Finalize</CardTitle>
-                                    <CardDescription>Review and enter contract details.</CardDescription>
+                                    <CardTitle>{t.projectNew.step3Title}</CardTitle>
+                                    <CardDescription>{t.projectNew.step3Desc}</CardDescription>
                                 </CardHeader>
                                 <CardContent className="space-y-4">
                                     {/* Elevator Prices */}
                                     <div className="space-y-4">
                                         <div>
-                                            <Label className="text-base font-semibold">Elevator Prices</Label>
-                                            <p className="text-sm text-muted-foreground">Enter the price for each elevator</p>
+                                            <Label className="text-base font-semibold">{t.projectNew.elevatorPrices}</Label>
+                                            <p className="text-sm text-muted-foreground">{t.projectNew.priceHint}</p>
                                         </div>
                                         {formData.elevators.map((elevator, index) => (
                                             <div key={index} className="space-y-2 p-4 border border-border/40 rounded-lg">
-                                                <Label>Elevator {index + 1} Price ($) - {elevator.elevatorType}</Label>
+                                                <Label>{t.projectNew.elevator.replace('{index}', String(index + 1))} {t.projectNew.priceDollar} {elevator.elevatorType}</Label>
                                                 <Input
                                                     type="number"
                                                     min="0"
@@ -819,7 +819,7 @@ export default function NewProjectPage() {
                                             </div>
                                         ))}
                                         <div className="space-y-2 p-4 bg-muted/50 rounded-lg">
-                                            <Label className="text-base font-semibold">Total Contract Price ($)</Label>
+                                            <Label className="text-base font-semibold">{t.projectNew.totalContractPrice}</Label>
                                             <div className="text-2xl font-bold text-primary">
                                                 {formData.elevators.reduce((sum, elevator) => sum + (elevator.price || 0), 0).toLocaleString('en-US', {
                                                     minimumFractionDigits: 2,
@@ -833,7 +833,7 @@ export default function NewProjectPage() {
 
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="space-y-2">
-                                            <Label>Contract Date * (DD/MM/YYYY)</Label>
+                                            <Label>{t.projectNew.contractDate}</Label>
                                             <Popover>
                                                 <PopoverTrigger asChild>
                                                     <Button
@@ -844,7 +844,7 @@ export default function NewProjectPage() {
                                                         )}
                                                     >
                                                         <CalendarIcon className="mr-2 h-4 w-4" />
-                                                        {formData.contract.contractDate ? formData.contract.contractDate : "Pick a date"}
+                                                        {formData.contract.contractDate ? formData.contract.contractDate : t.projectNew.pickDate}
                                                     </Button>
                                                 </PopoverTrigger>
                                                 <PopoverContent className="w-auto p-0" align="start">
@@ -890,14 +890,14 @@ export default function NewProjectPage() {
                                                     const formatted = formatDateInputValue(value)
                                                     updateContract("contractDate", formatted)
                                                 }}
-                                                placeholder="DD/MM/YYYY"
+                                                placeholder={t.projectNew.datePlaceholder}
                                                 maxLength={10}
                                                 required
                                                 className="bg-background/50"
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Installation Start Date (Optional) (DD/MM/YYYY)</Label>
+                                            <Label>{t.projectNew.installationStartDate}</Label>
                                             <Popover>
                                                 <PopoverTrigger asChild>
                                                     <Button
@@ -908,7 +908,7 @@ export default function NewProjectPage() {
                                                         )}
                                                     >
                                                         <CalendarIcon className="mr-2 h-4 w-4" />
-                                                        {formData.contract.installationStartDate ? formData.contract.installationStartDate : "Pick a date"}
+                                                        {formData.contract.installationStartDate ? formData.contract.installationStartDate : t.projectNew.pickDate}
                                                     </Button>
                                                 </PopoverTrigger>
                                                 <PopoverContent className="w-auto p-0" align="start">
@@ -966,13 +966,13 @@ export default function NewProjectPage() {
                                                     const formatted = formatDateInputValue(value)
                                                     updateContract("installationStartDate", formatted || null)
                                                 }}
-                                                placeholder="DD/MM/YYYY"
+                                                placeholder={t.projectNew.datePlaceholder}
                                                 maxLength={10}
                                                 className="bg-background/50"
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Expected Finish Date (Optional) (DD/MM/YYYY)</Label>
+                                            <Label>{t.projectNew.expectedFinishDate}</Label>
                                             <Popover>
                                                 <PopoverTrigger asChild>
                                                     <Button
@@ -983,7 +983,7 @@ export default function NewProjectPage() {
                                                         )}
                                                     >
                                                         <CalendarIcon className="mr-2 h-4 w-4" />
-                                                        {formData.contract.expectedFinishDate ? formData.contract.expectedFinishDate : "Pick a date"}
+                                                        {formData.contract.expectedFinishDate ? formData.contract.expectedFinishDate : t.projectNew.pickDate}
                                                     </Button>
                                                 </PopoverTrigger>
                                                 <PopoverContent className="w-auto p-0" align="start">
@@ -1034,7 +1034,7 @@ export default function NewProjectPage() {
                                                     const formatted = formatDateInputValue(value)
                                                     updateContract("expectedFinishDate", formatted || null)
                                                 }}
-                                                placeholder="DD/MM/YYYY"
+                                                placeholder={t.projectNew.datePlaceholder}
                                                 maxLength={10}
                                                 className="bg-background/50"
                                             />
@@ -1042,25 +1042,25 @@ export default function NewProjectPage() {
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="project-address">
-                                            Project Address (Optional)
+                                            {t.projectNew.projectAddressOptional}
                                         </Label>
                                         <Textarea
                                             id="project-address"
                                             value={formData.projectAddress}
                                             onChange={e => setFormData(prev => ({ ...prev, projectAddress: e.target.value }))}
-                                            placeholder="Enter project installation address (if different from client address)"
+                                            placeholder={t.projectNew.projectAddressPlaceholder}
                                             className="bg-background/50 min-h-[80px]"
                                         />
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="project-city">
-                                            Project City <span className="text-destructive">*</span>
+                                            {t.projectNew.projectCity}
                                         </Label>
                                         <Input
                                             id="project-city"
                                             value={formData.projectCity}
                                             onChange={e => setFormData(prev => ({ ...prev, projectCity: e.target.value }))}
-                                            placeholder="Leave empty to use customer city"
+                                            placeholder={t.projectNew.projectCityPlaceholder}
                                             className="bg-background/50"
                                         />
                                         <p className="text-xs text-muted-foreground">
@@ -1071,29 +1071,29 @@ export default function NewProjectPage() {
                                         {formData.customer.address && (
                                             <div className="mt-2 p-2 bg-muted/50 rounded-md">
                                                 <p className="text-xs text-muted-foreground">
-                                                    <strong>Client Address:</strong> {formData.customer.address}
+                                                    <strong>{t.common.clientAddress}:</strong> {formData.customer.address}
                                                     {formData.customer.city && `, ${formData.customer.city}`}
                                                 </p>
                                             </div>
                                         )}
                                     </div>
                                     <div className="space-y-2">
-                                        <Label>Contract Notes</Label>
-                                        <Textarea value={formData.contract.notes} onChange={e => updateContract("notes", e.target.value)} placeholder="Terms, special conditions, etc." className="bg-background/50 min-h-[100px]" />
+                                        <Label>{t.projectNew.contractNotes}</Label>
+                                        <Textarea value={formData.contract.notes} onChange={e => updateContract("notes", e.target.value)} placeholder={t.projectNew.contractNotesPlaceholder} className="bg-background/50 min-h-[100px]" />
                                     </div>
 
                                     <Separator className="my-6 bg-border/40" />
 
                                     <div className="bg-primary/5 border border-primary/20 p-4 rounded-lg space-y-2">
-                                        <h4 className="font-semibold text-primary">Summary</h4>
-                                        <p className="text-sm text-muted-foreground">{formData.customer.name} - Project {formData.customer.projectNumber}</p>
-                                        <p className="text-sm text-muted-foreground">{formData.elevators.length} Total Elevator{formData.elevators.length !== 1 ? 's' : ''}</p>
+                                        <h4 className="font-semibold text-primary">{t.projectNew.summary}</h4>
+                                        <p className="text-sm text-muted-foreground">{formData.customer.name} - {t.projects.project} {formData.customer.projectNumber}</p>
+                                        <p className="text-sm text-muted-foreground">{formData.elevators.length} {t.projectNew.totalElevators}</p>
                                     </div>
 
                                     <div className="flex justify-between pt-4">
-                                        <Button variant="outline" onClick={() => setStep(2)}><ChevronLeft className="mr-2 h-4 w-4" /> Previous</Button>
+                                        <Button variant="outline" onClick={() => setStep(2)}><ChevronLeft className="mr-2 h-4 w-4" /> {t.projectNew.previous}</Button>
                                         <Button onClick={handleSubmit} disabled={loading} className="bg-green-600 hover:bg-green-700 text-white">
-                                            {loading ? "Creating..." : "Save Project"} <Save className="ml-2 h-4 w-4" />
+                                            {loading ? t.projectNew.creating : t.projectNew.saveProject} <Save className="ml-2 h-4 w-4" />
                                         </Button>
                                     </div>
                                 </CardContent>
@@ -1105,12 +1105,11 @@ export default function NewProjectPage() {
             <DemoGuidePanel
               title={t.demoGuide.projects.title}
               description={t.demoGuide.projects.description}
-              features={[
-                { icon: "📁", label: "Project List", description: "All active and completed installation projects" },
-                { icon: "🔄", label: "Progress Stages", description: "Foundation → Mechanical → Electrical → Testing" },
-                { icon: "🛗", label: "Elevator Management", description: "Manage individual elevators within each project" },
-                { icon: "➕", label: "New Project Wizard", description: "Multi-step form to create a new project" },
-              ]}
+              features={(t.demoGuide.projects.features || []).map((f, i) => ({
+                icon: ["📁", "🔄", "🛗", "➕"][i] || "📁",
+                label: f.label,
+                description: f.desc,
+              }))}
               tip={t.demoGuide.projects.tip}
             />
         </SidebarProvider>

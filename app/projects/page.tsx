@@ -115,15 +115,15 @@ export default function ProjectsPage() {
     const statusLower = status.toLowerCase()
     switch (statusLower) {
       case "completed":
-        return <Badge className="bg-green-600 text-white">Completed</Badge>
+        return <Badge className="bg-green-600 text-white">{t.common.completed}</Badge>
       case "active":
-        return <Badge className="bg-blue-500/10 text-blue-500 hover:bg-blue-500/20 border-blue-500/20">Active</Badge>
+        return <Badge className="bg-blue-500/10 text-blue-500 hover:bg-blue-500/20 border-blue-500/20">{t.common.active}</Badge>
       case "inprogress":
-        return <Badge className="bg-blue-500/10 text-blue-500 hover:bg-blue-500/20 border-blue-500/20">In Progress</Badge>
+        return <Badge className="bg-blue-500/10 text-blue-500 hover:bg-blue-500/20 border-blue-500/20">{t.common.inProgress}</Badge>
       case "pending":
-        return <Badge variant="outline" className="text-yellow-500 border-yellow-500/20 bg-yellow-500/5">Pending</Badge>
+        return <Badge variant="outline" className="text-yellow-500 border-yellow-500/20 bg-yellow-500/5">{t.common.pending}</Badge>
       case "rejected":
-        return <Badge className="bg-destructive text-destructive-foreground">Rejected</Badge>
+        return <Badge className="bg-destructive text-destructive-foreground">{t.common.rejected}</Badge>
       default:
         return <Badge variant="secondary">{status}</Badge>
     }
@@ -146,12 +146,12 @@ export default function ProjectsPage() {
                   className="hover:bg-muted"
                 >
                   <RefreshCw className={`mr-2 h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-                  Refresh
+                  {t.common.refresh}
                 </Button>
                 {canCreateOrEditProjects() && (
                   <Link href="/projects/new">
                     <Button className="bg-primary hover:bg-primary/90">
-                      <Plus className="mr-2 h-4 w-4" /> New Project
+                      <Plus className="mr-2 h-4 w-4" /> {t.projects.newProject}
                     </Button>
                   </Link>
                 )}
@@ -160,12 +160,12 @@ export default function ProjectsPage() {
 
             <Card className="border-border/40 bg-card/50 backdrop-blur-sm">
               <CardHeader>
-                <CardTitle>All Projects</CardTitle>
+                <CardTitle>{t.projects.allProjects}</CardTitle>
                 <div className="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4 pt-4">
                   <div className="relative flex-1">
                     <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
-                      placeholder="Search projects or customers..."
+                      placeholder={t.projects.searchProjects}
                       className="pl-8 bg-background/50 border-border/40"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
@@ -178,35 +178,35 @@ export default function ProjectsPage() {
                       value={statusFilter}
                       onChange={(e) => setStatusFilter(e.target.value)}
                     >
-                      <option value="all">All Statuses</option>
-                      <option value="pending">Pending</option>
-                      <option value="active">Active</option>
-                      <option value="inprogress">In Progress</option>
-                      <option value="completed">Completed</option>
+                      <option value="all">{t.projects.allStatuses}</option>
+                      <option value="pending">{t.common.pending}</option>
+                      <option value="active">{t.common.active}</option>
+                      <option value="inprogress">{t.common.inProgress}</option>
+                      <option value="completed">{t.common.completed}</option>
                     </select>
                   </div>
                 </div>
               </CardHeader>
               <CardContent>
                 {loading ? (
-                  <div className="flex justify-center p-8 text-muted-foreground">Loading projects...</div>
+                  <div className="flex justify-center p-8 text-muted-foreground">{t.projects.loading}</div>
                 ) : (
                   <Table>
                     <TableHeader>
                       <TableRow className="border-border/40 hover:bg-transparent">
-                        <TableHead className="font-semibold">Project #</TableHead>
-                        <TableHead className="font-semibold">Customer</TableHead>
-                        <TableHead className="font-semibold">Address</TableHead>
-                        <TableHead className="font-semibold">Contract Date</TableHead>
-                        <TableHead className="font-semibold">Status</TableHead>
-                        <TableHead className="text-right font-semibold">Actions</TableHead>
+                        <TableHead className="font-semibold">{t.projects.project}</TableHead>
+                        <TableHead className="font-semibold">{t.projects.customer}</TableHead>
+                        <TableHead className="font-semibold">{t.projects.address}</TableHead>
+                        <TableHead className="font-semibold">{t.projects.contractDate}</TableHead>
+                        <TableHead className="font-semibold">{t.projects.status}</TableHead>
+                        <TableHead className="text-right font-semibold">{t.projects.actions}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {filteredProjects.length === 0 ? (
                         <TableRow>
                           <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
-                            No projects found.
+                            {t.projects.noProjects}
                           </TableCell>
                         </TableRow>
                       ) : (
@@ -223,7 +223,7 @@ export default function ProjectsPage() {
                             <TableCell className="text-right">
                               <Link href={`/projects/${project.id}`}>
                                 <Button variant="ghost" size="sm" className="hover:bg-primary/10 hover:text-primary">
-                                  Details <ArrowRight className="ml-2 h-4 w-4" />
+                                  {t.common.details} <ArrowRight className="ml-2 h-4 w-4" />
                                 </Button>
                               </Link>
                             </TableCell>
@@ -239,12 +239,11 @@ export default function ProjectsPage() {
           <DemoGuidePanel
             title={t.demoGuide.projects.title}
             description={t.demoGuide.projects.description}
-            features={[
-              { icon: "📁", label: "Project List", description: "All active and completed installation projects" },
-              { icon: "🔄", label: "Progress Stages", description: "Foundation → Mechanical → Electrical → Testing" },
-              { icon: "🛗", label: "Elevator Management", description: "Manage individual elevators within each project" },
-              { icon: "➕", label: "New Project Wizard", description: "Multi-step form to create a new project" },
-            ]}
+            features={(t.demoGuide.projects.features || []).map((f, i) => ({
+              icon: ["📁", "🔄", "🛗", "➕"][i] || "📁",
+              label: f.label,
+              description: f.desc,
+            }))}
             tip={t.demoGuide.projects.tip}
           />
         </div>

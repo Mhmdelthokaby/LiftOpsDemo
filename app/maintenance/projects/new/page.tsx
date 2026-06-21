@@ -157,13 +157,13 @@ export default function NewMaintenanceProjectPage() {
             }
         }))
         setUseExistingCustomer(true)
-        toast.success("Using existing customer data")
+        toast.success(t.maintenanceProjectNew.usingExisting)
     }
 
     const useNewCustomer = () => {
         setUseExistingCustomer(false)
         setExistingCustomer(null)
-        toast.info("Creating new customer")
+        toast.info(t.maintenanceProjectNew.creatingCustomer)
     }
 
     const updateCustomer = (field: string, value: string) => {
@@ -233,19 +233,19 @@ export default function NewMaintenanceProjectPage() {
 
     const handleSubmit = async () => {
         if (!formData.customer.phone || formData.customer.phone.trim() === "") {
-            toast.error("Phone number is required")
+            toast.error(t.maintenanceProjectNew.phoneRequired)
             setLoading(false)
             return
         }
 
         if (!formData.contract.projectNumber || formData.contract.projectNumber.trim() === "") {
-            toast.error("Project number is required")
+            toast.error(t.maintenanceProjectNew.projectNumberRequired)
             setLoading(false)
             return
         }
 
         if (projectNumberExists) {
-            toast.error("This project number already exists. Please use a different one.")
+            toast.error(t.maintenanceProjectNew.projectNumberExists)
             setLoading(false)
             return
         }
@@ -283,13 +283,13 @@ export default function NewMaintenanceProjectPage() {
             }
 
             await createMaintenanceProject(projectData)
-            toast.success("Maintenance project created successfully")
+            toast.success(t.maintenanceProjectNew.success)
             setTimeout(() => {
                 router.push("/maintenance/projects")
             }, 500)
         } catch (error: any) {
             console.error("Error creating maintenance project:", error)
-            const errorMessage = error?.message || error?.data?.message || error?.errors?.[0] || "Failed to create maintenance project"
+            const errorMessage = error?.message || error?.data?.message || error?.errors?.[0] || t.maintenanceProjectNew.error
             toast.error(errorMessage)
         } finally {
             setLoading(false)
@@ -305,7 +305,7 @@ export default function NewMaintenanceProjectPage() {
                     <main className="flex-1 p-8 pt-6 max-w-4xl mx-auto space-y-4">
                         <div className="flex items-center justify-between">
                             <Button variant="ghost" onClick={() => router.back()} className="text-muted-foreground hover:text-foreground">
-                                <ChevronLeft className="mr-2 h-4 w-4" /> Back
+                                <ChevronLeft className="mr-2 h-4 w-4" /> {t.common.back}
                             </Button>
                             <h2 className="text-3xl font-bold tracking-tight">{t.maintenance.newContract}</h2>
                             <div className="w-10"></div>
@@ -313,24 +313,24 @@ export default function NewMaintenanceProjectPage() {
 
                         <Card className="border-border/40 bg-card/50 backdrop-blur-sm">
                             <CardHeader>
-                                <CardTitle>Customer Information</CardTitle>
-                                <CardDescription>Search for existing customer or create new one</CardDescription>
+                                <CardTitle>{t.maintenanceProjectNew.customerInformation}</CardTitle>
+                                <CardDescription>{t.maintenanceProjectNew.customerInfoDesc}</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <div className="bg-muted/50 p-4 rounded-lg space-y-3">
                                     <div className="flex items-center justify-between">
                                         <div>
-                                            <Label className="text-sm font-semibold">Customer Search (Auto)</Label>
-                                            <p className="text-xs text-muted-foreground mt-1">
-                                                {searchingCustomer
-                                                    ? "Searching for existing customer..."
-                                                    : "Type phone number to automatically search for existing customer"}
-                                            </p>
+                                        <Label className="text-sm font-semibold">{t.maintenanceProjectNew.customerSearch}</Label>
+                                        <p className="text-xs text-muted-foreground mt-1">
+                                            {searchingCustomer
+                                                ? t.maintenanceProjectNew.searching
+                                                : t.maintenanceProjectNew.searchHint}
+                                        </p>
                                         </div>
                                         {searchingCustomer && (
                                             <div className="flex items-center text-sm text-muted-foreground">
                                                 <Search className="mr-2 h-4 w-4 animate-pulse" />
-                                                Searching...
+                                                {t.maintenanceProjectNew.searching}
                                             </div>
                                         )}
                                     </div>
@@ -340,21 +340,21 @@ export default function NewMaintenanceProjectPage() {
                                             <div className="flex items-center justify-between">
                                                 <div className="flex items-center gap-2">
                                                     <CheckCircle2 className="h-4 w-4 text-primary" />
-                                                    <span className="text-sm font-medium">Customer Found</span>
+                                                    <span className="text-sm font-medium">{t.maintenanceProjectNew.customerFound}</span>
                                                 </div>
-                                                <Badge variant="secondary">Existing</Badge>
+                                                <Badge variant="secondary">{t.maintenanceProjectNew.existing}</Badge>
                                             </div>
                                             <div className="text-sm space-y-1">
-                                                <p><strong>Name:</strong> {existingCustomer.name}</p>
-                                                <p><strong>Phone:</strong> {existingCustomer.phone}</p>
-                                                {existingCustomer.email && <p><strong>Email:</strong> {existingCustomer.email}</p>}
+                                                <p><strong>{t.maintenanceProjectNew.customerName}:</strong> {existingCustomer.name}</p>
+                                                <p><strong>{t.maintenanceProjectNew.phone}:</strong> {existingCustomer.phone}</p>
+                                                {existingCustomer.email && <p><strong>{t.maintenanceProjectNew.email}:</strong> {existingCustomer.email}</p>}
                                             </div>
                                             <div className="flex gap-2">
                                                 <Button size="sm" onClick={useExistingCustomerData}>
-                                                    Use This Customer
+                                                    {t.maintenanceProjectNew.useThisCustomer}
                                                 </Button>
                                                 <Button size="sm" variant="outline" onClick={useNewCustomer}>
-                                                    Create New
+                                                    {t.maintenanceProjectNew.createNew}
                                                 </Button>
                                             </div>
                                         </div>
@@ -363,7 +363,7 @@ export default function NewMaintenanceProjectPage() {
 
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="space-y-2">
-                                        <Label htmlFor="customerName">Customer Name *</Label>
+                                        <Label htmlFor="customerName">{t.maintenanceProjectNew.customerName}</Label>
                                         <Input
                                             id="customerName"
                                             value={formData.customer.name}
@@ -372,7 +372,7 @@ export default function NewMaintenanceProjectPage() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="customerPhone">Phone *</Label>
+                                        <Label htmlFor="customerPhone">{t.maintenanceProjectNew.phone}</Label>
                                         <Input
                                             id="customerPhone"
                                             value={formData.customer.phone}
@@ -384,7 +384,7 @@ export default function NewMaintenanceProjectPage() {
 
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="space-y-2">
-                                        <Label htmlFor="customerEmail">Email</Label>
+                                        <Label htmlFor="customerEmail">{t.maintenanceProjectNew.email}</Label>
                                         <Input
                                             id="customerEmail"
                                             type="email"
@@ -393,7 +393,7 @@ export default function NewMaintenanceProjectPage() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="customerAddress">Address</Label>
+                                        <Label htmlFor="customerAddress">{t.maintenanceProjectNew.address}</Label>
                                         <Input
                                             id="customerAddress"
                                             value={formData.customer.address}
@@ -402,12 +402,12 @@ export default function NewMaintenanceProjectPage() {
                                     </div>
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="customerCity">City <span className="text-destructive">*</span></Label>
+                                    <Label htmlFor="customerCity">{t.maintenanceProjectNew.city} <span className="text-destructive">*</span></Label>
                                     <Input
                                         id="customerCity"
                                         value={formData.customer.city}
                                         onChange={(e) => updateCustomer('city', e.target.value)}
-                                        placeholder="القاهرة الجديدة"
+                                        placeholder={t.maintenanceProjectNew.cityPlaceholder}
                                     />
                                 </div>
                             </CardContent>
@@ -415,12 +415,12 @@ export default function NewMaintenanceProjectPage() {
 
                         <Card className="border-border/40 bg-card/50 backdrop-blur-sm">
                             <CardHeader>
-                                <CardTitle>Contract Details</CardTitle>
-                                <CardDescription>Enter maintenance contract information</CardDescription>
+                                <CardTitle>{t.maintenanceProjectNew.contractDetails}</CardTitle>
+                                <CardDescription>{t.maintenanceProjectNew.contractDetailsDesc}</CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <div className="space-y-2">
-                                    <Label htmlFor="projectNumber">Project Number *</Label>
+                                    <Label htmlFor="projectNumber">{t.maintenanceProjectNew.projectNumber} *</Label>
                                     <div className="flex items-center gap-2">
                                         <Input
                                             id="projectNumber"
@@ -430,18 +430,18 @@ export default function NewMaintenanceProjectPage() {
                                             className={projectNumberExists ? "border-destructive" : ""}
                                         />
                                         {checkingProjectNumber && (
-                                            <div className="text-sm text-muted-foreground">Checking...</div>
+                                            <div className="text-sm text-muted-foreground">{t.maintenanceProjectNew.checking}</div>
                                         )}
                                         {!checkingProjectNumber && formData.contract.projectNumber && (
                                             projectNumberExists ? (
                                                 <div className="flex items-center gap-1 text-destructive text-sm">
                                                     <X className="h-4 w-4" />
-                                                    Already exists
+                                                    {t.maintenanceProjectNew.alreadyExists}
                                                 </div>
                                             ) : (
                                                 <div className="flex items-center gap-1 text-success text-sm">
                                                     <CheckCircle2 className="h-4 w-4" />
-                                                    Available
+                                                    {t.maintenanceProjectNew.available}
                                                 </div>
                                             )
                                         )}
@@ -450,29 +450,29 @@ export default function NewMaintenanceProjectPage() {
 
                                 {/* Project Address and City */}
                                 <div className="space-y-4 p-4 border border-border/40 rounded-lg bg-background/50">
-                                    <div className="text-sm font-semibold text-muted-foreground mb-2">Project Location (Optional - defaults to customer address/city if not set)</div>
+                                    <div className="text-sm font-semibold text-muted-foreground mb-2">{t.maintenanceProjectNew.projectLocation}</div>
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="space-y-2">
-                                            <Label htmlFor="projectAddress">Project Address</Label>
+                                            <Label htmlFor="projectAddress">{t.maintenanceProjectNew.projectAddress}</Label>
                                             <Input
                                                 id="projectAddress"
                                                 value={formData.contract.projectAddress || ""}
                                                 onChange={(e) => updateContract('projectAddress', e.target.value)}
-                                                placeholder="Leave empty to use customer address"
+                                                placeholder={t.maintenanceProjectNew.addressPlaceholder}
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label htmlFor="projectCity">Project City <span className="text-destructive">*</span></Label>
+                                            <Label htmlFor="projectCity">{t.maintenanceProjectNew.projectCity} <span className="text-destructive">*</span></Label>
                                             <Input
                                                 id="projectCity"
                                                 value={formData.contract.city}
                                                 onChange={(e) => updateContract('city', e.target.value)}
-                                                placeholder="Leave empty to use customer city"
+                                                placeholder={t.maintenanceProjectNew.cityPlaceholder}
                                             />
                                         </div>
                                     </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="googleMapsLink">Google Maps Link</Label>
+                                        <Label htmlFor="googleMapsLink">{t.maintenanceProjectNew.googleMapsLink}</Label>
                                         <Input
                                             id="googleMapsLink"
                                             type="url"
@@ -486,17 +486,17 @@ export default function NewMaintenanceProjectPage() {
                                                 }
                                                 updateCustomer('googleMapsLink', value)
                                             }}
-                                            placeholder="https://maps.google.com/... or https://maps.app.goo.gl/..."
+                                            placeholder={t.maintenanceProjectNew.googleMapsPlaceholder}
                                         />
                                         <p className="text-xs text-muted-foreground">
-                                            Optional: Enter a valid Google Maps URL (e.g., https://maps.google.com/... or https://maps.app.goo.gl/...)
+                                            {t.maintenanceProjectNew.googleMapsHint}
                                         </p>
                                     </div>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="space-y-2">
-                                        <Label htmlFor="startDate">Start Date *</Label>
+                                        <Label htmlFor="startDate">{t.maintenanceProjectNew.startDate} *</Label>
                                         <Input
                                             id="startDate"
                                             type="date"
@@ -506,7 +506,7 @@ export default function NewMaintenanceProjectPage() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="endDate">End Date *</Label>
+                                        <Label htmlFor="endDate">{t.maintenanceProjectNew.endDate} *</Label>
                                         <Input
                                             id="endDate"
                                             type="date"
@@ -519,7 +519,7 @@ export default function NewMaintenanceProjectPage() {
 
                                 <div className="grid grid-cols-2 gap-4">
                                     <div className="space-y-2">
-                                        <Label htmlFor="pricePerMonth">Price Per Month *</Label>
+                                        <Label htmlFor="pricePerMonth">{t.maintenanceProjectNew.pricePerMonth} *</Label>
                                         <Input
                                             id="pricePerMonth"
                                             type="number"
@@ -531,7 +531,7 @@ export default function NewMaintenanceProjectPage() {
                                         />
                                     </div>
                                     <div className="space-y-2">
-                                        <Label htmlFor="freeMonths">Free Months *</Label>
+                                        <Label htmlFor="freeMonths">{t.maintenanceProjectNew.freeMonths} *</Label>
                                         <Input
                                             id="freeMonths"
                                             type="number"
@@ -544,7 +544,7 @@ export default function NewMaintenanceProjectPage() {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label htmlFor="contractNotes">Notes</Label>
+                                    <Label htmlFor="contractNotes">{t.maintenanceProjectNew.notes}</Label>
                                     <Textarea
                                         id="contractNotes"
                                         value={formData.contract.notes}
@@ -554,14 +554,14 @@ export default function NewMaintenanceProjectPage() {
                                 </div>
 
                                 <div className="space-y-2">
-                                    <Label htmlFor="technicianId">Main Responsible Technician</Label>
+                                    <Label htmlFor="technicianId">{t.maintenanceProjectNew.mainResponsible}</Label>
                                     <select
                                         id="technicianId"
                                         value={formData.contract.technicianId}
                                         onChange={(e) => updateContract('technicianId', e.target.value)}
                                         className="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                                     >
-                                        <option value="">Select a technician...</option>
+                                        <option value="">{t.maintenanceProjectNew.selectTechnician}</option>
                                         {technicians.map(tech => (
                                             <option key={tech.id} value={tech.id}>
                                                 {tech.name} {tech.specialization ? `(${tech.specialization})` : ''}
@@ -569,7 +569,7 @@ export default function NewMaintenanceProjectPage() {
                                         ))}
                                     </select>
                                     <p className="text-xs text-muted-foreground">
-                                        This technician will be the default for all monthly maintenance visits for this project.
+                                        {t.maintenanceProjectNew.technicianHint}
                                     </p>
                                 </div>
                             </CardContent>
@@ -579,12 +579,12 @@ export default function NewMaintenanceProjectPage() {
                             <CardHeader>
                                 <div className="flex items-center justify-between">
                                     <div>
-                                        <CardTitle>Elevators</CardTitle>
-                                        <CardDescription>Add elevator details for this maintenance contract</CardDescription>
+                                        <CardTitle>{t.maintenanceProjectNew.elevators}</CardTitle>
+                                        <CardDescription>{t.maintenanceProjectNew.elevatorsDesc}</CardDescription>
                                     </div>
                                     <Button variant="outline" size="sm" onClick={addElevator}>
                                         <Plus className="mr-2 h-4 w-4" />
-                                        Add Elevator
+                                        {t.maintenanceProjectNew.addElevator}
                                     </Button>
                                 </div>
                             </CardHeader>
@@ -592,7 +592,7 @@ export default function NewMaintenanceProjectPage() {
                                 {formData.elevators.map((elevator, index) => (
                                     <div key={index} className="border rounded-lg p-4 space-y-4">
                                         <div className="flex items-center justify-between">
-                                            <h4 className="font-semibold">Elevator {index + 1}</h4>
+                                            <h4 className="font-semibold">{t.maintenanceProjectNew.elevator({ index: index + 1 })}</h4>
                                             {formData.elevators.length > 1 && (
                                                 <Button
                                                     variant="ghost"
@@ -606,20 +606,20 @@ export default function NewMaintenanceProjectPage() {
                                         <Separator />
                                         <div className="grid grid-cols-3 gap-4">
                                             <div className="space-y-2">
-                                                <Label>Type *</Label>
+                                                <Label>{t.maintenanceProjectNew.type} *</Label>
                                                 <select
                                                     value={elevator.type}
                                                     onChange={(e) => updateElevator(index, 'type', e.target.value)}
                                                     className="h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                                                     required
                                                 >
-                                                    <option value="WithMachineRoom">With Machine Room</option>
-                                                    <option value="MachineRoomLess">Machine Room Less</option>
-                                                    <option value="Hydraulic">Hydraulic</option>
+                                                    <option value="WithMachineRoom">{t.maintenanceProjectNew.withMachineRoom}</option>
+                                                    <option value="MachineRoomLess">{t.maintenanceProjectNew.machineRoomLess}</option>
+                                                    <option value="Hydraulic">{t.maintenanceProjectNew.hydraulic}</option>
                                                 </select>
                                             </div>
                                             <div className="space-y-2">
-                                                <Label>Number of Stops *</Label>
+                                                <Label>{t.maintenanceProjectNew.stopsCount} *</Label>
                                                 <Input
                                                     type="number"
                                                     min="1"
@@ -629,7 +629,7 @@ export default function NewMaintenanceProjectPage() {
                                                 />
                                             </div>
                                             <div className="space-y-2">
-                                                <Label>Number of Floors *</Label>
+                                                <Label>{t.maintenanceProjectNew.floorsCount} *</Label>
                                                 <Input
                                                     type="number"
                                                     min="1"
@@ -640,7 +640,7 @@ export default function NewMaintenanceProjectPage() {
                                             </div>
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Notes</Label>
+                                            <Label>{t.maintenanceProjectNew.notes}</Label>
                                             <Textarea
                                                 value={elevator.notes}
                                                 onChange={(e) => updateElevator(index, 'notes', e.target.value)}
@@ -654,11 +654,11 @@ export default function NewMaintenanceProjectPage() {
 
                         <div className="flex justify-end gap-2">
                             <Button variant="outline" onClick={() => router.back()} disabled={loading}>
-                                Cancel
+                                {t.maintenanceProjectNew.cancel}
                             </Button>
                             <Button onClick={handleSubmit} disabled={loading || projectNumberExists}>
                                 <Save className="mr-2 h-4 w-4" />
-                                {loading ? "Creating..." : "Create Project"}
+                                {loading ? t.maintenanceProjectNew.creating : t.maintenanceProjectNew.createProject}
                             </Button>
                         </div>
                     </main>
@@ -668,12 +668,12 @@ export default function NewMaintenanceProjectPage() {
               title={t.demoGuide.maintenance.title}
               description={t.demoGuide.maintenance.description}
               features={[
-                { icon: "📁", label: "Projects Tab", description: "All maintenance contracts by client" },
-                { icon: "📅", label: "Calendar Tab", description: "Visual monthly view of all scheduled visits" },
-                { icon: "📋", label: "List Tab", description: "Detailed list of all visits with status" },
-                { icon: "✅", label: "Checklist Tab", description: "Per-visit checklist for technicians" },
-                { icon: "👨‍🔧", label: "Assign Visits", description: "Assign technicians to specific visits" },
-                { icon: "🔧", label: "Elevator Status", description: "Freeze, stop, or activate individual elevators" },
+                { icon: "📁", label: t.maintenance.projects, description: t.maintenance.projectsDesc },
+                { icon: "📅", label: t.maintenance.calendar, description: t.maintenance.calendarDesc },
+                { icon: "📋", label: t.maintenance.list, description: t.maintenance.listDesc },
+                { icon: "✅", label: t.maintenance.checklist, description: t.maintenance.checklistDesc },
+                { icon: "👨‍🔧", label: t.maintenance.assignVisits, description: t.maintenance.assignVisitsDesc },
+                { icon: "🔧", label: t.maintenance.elevatorFleet, description: t.maintenance.elevatorFleetDesc },
               ]}
               tip={t.demoGuide.maintenance.tip}
             />

@@ -20,15 +20,14 @@ export default function LoginPage() {
         />
         <div className="relative z-20 flex items-center text-lg font-medium">
           <Building2 className="mr-2 h-6 w-6 text-primary" />
-          LiftOps
+          {t.login.liftOps}
         </div>
         <div className="relative z-20 mt-auto">
           <blockquote className="space-y-2">
             <p className="text-lg">
-              "The most reliable management system for vertical transportation infrastructure. Built for speed, safety,
-              and precision."
+              {t.login.quote}
             </p>
-            <footer className="text-sm text-zinc-400">Operations Control Center</footer>
+            <footer className="text-sm text-zinc-400">{t.login.operationsCenter}</footer>
           </blockquote>
         </div>
       </div>
@@ -36,7 +35,7 @@ export default function LoginPage() {
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col space-y-2 text-center lg:hidden">
             <Building2 className="mx-auto h-10 w-10 text-primary mb-2" />
-            <h1 className="text-2xl font-semibold tracking-tight">LiftOps</h1>
+            <h1 className="text-2xl font-semibold tracking-tight">{t.login.liftOps}</h1>
           </div>
           <LoginForm />
           <div className="rounded-lg border border-primary/20 bg-primary/5 px-4 py-3 text-center">
@@ -45,15 +44,11 @@ export default function LoginPage() {
             </p>
           </div>
           <p className="px-8 text-center text-sm text-muted-foreground">
-            By clicking continue, you agree to our{" "}
-            <a href="#" className="underline underline-offset-4 hover:text-primary">
-              Terms of Service
-            </a>{" "}
-            and{" "}
-            <a href="#" className="underline underline-offset-4 hover:text-primary">
-              Privacy Policy
-            </a>
-            .
+            {t.login.termsAndPrivacy.split("{tos}")[0]}
+            <a href="#" className="underline underline-offset-4 hover:text-primary">{t.login.termsOfService}</a>
+            {t.login.termsAndPrivacy.split("{tos}")[1].split("{pp}")[0]}
+            <a href="#" className="underline underline-offset-4 hover:text-primary">{t.login.privacyPolicy}</a>
+            {t.login.termsAndPrivacy.split("{pp}")[1]}
           </p>
         </div>
       </div>

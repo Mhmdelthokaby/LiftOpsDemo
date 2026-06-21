@@ -132,7 +132,7 @@ export default function MaintenanceProjectDetailsPage() {
             setContract(data)
         } catch (error: any) {
             console.error("Error fetching maintenance contract:", error)
-            const errorMessage = error?.message || error?.data?.message || "Failed to load contract details"
+            const errorMessage = error?.message || error?.data?.message || t.maintenanceProjectDetail.errorLoading
             toast.error(errorMessage)
             if (errorMessage.includes("not found") || errorMessage.includes("404")) {
                 router.push("/maintenance?view=projects")
@@ -161,7 +161,7 @@ export default function MaintenanceProjectDetailsPage() {
 
 
     const formatCurrency = (amount: number) => {
-        if (amount === 0) return "Free"
+        if (amount === 0) return t.maintenanceProjectDetail.free
         return amount.toLocaleString('en-US', {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0
@@ -213,71 +213,70 @@ export default function MaintenanceProjectDetailsPage() {
                 switch (actionDialog.type) {
                     case 'freeze':
                         await freezeElevator(actionDialog.elevatorId)
-                        toast.success("Elevator frozen successfully")
+                        toast.success(t.maintenanceProjectDetail.elevatorFreezeSuccess)
                         break
                     case 'stop':
                         await stopElevator(actionDialog.elevatorId)
-                        toast.success("Elevator stopped successfully")
+                        toast.success(t.maintenanceProjectDetail.elevatorStopSuccess)
                         break
                     case 'activate':
                         await activateElevator(actionDialog.elevatorId)
-                        toast.success("Elevator activated successfully")
+                        toast.success(t.maintenanceProjectDetail.elevatorActivateSuccess)
                         break
                 }
             } else {
                 switch (actionDialog.type) {
                     case 'freeze':
                         await freezeContract(contract.id)
-                        toast.success("Contract frozen successfully")
+                        toast.success(t.maintenanceProjectDetail.contractFreezeSuccess)
                         break
                     case 'stop':
                         await stopContract(contract.id)
-                        toast.success("Contract stopped successfully")
+                        toast.success(t.maintenanceProjectDetail.contractStopSuccess)
                         break
                     case 'activate':
                         await activateContract(contract.id)
-                        toast.success("Contract activated successfully")
+                        toast.success(t.maintenanceProjectDetail.contractActivateSuccess)
                         break
                 }
             }
             closeActionDialog()
             fetchContract()
         } catch (error: any) {
-            toast.error(error.message || `Failed to ${actionDialog.type} ${actionDialog.elevatorId ? 'elevator' : 'contract'}`)
+            toast.error(error.message || t.maintenanceProjectDetail.actionError)
         }
     }
 
     const getActionDialogContent = () => {
         const isElevator = !!actionDialog.elevatorId
-        const entityName = isElevator ? "Elevator" : "Contract"
-
+        const entity = isElevator ? 'elevator' : 'contract'
         switch (actionDialog.type) {
             case 'freeze':
                 return {
-                    title: `Freeze ${entityName}`,
-                    description: `Are you sure you want to freeze this ${entityName.toLowerCase()}? Maintenance will be paused until reactivated.`,
-                    confirmText: "Freeze",
+                    title: t.maintenanceProjectDetail.freezeTitle({ entity }),
+                    description: t.maintenanceProjectDetail.freezeDesc({ entity }),
+                    confirmText: t.maintenanceProjectDetail.freeze,
                     variant: "default" as const
                 }
             case 'stop':
                 return {
-                    title: `Stop ${entityName}`,
-                    description: `Are you sure you want to stop this ${entityName.toLowerCase()}? This action will permanently stop maintenance for this ${entityName.toLowerCase()}.`,
-                    confirmText: "Stop",
+                    title: t.maintenanceProjectDetail.stopTitle({ entity }),
+                    description: t.maintenanceProjectDetail.stopDesc({ entity }),
+                    confirmText: t.maintenanceProjectDetail.stop,
                     variant: "destructive" as const
                 }
             case 'activate':
                 return {
-                    title: `Activate ${entityName}`,
-                    description: `Are you sure you want to activate this ${entityName.toLowerCase()}? Maintenance will resume for this ${entityName.toLowerCase()}.`,
-                    confirmText: "Activate",
+                    title: t.maintenanceProjectDetail.activateTitle({ entity }),
+                    description: t.maintenanceProjectDetail.activateDesc({ entity }),
+                    confirmText: t.maintenanceProjectDetail.activate,
                     variant: "default" as const
                 }
             default:
                 return {
-                    title: "Confirm Action",
-                    description: "Are you sure you want to proceed?",
-                    confirmText: "Confirm",
+                    title: t.maintenanceProjectDetail.confirmAction,
+                    description: t.maintenanceProjectDetail.confirmDefault,
+                    confirmText: t.maintenanceProjectDetail.confirmAction,
                     variant: "default" as const
                 }
         }
@@ -287,7 +286,7 @@ export default function MaintenanceProjectDetailsPage() {
         if (!contract) return
 
         try {
-            toast.loading("Generating PDF report...")
+            toast.loading(t.maintenanceProjectDetail.generatingPdf)
             
             // Fetch all visits for all elevators in this contract
             const allVisits: Array<{
@@ -364,10 +363,10 @@ export default function MaintenanceProjectDetailsPage() {
 
             await generateMaintenanceProjectReportPDF(contractForPDF, allVisits)
             toast.dismiss()
-            toast.success("PDF report generated successfully")
+            toast.success(t.maintenanceProjectDetail.pdfSuccess)
         } catch (error: any) {
             toast.dismiss()
-            toast.error(error.message || "Failed to generate PDF report")
+            toast.error(error.message || t.maintenanceProjectDetail.pdfError)
         }
     }
 
@@ -379,7 +378,7 @@ export default function MaintenanceProjectDetailsPage() {
                     <AppHeader />
                     <main className="flex-1 p-8 text-center">
                         <RefreshCw className="h-6 w-6 animate-spin text-muted-foreground mx-auto mb-2" />
-                        <p className="text-muted-foreground">Loading contract details...</p>
+                        <p className="text-muted-foreground">{t.maintenanceProjectDetail.loading}</p>
                     </main>
                 </div>
             </div>
@@ -392,7 +391,7 @@ export default function MaintenanceProjectDetailsPage() {
                 <AppSidebar />
                 <div className="flex flex-1 flex-col">
                     <AppHeader />
-                    <main className="flex-1 p-8 text-center">Contract not found</main>
+                    <main className="flex-1 p-8 text-center">{t.maintenanceProjectDetail.notFound}</main>
                 </div>
             </div>
         </SidebarProvider>
@@ -407,7 +406,7 @@ export default function MaintenanceProjectDetailsPage() {
                     <main className="flex-1 p-6 pt-6 max-w-6xl mx-auto space-y-6">
                         <div className="flex items-center justify-between">
                             <Button variant="ghost" onClick={() => router.back()} className="text-muted-foreground hover:text-foreground">
-                                <ChevronLeft className="mr-2 h-4 w-4" /> Back to Projects
+                                <ChevronLeft className="mr-2 h-4 w-4" /> {t.maintenanceProjectDetail.backToProjects}
                             </Button>
                             <Button 
                                 variant="outline" 
@@ -415,7 +414,7 @@ export default function MaintenanceProjectDetailsPage() {
                                 disabled={loading}
                             >
                                 <FileDown className="mr-2 h-4 w-4" />
-                                Download Project Report PDF
+                                {t.maintenanceProjectDetail.downloadPdf}
                             </Button>
                         </div>
 
@@ -430,7 +429,7 @@ export default function MaintenanceProjectDetailsPage() {
                                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                                     <Card>
                                         <CardHeader className="pb-2">
-                                            <CardDescription>Total Elevators</CardDescription>
+                                            <CardDescription>{t.maintenanceProjectDetail.totalElevators}</CardDescription>
                                         </CardHeader>
                                         <CardContent>
                                             <div className="text-2xl font-bold">{totalCount}</div>
@@ -438,7 +437,7 @@ export default function MaintenanceProjectDetailsPage() {
                                     </Card>
                                     <Card>
                                         <CardHeader className="pb-2">
-                                            <CardDescription>Active</CardDescription>
+                                            <CardDescription>{t.maintenanceProjectDetail.active}</CardDescription>
                                         </CardHeader>
                                         <CardContent>
                                             <div className="text-2xl font-bold text-success">{activeCount}</div>
@@ -446,7 +445,7 @@ export default function MaintenanceProjectDetailsPage() {
                                     </Card>
                                     <Card>
                                         <CardHeader className="pb-2">
-                                            <CardDescription>Frozen</CardDescription>
+                                            <CardDescription>{t.maintenanceProjectDetail.frozen}</CardDescription>
                                         </CardHeader>
                                         <CardContent>
                                             <div className="text-2xl font-bold text-warning">{frozenCount}</div>
@@ -454,7 +453,7 @@ export default function MaintenanceProjectDetailsPage() {
                                     </Card>
                                     <Card>
                                         <CardHeader className="pb-2">
-                                            <CardDescription>Stopped</CardDescription>
+                                            <CardDescription>{t.maintenanceProjectDetail.stopped}</CardDescription>
                                         </CardHeader>
                                         <CardContent>
                                             <div className="text-2xl font-bold text-destructive">{stoppedCount}</div>
@@ -477,19 +476,19 @@ export default function MaintenanceProjectDetailsPage() {
                                                     </CardTitle>
                                                     {isFreeMaintenance(contract) ? (
                                                         <Badge className="bg-success text-success-foreground">
-                                                            Free Maintenance
+                                                            {t.maintenanceProjectDetail.freeMaintenance}
                                                         </Badge>
                                                     ) : contract.freeMonths > 0 ? (
                                                         <Badge variant="outline" className="text-muted-foreground">
-                                                            Free Period Expired
+                                                            {t.maintenanceProjectDetail.freePeriodExpired}
                                                         </Badge>
                                                     ) : (
                                                         <Badge variant="outline" className="text-muted-foreground">
-                                                            Paid Maintenance
+                                                            {t.maintenanceProjectDetail.paidMaintenance}
                                                         </Badge>
                                                     )}
                                                 </div>
-                                                <CardDescription>Project Number</CardDescription>
+                                                <CardDescription>{t.maintenanceProjectDetail.projectNumber}</CardDescription>
                                             </div>
                                             {canManage && (
                                                 <Button
@@ -499,7 +498,7 @@ export default function MaintenanceProjectDetailsPage() {
                                                     className="text-primary hover:text-primary"
                                                 >
                                                     <Edit className="h-4 w-4 mr-1" />
-                                                    Edit
+                                                    {t.maintenanceProjectDetail.edit}
                                                 </Button>
                                             )}
                                         </div>
@@ -509,7 +508,7 @@ export default function MaintenanceProjectDetailsPage() {
                                             <div className="flex items-start space-x-3">
                                                 <MapPin className="h-4 w-4 text-muted-foreground mt-0.5" />
                                                 <div className="text-sm">
-                                                    <div className="text-muted-foreground">Project Address</div>
+                                                    <div className="text-muted-foreground">{t.maintenanceProjectDetail.projectAddress}</div>
                                                     <div className="font-medium">
                                                         {contract.projectAddress || contract.customerAddress}
                                                         {contract.city && `, ${contract.city}`}
@@ -550,7 +549,7 @@ export default function MaintenanceProjectDetailsPage() {
                                                 <div className="space-y-2">
                                                     <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                                                         <MapPin className="h-4 w-4" />
-                                                        <span>Google Maps Location</span>
+                                                        <span>{t.maintenanceProjectDetail.googleMapsLocation}</span>
                                                     </div>
                                                     <div className="w-full h-48 rounded-lg overflow-hidden border border-border/40">
                                                         {contract.googleMapsLink.includes('/embed') ? (
@@ -576,7 +575,7 @@ export default function MaintenanceProjectDetailsPage() {
                                                             >
                                                                 <div className="text-center">
                                                                     <MapPin className="h-8 w-8 mx-auto mb-2" />
-                                                                    <span className="text-sm font-medium">View on Google Maps</span>
+                                                                    <span className="text-sm font-medium">{t.maintenanceProjectDetail.viewOnGoogleMaps}</span>
                                                                 </div>
                                                             </a>
                                                         )}
@@ -587,14 +586,14 @@ export default function MaintenanceProjectDetailsPage() {
                                         <div className="flex items-center space-x-3">
                                             <Calendar className="h-4 w-4 text-muted-foreground" />
                                             <div className="text-sm">
-                                                <div className="text-muted-foreground">Start Date</div>
+                                                <div className="text-muted-foreground">{t.maintenanceProjectDetail.startDate}</div>
                                                 <div className="font-medium">{formatDate(contract.startDate)}</div>
                                             </div>
                                         </div>
                                         <div className="flex items-center space-x-3">
                                             <Calendar className="h-4 w-4 text-muted-foreground" />
                                             <div className="text-sm">
-                                                <div className="text-muted-foreground">End Date</div>
+                                                <div className="text-muted-foreground">{t.maintenanceProjectDetail.endDate}</div>
                                                 <div className="font-medium">{formatDate(contract.endDate)}</div>
                                             </div>
                                         </div>
@@ -602,29 +601,29 @@ export default function MaintenanceProjectDetailsPage() {
                                         <div className="flex items-center space-x-3">
                                             <DollarSign className="h-4 w-4 text-muted-foreground" />
                                             <div className="text-sm">
-                                                <div className="text-muted-foreground">Price/Month</div>
+                                                <div className="text-muted-foreground">{t.maintenanceProjectDetail.pricePerMonth}</div>
                                                 <div className="font-medium">{formatCurrency(contract.pricePerMonth)}</div>
                                             </div>
                                         </div>
                                         <div className="flex items-center space-x-3">
                                             <Calendar className="h-4 w-4 text-muted-foreground" />
                                             <div className="text-sm">
-                                                <div className="text-muted-foreground">Free Months</div>
-                                                <div className="font-medium">{contract.freeMonths} {contract.freeMonths === 1 ? 'month' : 'months'}</div>
+                                                <div className="text-muted-foreground">{t.maintenanceProjectDetail.freeMonths}</div>
+                                                <div className="font-medium">{contract.freeMonths} {t.maintenanceProjectDetail.monthSuffix({ count: contract.freeMonths })}</div>
                                             </div>
                                         </div>
                                         <div className="flex items-center space-x-3 text-primary">
                                             <User className="h-4 w-4" />
                                             <div className="text-sm">
-                                                <div className="text-muted-foreground">Main Responsible Technician</div>
-                                                <div className="font-semibold">{contract.technicianName || "Not Assigned"}</div>
+                                                <div className="text-muted-foreground">{t.maintenanceProjectDetail.mainResponsible}</div>
+                                                <div className="font-semibold">{contract.technicianName || t.maintenanceProjectDetail.notAssigned}</div>
                                             </div>
                                         </div>
                                         {contract.frozenReason && (
                                             <>
                                                 <Separator />
                                                 <div className="text-sm">
-                                                    <div className="text-muted-foreground">Freeze Reason</div>
+                                                    <div className="text-muted-foreground">{t.maintenanceProjectDetail.freezeReason}</div>
                                                     <div className="font-medium">{contract.frozenReason}</div>
                                                 </div>
                                             </>
@@ -634,7 +633,7 @@ export default function MaintenanceProjectDetailsPage() {
 
                                 <Card>
                                     <CardHeader>
-                                        <CardTitle className="text-xl">Customer Information</CardTitle>
+                                        <CardTitle className="text-xl">{t.maintenanceProjectDetail.customerInformation}</CardTitle>
                                     </CardHeader>
                                     <CardContent className="space-y-4">
                                         <div className="font-semibold">{contract.customerName}</div>
@@ -667,9 +666,9 @@ export default function MaintenanceProjectDetailsPage() {
                                     <CardHeader>
                                         <CardTitle className="text-xl flex items-center gap-2">
                                             <Building2 className="h-5 w-5" />
-                                            Elevators ({contract.elevators.length})
+                                            {t.maintenanceProjectDetail.elevators({ count: contract.elevators.length })}
                                         </CardTitle>
-                                        <CardDescription>Maintenance elevators for this contract</CardDescription>
+                                        <CardDescription>{t.maintenanceProjectDetail.elevatorsDesc}</CardDescription>
                                     </CardHeader>
                                     <CardContent>
                                         {contract.elevators.length > 0 ? (
@@ -689,18 +688,18 @@ export default function MaintenanceProjectDetailsPage() {
                                                                     </div>
                                                                     <div className="grid grid-cols-2 gap-4 text-sm">
                                                                         <div>
-                                                                            <div className="text-muted-foreground">Type</div>
+                                                                            <div className="text-muted-foreground">{t.maintenanceProjectDetail.type}</div>
                                                                             <div className="font-medium">{elevator.type}</div>
                                                                         </div>
                                                                         <div>
-                                                                            <div className="text-muted-foreground">Stops/Floors</div>
+                                                                            <div className="text-muted-foreground">{t.maintenanceProjectDetail.stopsFloors}</div>
                                                                             <div className="font-medium">
                                                                                 {elevator.numberOfStops} stops / {elevator.numberOfFloors} floors
                                                                             </div>
                                                                         </div>
                                                                         {elevator.nextMaintenanceDate && (
                                                                             <div>
-                                                                                <div className="text-muted-foreground">Next Maintenance</div>
+                                                                                <div className="text-muted-foreground">{t.maintenanceProjectDetail.nextMaintenance}</div>
                                                                                 <div className="font-medium">{formatDate(elevator.nextMaintenanceDate)}</div>
                                                                             </div>
                                                                         )}
@@ -715,8 +714,8 @@ export default function MaintenanceProjectDetailsPage() {
                                                                                 onClick={() => setEditElevatorDialog({ open: true, elevatorId: elevator.id })}
                                                                                 className="text-primary hover:text-primary"
                                                                             >
-                                                                                <Edit className="h-4 w-4 mr-1" />
-                                                                                Edit
+                                                                            <Edit className="h-4 w-4 mr-1" />
+                                                                            {t.maintenanceProjectDetail.edit}
                                                                             </Button>
                                                                             {elevator.status.toLowerCase() === 'active' && (
                                                                                 <>
@@ -727,7 +726,7 @@ export default function MaintenanceProjectDetailsPage() {
                                                                                         className="text-warning hover:text-warning"
                                                                                     >
                                                                                         <Snowflake className="h-4 w-4 mr-1" />
-                                                                                        Freeze
+                                                                                        {t.maintenanceProjectDetail.freeze}
                                                                                     </Button>
                                                                                     <Button
                                                                                         variant="outline"
@@ -736,7 +735,7 @@ export default function MaintenanceProjectDetailsPage() {
                                                                                         className="text-destructive hover:text-destructive"
                                                                                     >
                                                                                         <Square className="h-4 w-4 mr-1" />
-                                                                                        Stop
+                                                                                        {t.maintenanceProjectDetail.stop}
                                                                                     </Button>
                                                                                 </>
                                                                             )}
@@ -747,8 +746,8 @@ export default function MaintenanceProjectDetailsPage() {
                                                                                     onClick={() => openActionDialog('activate', elevator.id)}
                                                                                     className="text-success hover:text-success"
                                                                                 >
-                                                                                    <Play className="h-4 w-4 mr-1" />
-                                                                                    Activate
+                                                                                        <Play className="h-4 w-4 mr-1" />
+                                                                                        {t.maintenanceProjectDetail.activate}
                                                                                 </Button>
                                                                             )}
                                                                         </>
@@ -760,10 +759,10 @@ export default function MaintenanceProjectDetailsPage() {
                                                                             onClick={() => setMaintenanceDialog({ open: true, elevatorId: elevator.id })}
                                                                             className="bg-primary text-primary-foreground"
                                                                             disabled={isElevatorDoneThisMonth(elevator.id)}
-                                                                            title={isElevatorDoneThisMonth(elevator.id) ? "Maintenance already completed for this month" : ""}
+                                                                            title={isElevatorDoneThisMonth(elevator.id) ? t.maintenanceProjectDetail.maintenanceDone : ""}
                                                                         >
                                                                             <Wrench className="h-4 w-4 mr-1" />
-                                                                            Maintenance
+                                                                            {t.maintenanceProjectDetail.maintenance}
                                                                         </Button>
                                                                     )}
                                                                 </div>
@@ -786,7 +785,7 @@ export default function MaintenanceProjectDetailsPage() {
                                             </div>
                                         ) : (
                                             <div className="text-center py-8 text-muted-foreground">
-                                                <p>No elevators found for this contract.</p>
+                                                <p>{t.maintenanceProjectDetail.noElevators}</p>
                                             </div>
                                         )}
                                     </CardContent>
@@ -875,7 +874,7 @@ export default function MaintenanceProjectDetailsPage() {
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel onClick={closeActionDialog}>Cancel</AlertDialogCancel>
+                        <AlertDialogCancel onClick={closeActionDialog}>{t.maintenanceProjectDetail.cancel}</AlertDialogCancel>
                         <AlertDialogAction
                             onClick={handleConfirmAction}
                             className={actionDialog.type === 'stop' ? 'bg-destructive text-destructive-foreground hover:bg-destructive/90' : ''}
@@ -888,14 +887,14 @@ export default function MaintenanceProjectDetailsPage() {
             <DemoGuidePanel
               title={t.demoGuide.maintenance.title}
               description={t.demoGuide.maintenance.description}
-              features={[
-                { icon: "📁", label: "Projects Tab", description: "All maintenance contracts by client" },
-                { icon: "📅", label: "Calendar Tab", description: "Visual monthly view of all scheduled visits" },
-                { icon: "📋", label: "List Tab", description: "Detailed list of all visits with status" },
-                { icon: "✅", label: "Checklist Tab", description: "Per-visit checklist for technicians" },
-                { icon: "👨‍🔧", label: "Assign Visits", description: "Assign technicians to specific visits" },
-                { icon: "🔧", label: "Elevator Status", description: "Freeze, stop, or activate individual elevators" },
-              ]}
+        features={[
+          { icon: "📁", label: t.maintenance.projects, description: t.maintenance.projectsDesc },
+          { icon: "📅", label: t.maintenance.calendar, description: t.maintenance.calendarDesc },
+          { icon: "📋", label: t.maintenance.list, description: t.maintenance.listDesc },
+          { icon: "✅", label: t.maintenance.checklist, description: t.maintenance.checklistDesc },
+          { icon: "👨‍🔧", label: t.maintenance.assignVisits, description: t.maintenance.assignVisitsDesc },
+          { icon: "🔧", label: t.maintenance.elevatorFleet, description: t.maintenance.elevatorFleetDesc },
+        ]}
               tip={t.demoGuide.maintenance.tip}
             />
         </SidebarProvider>

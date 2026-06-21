@@ -107,7 +107,7 @@ export default function ClientDetailsPage() {
 
             const foundCustomer = customersData.find(c => c.id === id)
             if (!foundCustomer) {
-                toast.error("Client not found")
+                toast.error(t.clientDetail.clientNotFound)
                 router.push("/clients")
                 return
             }
@@ -134,7 +134,7 @@ export default function ClientDetailsPage() {
             console.error("Error fetching client:", error)
             // Don't show error for 403 (permission denied) - user just doesn't have access
             if (error?.status !== 403) {
-                const errorMessage = error?.message || error?.data?.message || "Failed to load client details"
+                const errorMessage = error?.message || error?.data?.message || t.clientDetail.errorLoading
                 toast.error(errorMessage)
             }
             // Only redirect if it's not a permission error
@@ -149,11 +149,11 @@ export default function ClientDetailsPage() {
     const getStatusBadge = (status: string) => {
         const statusLower = status.toLowerCase()
         if (statusLower === "completed") {
-            return <Badge className="bg-green-600 text-white">Completed</Badge>
+            return <Badge className="bg-green-600 text-white">{t.common.completed}</Badge>
         } else if (statusLower === "inprogress" || statusLower === "in progress") {
-            return <Badge className="bg-blue-500/10 text-blue-500 border-blue-500/20">In Progress</Badge>
+            return <Badge className="bg-blue-500/10 text-blue-500 border-blue-500/20">{t.common.inProgress}</Badge>
         } else if (statusLower === "pending") {
-            return <Badge className="bg-yellow-500/10 text-yellow-500 border-yellow-500/20">Pending</Badge>
+            return <Badge className="bg-yellow-500/10 text-yellow-500 border-yellow-500/20">{t.common.pending}</Badge>
         }
         return <Badge variant="outline">{status}</Badge>
     }
@@ -164,7 +164,7 @@ export default function ClientDetailsPage() {
                 <AppSidebar />
                 <div className="flex flex-1 flex-col">
                     <AppHeader />
-                    <main className="flex-1 p-8 text-center">Loading client details...</main>
+                    <main className="flex-1 p-8 text-center">{t.clientDetail.loading}</main>
                 </div>
             </div>
         </SidebarProvider>
@@ -176,7 +176,7 @@ export default function ClientDetailsPage() {
                 <AppSidebar />
                 <div className="flex flex-1 flex-col">
                     <AppHeader />
-                    <main className="flex-1 p-8 text-center">Client not found</main>
+                    <main className="flex-1 p-8 text-center">{t.clientDetail.notFound}</main>
                 </div>
             </div>
         </SidebarProvider>
@@ -202,7 +202,7 @@ export default function ClientDetailsPage() {
                     <main className="flex-1 p-8 pt-6 max-w-7xl mx-auto space-y-6">
                         <div className="flex items-center justify-between">
                             <Button variant="ghost" onClick={() => router.back()} className="text-muted-foreground hover:text-foreground">
-                                <ChevronLeft className="mr-2 h-4 w-4" /> Back to Clients
+                                <ChevronLeft className="mr-2 h-4 w-4" /> {t.clientDetail.backToClients}
                             </Button>
                             <div className="flex items-center space-x-3">
                                 {customer?.customerStatus && (
@@ -217,11 +217,11 @@ export default function ClientDetailsPage() {
                                     >
                                         {customer.customerStatus === "Approved" && <CheckCircle className="mr-1.5 h-3.5 w-3.5 inline" />}
                                         {customer.customerStatus === "Rejected" && <XCircle className="mr-1.5 h-3.5 w-3.5 inline" />}
-                                        Status: {customer.customerStatus}
+                                        {t.common.status}: {customer.customerStatus}
                                     </Badge>
                                 )}
                                 <Button variant="outline" onClick={() => router.push(`/clients/${id}/edit`)}>
-                                    <Edit className="mr-2 h-4 w-4" /> Edit Client
+                                    <Edit className="mr-2 h-4 w-4" /> {t.clientDetail.editClient}
                                 </Button>
                             </div>
                         </div>
@@ -238,14 +238,14 @@ export default function ClientDetailsPage() {
                                         <div className="flex items-center space-x-3">
                                             <Mail className="h-5 w-5 text-muted-foreground" />
                                             <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Email</p>
+                                                <p className="text-sm font-medium text-muted-foreground">{t.clientDetail.email}</p>
                                                 <p className="text-base">{customer.email}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center space-x-3">
                                             <Phone className="h-5 w-5 text-muted-foreground" />
                                             <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Phone</p>
+                                                <p className="text-sm font-medium text-muted-foreground">{t.clientDetail.phone}</p>
                                                 <p className="text-base">{customer.phone}</p>
                                             </div>
                                         </div>
@@ -254,20 +254,20 @@ export default function ClientDetailsPage() {
                                         <div className="flex items-start space-x-3">
                                             <MapPin className="h-5 w-5 text-muted-foreground mt-1" />
                                             <div className="flex-1">
-                                                <p className="text-sm font-medium text-muted-foreground">Client Address</p>
-                                                <p className="text-base">{customer.address || "No address provided"}</p>
+                                                <p className="text-sm font-medium text-muted-foreground">{t.clientDetail.clientAddress}</p>
+                                                <p className="text-base">{customer.address || t.clientDetail.noAddress}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center space-x-3">
                                             <Building2 className="h-5 w-5 text-muted-foreground" />
                                             <div>
-                                                <p className="text-sm font-medium text-muted-foreground">Total Projects</p>
+                                                <p className="text-sm font-medium text-muted-foreground">{t.clientDetail.totalProjects}</p>
                                                 <p className="text-base font-semibold">
                                                     {customer.installationProjects.length + (canViewMaintenance() ? customer.maintenanceContracts.length : 0)}
                                                 </p>
                                                 <p className="text-xs text-muted-foreground mt-1">
-                                                    {customer.installationProjects.length} Installation{customer.installationProjects.length !== 1 ? 's' : ''}
-                                                    {canViewMaintenance() && ` • ${customer.maintenanceContracts.length} Maintenance`}
+                                                    {customer.installationProjects.length} {t.clientDetail.installation}{customer.installationProjects.length !== 1 ? 's' : ''}
+                                                    {canViewMaintenance() && ` • ${customer.maintenanceContracts.length} ${t.clientDetail.maintenance}`}
                                                 </p>
                                             </div>
                                         </div>
@@ -280,11 +280,11 @@ export default function ClientDetailsPage() {
                         <div className="space-y-4">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <h2 className="text-2xl font-bold tracking-tight">Installation Projects</h2>
+                                    <h2 className="text-2xl font-bold tracking-tight">{t.clientDetail.installationProjects}</h2>
                                     <p className="text-muted-foreground">
-                                        {customer.installationProjects.length} project{customer.installationProjects.length !== 1 ? 's' : ''} total
-                                        {activeInstallationProjects.length > 0 && ` • ${activeInstallationProjects.length} active`}
-                                        {completedInstallationProjects.length > 0 && ` • ${completedInstallationProjects.length} completed`}
+                                        {t.clientDetail.projectsTotal.replace("{count}", String(customer.installationProjects.length))}
+                                        {activeInstallationProjects.length > 0 && ` • ${t.clientDetail.active.replace("{count}", String(activeInstallationProjects.length))}`}
+                                        {completedInstallationProjects.length > 0 && ` • ${t.clientDetail.completed.replace("{count}", String(completedInstallationProjects.length))}`}
                                     </p>
                                 </div>
                             </div>
@@ -293,8 +293,8 @@ export default function ClientDetailsPage() {
                                 <Card className="border-border/40 bg-card/50 backdrop-blur-sm">
                                     <CardContent className="p-8 text-center text-muted-foreground">
                                         <Building2 className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                                        <p className="text-lg font-medium">No installation projects found</p>
-                                        <p className="text-sm">This client doesn't have any installation projects yet.</p>
+                                        <p className="text-lg font-medium">{t.clientDetail.noInstallationProjects}</p>
+                                        <p className="text-sm">{t.clientDetail.noInstallationProjectsDesc}</p>
                                     </CardContent>
                                 </Card>
                             ) : (
@@ -317,9 +317,9 @@ export default function ClientDetailsPage() {
                                                     <div className="flex items-start space-x-2 text-sm">
                                                         <MapPin className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
                                                         <div className="flex-1">
-                                                            <p className="text-xs font-medium text-muted-foreground mb-1">Project Address</p>
+                                                            <p className="text-xs font-medium text-muted-foreground mb-1">{t.clientDetail.projectAddress}</p>
                                                             <p className="text-sm line-clamp-2">
-                                                                {project.projectAddress || project.customerAddress || "No address provided"}
+                                                                {project.projectAddress || project.customerAddress || t.clientDetail.noAddress}
                                                             </p>
                                                         </div>
                                                     </div>
@@ -332,11 +332,11 @@ export default function ClientDetailsPage() {
                                                                 return isSame ? (
                                                                     <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 dark:bg-green-950 dark:text-green-300 dark:border-green-800">
                                                                         <CheckCircle2 className="h-3 w-3 mr-1" />
-                                                                        Same as client address
+                                                                        {t.clientDetail.sameAsClient}
                                                                     </Badge>
                                                                 ) : (
                                                                     <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950 dark:text-blue-300 dark:border-blue-800">
-                                                                        Different from client address
+                                                                        {t.clientDetail.differentFromClient}
                                                                     </Badge>
                                                                 );
                                                             })()}
@@ -346,7 +346,7 @@ export default function ClientDetailsPage() {
                                                 <div className="flex items-center space-x-2 text-sm">
                                                     <Calendar className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                                                     <span className="text-muted-foreground">
-                                                        Contract: {new Date(project.contractDate).toLocaleDateString()}
+                                                        {t.clientDetail.contract} {new Date(project.contractDate).toLocaleDateString()}
                                                     </span>
                                                 </div>
                                                 {project.totalPrice > 0 && (
@@ -360,14 +360,14 @@ export default function ClientDetailsPage() {
                                                 {project.elevators && project.elevators.length > 0 && (
                                                     <div className="pt-2 border-t">
                                                         <p className="text-xs text-muted-foreground">
-                                                            {project.elevators.length} Elevator{project.elevators.length !== 1 ? 's' : ''}
+                                                            {t.clientDetail.elevators.replace("{count}", String(project.elevators.length))}
                                                         </p>
                                                     </div>
                                                 )}
                                                 <div className="pt-2">
                                                     <Link href={`/projects/${project.id}`}>
                                                         <Button variant="outline" size="sm" className="w-full hover:bg-primary/10 hover:text-primary">
-                                                            View Project Details
+                                                            {t.clientDetail.viewProjectDetails}
                                                             <ArrowRight className="ml-2 h-4 w-4" />
                                                         </Button>
                                                     </Link>
@@ -384,10 +384,10 @@ export default function ClientDetailsPage() {
                             <div className="space-y-4">
                                 <div className="flex items-center justify-between">
                                     <div>
-                                        <h2 className="text-2xl font-bold tracking-tight">Maintenance Projects</h2>
+                                        <h2 className="text-2xl font-bold tracking-tight">{t.clientDetail.maintenanceProjects}</h2>
                                         <p className="text-muted-foreground">
-                                            {customer.maintenanceContracts.length} contract{customer.maintenanceContracts.length !== 1 ? 's' : ''} total
-                                            {activeMaintenanceContracts.length > 0 && ` • ${activeMaintenanceContracts.length} active`}
+                                            {t.clientDetail.contractsTotal.replace("{count}", String(customer.maintenanceContracts.length))}
+                                            {activeMaintenanceContracts.length > 0 && ` • ${t.clientDetail.active.replace("{count}", String(activeMaintenanceContracts.length))}`}
                                         </p>
                                     </div>
                                 </div>
@@ -396,8 +396,8 @@ export default function ClientDetailsPage() {
                                     <Card className="border-border/40 bg-card/50 backdrop-blur-sm">
                                         <CardContent className="p-8 text-center text-muted-foreground">
                                             <Building2 className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                                            <p className="text-lg font-medium">No maintenance projects found</p>
-                                            <p className="text-sm">This client doesn't have any maintenance contracts yet.</p>
+                                        <p className="text-lg font-medium">{t.clientDetail.noMaintenanceProjects}</p>
+                                        <p className="text-sm">{t.clientDetail.noMaintenanceProjectsDesc}</p>
                                         </CardContent>
                                     </Card>
                                 ) : (
@@ -426,22 +426,22 @@ export default function ClientDetailsPage() {
                                                         <div className="flex items-center space-x-2 text-sm">
                                                             <DollarSign className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                                                             <span className="text-muted-foreground">
-                                                                {contract.pricePerMonth.toLocaleString()} EGP/month
-                                                                {contract.freeMonths > 0 && ` • ${contract.freeMonths} free month${contract.freeMonths !== 1 ? 's' : ''}`}
+{contract.pricePerMonth.toLocaleString()} {t.clientDetail.egpMonth}
+                                                                    {contract.freeMonths > 0 && ` • ${t.clientDetail.freeMonth.replace("{count}", String(contract.freeMonths))}`}
                                                             </span>
                                                         </div>
                                                     )}
                                                     {contract.elevatorCount > 0 && (
                                                         <div className="pt-2 border-t">
                                                             <p className="text-xs text-muted-foreground">
-                                                                {contract.elevatorCount} Elevator{contract.elevatorCount !== 1 ? 's' : ''}
+                                                                {t.clientDetail.elevators.replace("{count}", String(contract.elevatorCount))}
                                                             </p>
                                                         </div>
                                                     )}
                                                     <div className="pt-2">
                                                         <Link href={`/maintenance/projects/${contract.id}`}>
                                                             <Button variant="outline" size="sm" className="w-full hover:bg-primary/10 hover:text-primary">
-                                                                View Contract Details
+                                                                {t.clientDetail.viewContractDetails}
                                                                 <ArrowRight className="ml-2 h-4 w-4" />
                                                             </Button>
                                                         </Link>
@@ -460,9 +460,9 @@ export default function ClientDetailsPage() {
               title={t.demoGuide.clients.title}
               description={t.demoGuide.clients.description}
               features={[
-                { icon: "🔍", label: "Search & Filter", description: "Quickly find any client by name or contact" },
-                { icon: "📋", label: "Client Details", description: "View client profile, projects, and contracts" },
-                { icon: "➕", label: "Add / Edit", description: "Full client management with contact info" },
+                { icon: "🔍", label: t.clients.searchFilter, description: t.clients.searchFilterDesc },
+                { icon: "📋", label: t.clients.clientDetails, description: t.clients.clientDetailsDesc },
+                { icon: "➕", label: t.clients.addEdit, description: t.clients.addEditDesc },
               ]}
               tip={t.demoGuide.clients.tip}
             />

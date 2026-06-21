@@ -27,6 +27,77 @@ export interface Translations {
     questionsContact: string
     proTip: string
     help: string
+    refresh: string
+    details: string
+    backTo: string
+    areYouSure: string
+    savingEllipsis: string
+    creating: string
+    submit: string
+    add: string
+    name: string
+    email: string
+    phone: string
+    address: string
+    city: string
+    status: string
+    actions: string
+    project: string
+    customer: string
+    notes: string
+    type: string
+    date: string
+    price: string
+    total: string
+    active: string
+    inactive: string
+    pending: string
+    completed: string
+    inProgress: string
+    rejected: string
+    approved: string
+    busy: string
+    available: string
+    stopped: string
+    frozen: string
+    open: string
+    enRoute: string
+    resolved: string
+    done: string
+    high: string
+    medium: string
+    low: string
+    paid: string
+    unpaid: string
+    nA: string
+    notAssigned: string
+    responsible: string
+    leader: string
+    specialization: string
+    rating: string
+    all: string
+    password: string
+    username: string
+    usernameEmail: string
+    signIn: string
+    signInLoading: string
+    loginSuccessful: string
+    welcomeBack: string
+    loginFailed: string
+    termsAndPrivacy: string
+    demoAccessTitle: string
+    contactVia: string
+    pricePerMonth: string
+    freeMonths: string
+    month: string
+    months: string
+    code: string
+    source: string
+    nextMaintenance: string
+    startDate: string
+    endDate: string
+    phoneNumber: string
+    clientAddress: string
   }
   nav: {
     management: string
@@ -43,17 +114,23 @@ export interface Translations {
     logOut: string
   }
   login: {
+    liftOps: string
+    quote: string
+    operationsCenter: string
     title: string
     subtitle: string
     email: string
     emailPlaceholder: string
     password: string
+    passwordPlaceholder: string
     signIn: string
     signInLoading: string
     loginSuccessful: string
     welcomeBack: string
     loginFailed: string
     demoAccessTitle: string
+    termsOfService: string
+    privacyPolicy: string
     termsAndPrivacy: string
   }
   dashboard: {
@@ -63,24 +140,408 @@ export interface Translations {
     activeInstallations: string
     maintenanceDue: string
     lowStockItems: string
+    ongoingProjects: string
+    scheduledVisits: string
+    reorderRecommended: string
     open: string
     enRoute: string
     inProgress: string
     resolved: string
+    kpiCards: string
+    kpiCardsDesc: string
+    emergencyStatus: string
+    emergencyStatusDesc: string
+    revenueVsExpenses: string
+    revenueVsExpensesDesc: string
+    recentActivity: string
+    recentActivityDesc: string
   }
   clients: {
     title: string
     subtitle: string
+    allClients: string
+    sortBy: string
+    sortByName: string
+    sortByLastAdded: string
+    searchClients: string
+    installationDone: string
+    installationInProgress: string
+    maintenance: string
+    status: string
+    email: string
+    phone: string
+    address: string
+    actions: string
+    name: string
+    viewDetails: string
+    noResults: string
+    searchFilter: string
+    searchFilterDesc: string
+    clientDetails: string
+    clientDetailsDesc: string
+    addEdit: string
+    addEditDesc: string
+    errorLoading: string
+  }
+  clientDetail: {
+    backToClients: string
+    editClient: string
+    email: string
+    phone: string
+    clientAddress: string
+    noAddress: string
+    totalProjects: string
+    installation: string
+    maintenance: string
+    installationProjects: string
+    projectsTotal: string
+    active: string
+    completed: string
+    noInstallationProjects: string
+    noInstallationProjectsDesc: string
+    projectAddress: string
+    sameAsClient: string
+    differentFromClient: string
+    contract: string
+    elevators: string
+    viewProjectDetails: string
+    maintenanceProjects: string
+    contractsTotal: string
+    noMaintenanceProjects: string
+    noMaintenanceProjectsDesc: string
+    egpMonth: string
+    freeMonth: string
+    viewContractDetails: string
+    loading: string
+    notFound: string
+    clientNotFound: string
+    errorLoading: string
+  }
+  clientEdit: {
+    title: string
+    subtitle: string
+    backToClient: string
+    name: string
+    namePlaceholder: string
+    phone: string
+    phonePlaceholder: string
+    email: string
+    emailPlaceholder: string
+    address: string
+    addressPlaceholder: string
+    city: string
+    cityPlaceholder: string
+    projectNumber: string
+    projectNumberPlaceholder: string
+    googleMapsLink: string
+    googleMapsPlaceholder: string
+    cancel: string
+    saving: string
+    saveChanges: string
+    clientNotFound: string
+    loading: string
+    errorLoading: string
+    success: string
+    errorSaving: string
+    nameRequired: string
+    phoneRequired: string
+    emailRequired: string
   }
   projects: {
     title: string
     subtitle: string
+    allProjects: string
+    searchProjects: string
+    allStatuses: string
+    active: string
+    inProgress: string
+    pending: string
+    completed: string
+    rejected: string
+    project: string
+    customer: string
+    address: string
+    contractDate: string
+    status: string
+    actions: string
+    details: string
+    newProject: string
+    refresh: string
+    noProjects: string
+    loading: string
+  }
+  projectDetail: {
+    backToProjects: string
+    approve: string
+    reject: string
+    editProject: string
+    overallStatus: string
+    pendingInspection: string
+    rejected: string
+    completed: string
+    pendingInspectionTitle: string
+    pendingInspectionDesc: string
+    rejectedTitle: string
+    rejectedDesc: string
+    projectIdentification: string
+    projectAddress: string
+    googleMapsLocation: string
+    viewOnGoogleMaps: string
+    contract: string
+    customerContact: string
+    contactViaLogs: string
+    allStagesCompleted: string
+    elevatorInstallationCompleted: string
+    elevatorCompletedDesc: string
+    lockedPermanent: string
+    installationProgress: string
+    stage: string
+    startStage: string
+    completeStage: string
+    report: string
+    paid: string
+    unpaid: string
+    noElevators: string
+    loading: string
+    notFound: string
+    errorLoading: string
+    stageStarted: string
+    stageCompleted: string
+    inspectionApproved: string
+    inspectionApprovedDesc: string
+    inspectionRejected: string
+    rejectedAlert: string
+    cannotStartStage: string
+    cannotStartRejected: string
+    cannotCompleteStage: string
+    approvalRequired: string
+    projectRejectedAlert: string
+    notFoundDesc: string
+    elevator: string
+  }
+  projectNew: {
+    step1Title: string
+    step1Desc: string
+    customerSearch: string
+    searchPlaceholder: string
+    searching: string
+    customerFound: string
+    existing: string
+    name: string
+    email: string
+    phone: string
+    address: string
+    useThisCustomer: string
+    createNewInstead: string
+    notFound: string
+    customerName: string
+    fromExisting: string
+    namePlaceholder: string
+    emailOptional: string
+    emailUnique: string
+    emailPlaceholder: string
+    phoneRequired: string
+    phoneUnique: string
+    phonePlaceholder: string
+    projectNumber: string
+    projectNumberPlaceholder: string
+    checking: string
+    alreadyExists: string
+    available: string
+    clientAddress: string
+    addressPlaceholder: string
+    city: string
+    cityPlaceholder: string
+    addressHint: string
+    googleMapsLink: string
+    googleMapsPlaceholder: string
+    googleMapsHint: string
+    nextStep: string
+    step2Title: string
+    step2Desc: string
+    elevatorType: string
+    withMachineRoom: string
+    machineRoomLess: string
+    hydraulic: string
+    floorsCount: string
+    floorsPlaceholder: string
+    floorsHint: string
+    stopsCount: string
+    stopsPlaceholder: string
+    stopsHint: string
+    pitType: string
+    concrete: string
+    brick: string
+    shaftWidth: string
+    shaftDepth: string
+    overHead: string
+    pitDepth: string
+    totalTravel: string
+    notesOptional: string
+    notesPlaceholder: string
+    addAnotherElevator: string
+    previous: string
+    step3Title: string
+    step3Desc: string
+    elevatorPrices: string
+    priceHint: string
+    elevator: string
+    priceDollar: string
+    totalContractPrice: string
+    contractDate: string
+    pickDate: string
+    datePlaceholder: string
+    installationStartDate: string
+    expectedFinishDate: string
+    projectAddressOptional: string
+    projectAddressPlaceholder: string
+    projectCity: string
+    projectCityPlaceholder: string
+    contractNotes: string
+    contractNotesPlaceholder: string
+    summary: string
+    totalElevators: string
+    back: string
+    saveProject: string
+    creating: string
+    success: string
+    error: string
+    phoneRequiredValidation: string
+    projectNumberRequired: string
+    projectNumberExists: string
+    validationError: string
+    usingExisting: string
+    creatingCustomer: string
+  }
+  technicians: {
+    title: string
+    subtitle: string
+    allTechnicians: string
+    searchTechnicians: string
+    addTechnician: string
+    name: string
+    phone: string
+    specialization: string
+    leader: string
+    status: string
+    rating: string
+    actions: string
+    editTechnician: string
+    deleteTechnician: string
+    noTechnicians: string
+    noTechniciansSearch: string
+    loading: string
+    inactive: string
+    available: string
+    active: string
+    busy: string
+    areYouSure: string
+    deleteConfirm: string
+    cancel: string
+    delete: string
+    deleting: string
+    teamList: string
+    teamListDesc: string
+    addEditDelete: string
+    addEditDeleteDesc: string
+    enableDisable: string
+    enableDisableDesc: string
+    accessDenied: string
+    errorLoading: string
+    deleteSuccess: string
+    deleteError: string
+    statusUpdated: string
+    statusUpdateError: string
+    disabled: string
+    enabled: string
+  }
+  technicianNew: {
+    title: string
+    subtitle: string
+    backToTechnicians: string
+    name: string
+    namePlaceholder: string
+    phone: string
+    phonePlaceholder: string
+    specializationPlaceholder: string
+    specializationHint: string
+    leader: string
+    leaderPlaceholder: string
+    noLeader: string
+    leaderHint: string
+    loginCredentials: string
+    loginHint: string
+    usernameEmail: string
+    emailPlaceholder: string
+    emailHint: string
+    password: string
+    passwordPlaceholder: string
+    showPassword: string
+    hidePassword: string
+    passwordHint: string
+    cancel: string
+    addTechnician: string
+    adding: string
+    success: string
+    error: string
+    accessDenied: string
+    nameRequired: string
+    phoneRequired: string
+    passwordRequiredWithUsername: string
+    usernameRequiredWithPassword: string
+    loading: string
+  }
+  technicianEdit: {
+    title: string
+    subtitle: string
+    backToTechnicians: string
+    name: string
+    namePlaceholder: string
+    phone: string
+    phonePlaceholder: string
+    specializationPlaceholder: string
+    specializationHint: string
+    leader: string
+    leaderPlaceholder: string
+    noLeader: string
+    leaderHint: string
+    loginCredentials: string
+    loginHint: string
+    usernameEmail: string
+    emailPlaceholder: string
+    emailHint: string
+    password: string
+    passwordPlaceholder: string
+    passwordHint: string
+    cancel: string
+    saving: string
+    saveChanges: string
+    success: string
+    error: string
+    accessDenied: string
+    nameRequired: string
+    phoneRequired: string
+    passwordRequiredWithUsername: string
+    usernameRequiredWithPassword: string
+    loading: string
+    notFound: string
+    errorLoading: string
+    technicianNotFound: string
   }
   installation: {
     title: string
     subtitle: string
     inspections: string
     pipeline: string
+    allUnits: string
+    phase1: string
+    phase2: string
+    phase3: string
+    phase4: string
+    pipelineView: string
+    pipelineViewDesc: string
+    inspectionsTab: string
+    inspectionsTabDesc: string
   }
   inventory: {
     title: string
@@ -88,10 +549,19 @@ export interface Translations {
     addItem: string
     addCategory: string
     export: string
-  }
-  technicians: {
-    title: string
-    subtitle: string
+    addNewCategory: string
+    addNewItem: string
+    itemCreated: string
+    itemError: string
+    categoryCreated: string
+    categoryError: string
+    partsOverview: string
+    partsOverviewDesc: string
+    lowStockAlerts: string
+    lowStockAlertsDesc: string
+    addItemsCategories: string
+    addItemsCategoriesDesc: string
+    exportDesc: string
   }
   maintenance: {
     title: string
@@ -103,21 +573,356 @@ export interface Translations {
     assignVisits: string
     elevatorFleet: string
     newContract: string
+    scheduleVisit: string
+    viewElevators: string
+    checklistItems: string
+    checklistItemsDesc: string
+    addChecklistItem: string
+    addChecklistItemDialog: string
+    itemCreated: string
+    itemError: string
+    loading: string
+    projectsTab: string
+    projectsTabDesc: string
+    calendarTab: string
+    calendarTabDesc: string
+    listTab: string
+    listTabDesc: string
+    checklistTab: string
+    checklistTabDesc: string
+    assignVisitsTab: string
+    assignVisitsTabDesc: string
+    elevatorStatus: string
+    elevatorStatusDesc: string
+  }
+  maintenanceElevators: {
+    title: string
+    subtitle: string
+    totalElevators: string
+    active: string
+    frozen: string
+    stopped: string
+    allElevators: string
+    elevatorsFound: string
+    searchElevators: string
+    allStatus: string
+    code: string
+    customer: string
+    project: string
+    type: string
+    stopsFloors: string
+    nextMaintenance: string
+    status: string
+    source: string
+    actions: string
+    nA: string
+    notScheduled: string
+    installation: string
+    direct: string
+    details: string
+    freeze: string
+    stop: string
+    activate: string
+    cancel: string
+    freezeTitle: string
+    freezeDesc: string
+    stopTitle: string
+    stopDesc: string
+    activateTitle: string
+    activateDesc: string
+    confirmAction: string
+    confirmDefault: string
+    confirm: string
+    noElevators: string
+    noElevatorsFilter: string
+    refresh: string
+    errorLoading: string
+    freezeSuccess: string
+    stopSuccess: string
+    activateSuccess: string
+    actionError: string
+    searchFilter: string
+    searchFilterDesc: string
+  }
+  maintenanceAssign: {
+    title: string
+    subtitle: string
+    selectDate: string
+    selectDateDesc: string
+    visitDate: string
+    noVisits: string
+    noVisitsDate: string
+    visitsFor: string
+    visitsCount: string
+    technician: string
+    status: string
+    unassigned: string
+    unknown: string
+    reassign: string
+    assign: string
+    assignDialog: string
+    project: string
+    customer: string
+    date: string
+    selectTechnician: string
+    selectTechnicianPlaceholder: string
+    noteHint: string
+    cancel: string
+    assigning: string
+    pending: string
+    inProgress: string
+    done: string
+    refresh: string
+    errorLoading: string
+    errorLoadingVisits: string
+    success: string
+    error: string
+    selectTechnicianRequired: string
+    monthlySchedule: string
+    monthlyScheduleDesc: string
+    assignToTechnician: string
+    assignToTechnicianDesc: string
+    trackAssignment: string
+    trackAssignmentDesc: string
+    loading: string
+  }
+  maintenanceProjectDetail: {
+    backToProjects: string
+    downloadPdf: string
+    totalElevators: string
+    active: string
+    frozen: string
+    stopped: string
+    freeMaintenance: string
+    freePeriodExpired: string
+    paidMaintenance: string
+    projectNumber: string
+    edit: string
+    projectAddress: string
+    googleMapsLocation: string
+    viewOnGoogleMaps: string
+    startDate: string
+    endDate: string
+    pricePerMonth: string
+    freeMonths: string
+    monthSuffix: string
+    mainResponsible: string
+    notAssigned: string
+    freezeReason: string
+    customerInformation: string
+    elevators: string
+    elevatorsDesc: string
+    type: string
+    stopsFloors: string
+    nextMaintenance: string
+    freeze: string
+    stop: string
+    activate: string
+    maintenanceDone: string
+    maintenance: string
+    noElevators: string
+    cancel: string
+    freezeTitle: string
+    freezeDesc: string
+    stopTitle: string
+    stopDesc: string
+    activateTitle: string
+    activateDesc: string
+    confirmAction: string
+    confirmDefault: string
+    confirm: string
+    contractFreezeSuccess: string
+    contractStopSuccess: string
+    contractActivateSuccess: string
+    elevatorFreezeSuccess: string
+    elevatorStopSuccess: string
+    elevatorActivateSuccess: string
+    actionError: string
+    generatingPdf: string
+    pdfSuccess: string
+    pdfError: string
+    loading: string
+    notFound: string
+    errorLoading: string
+    contractNotFound: string
+  }
+  maintenanceProjectNew: {
+    back: string
+    customerInformation: string
+    customerInfoDesc: string
+    customerSearch: string
+    searchHint: string
+    searching: string
+    customerFound: string
+    existing: string
+    useThisCustomer: string
+    createNew: string
+    customerName: string
+    phone: string
+    email: string
+    address: string
+    city: string
+    cityPlaceholder: string
+    contractDetails: string
+    contractDetailsDesc: string
+    projectNumber: string
+    checking: string
+    alreadyExists: string
+    available: string
+    projectLocation: string
+    projectAddress: string
+    addressPlaceholder: string
+    projectCity: string
+    cityPlaceholder: string
+    googleMapsLink: string
+    googleMapsPlaceholder: string
+    googleMapsHint: string
+    startDate: string
+    endDate: string
+    pricePerMonth: string
+    freeMonths: string
+    notes: string
+    mainResponsible: string
+    selectTechnician: string
+    technicianHint: string
+    elevators: string
+    elevatorsDesc: string
+    addElevator: string
+    elevator: string
+    type: string
+    withMachineRoom: string
+    machineRoomLess: string
+    hydraulic: string
+    stopsCount: string
+    floorsCount: string
+    cancel: string
+    createProject: string
+    creating: string
+    success: string
+    error: string
+    phoneRequired: string
+    projectNumberRequired: string
+    projectNumberExists: string
+    usingExisting: string
+    creatingCustomer: string
+    errorLoading: string
+  }
+  technicianVisits: {
+    title: string
+    subtitle: string
+    maintenanceVisits: string
+    emergencyTickets: string
+    pending: string
+    inProgress: string
+    done: string
+    open: string
+    enRoute: string
+    resolved: string
+    high: string
+    medium: string
+    low: string
+    refresh: string
+    noVisits: string
+    noVisitsDesc: string
+    noEmergencies: string
+    noEmergenciesDesc: string
+    notesForVisit: string
+    noNotes: string
+    paymentNotes: string
+    address: string
+    phone: string
+    viewOnGoogleMaps: string
+    visitDate: string
+    elevator: string
+    notes: string
+    locationMap: string
+    openInGoogleMaps: string
+    startVisit: string
+    completeVisit: string
+    completed: string
+    emergencyDescription: string
+    location: string
+    openMap: string
+    contact: string
+    reported: string
+    reportedBy: string
+    completeVisitDialog: string
+    project: string
+    customer: string
+    maintenanceNotes: string
+    notesPlaceholder: string
+    paymentNotesOptional: string
+    paymentNotesPlaceholder: string
+    clientHasPaid: string
+    maintenanceChecklist: string
+    loadingChecklist: string
+    loadingChecklistItems: string
+    noChecklistItems: string
+    noChecklistHint: string
+    good: string
+    bad: string
+    addNotesForItem: string
+    cancel: string
+    completing: string
+    complete: string
+    assignedVisits: string
+    assignedVisitsDesc: string
+    emergencyTicketsDesc: string
+    startComplete: string
+    startCompleteDesc: string
+    errorLoading: string
+    errorLoadingVisits: string
+    visitStarted: string
+    visitStartError: string
+    visitCompleted: string
+    visitCompleteError: string
+    emergencyResolved: string
+    emergencyResolveError: string
+    emergencyStatusUpdated: string
+    loading: string
   }
   emergency: {
     title: string
     subtitle: string
     newEmergency: string
+    statsOverview: string
+    statsOverviewDesc: string
+    ticketList: string
+    ticketListDesc: string
+    newEmergencyDesc: string
   }
   finance: {
     title: string
     subtitle: string
+    totalRevenue: string
+    revenueValue: string
+    revenueChange: string
+    outstanding: string
+    outstandingValue: string
+    outstandingDesc: string
+    overduePayments: string
+    overdueValue: string
+    overdueDesc: string
+    collectedThisMonth: string
+    collectedValue: string
+    collectedChange: string
+    paymentSchedule: string
+    paymentScheduleDesc: string
+    project: string
+    milestone: string
+    amount: string
+    dueDate: string
+    status: string
+    revenueSummary: string
+    revenueSummaryDesc: string
   }
   settings: {
     title: string
     subtitle: string
     adminManagement: string
+    adminManagementDesc: string
     categoryManagement: string
+    categoryManagementDesc: string
   }
   myVisits: {
     title: string
@@ -128,21 +933,72 @@ export interface Translations {
   inspection: {
     title: string
     subtitle: string
+    customerInformation: string
+    customerInfoDesc: string
+    phone: string
+    phonePlaceholder: string
+    email: string
+    emailPlaceholder: string
+    customerFound: string
+    useThisCustomer: string
+    createNew: string
+    usingExisting: string
+    name: string
+    namePlaceholder: string
+    address: string
+    addressPlaceholder: string
+    projectInformation: string
+    projectInfoDesc: string
+    projectAddress: string
+    projectAddressPlaceholder: string
+    googleMapsLink: string
+    googleMapsPlaceholder: string
+    pitMeasurements: string
+    pitMeasurementsDesc: string
+    pitType: string
+    selectPitType: string
+    concrete: string
+    brick: string
+    shaftWidth: string
+    shaftDepth: string
+    overHead: string
+    pitDepth: string
+    totalTravel: string
+    additionalNotes: string
+    notesPlaceholder: string
+    cancel: string
+    createProject: string
+    creating: string
+    success: string
+    error: string
+    phoneRequired: string
+    addressRequired: string
+    pitTypeRequired: string
+    measurementsRequired: string
+    placeholderValue: string
+    customerSearch: string
+    customerSearchDesc: string
+    pitMeasurementsFeature: string
+    pitMeasurementsFeatureDesc: string
+    notesDetails: string
+    notesDetailsDesc: string
+    usingExistingCustomer: string
+    creatingCustomer: string
   }
   demoGuide: {
-    dashboard: { title: string; description: string; tip: string }
-    myVisits: { title: string; description: string; tip: string }
-    clients: { title: string; description: string; tip: string }
-    projects: { title: string; description: string; tip: string }
-    installation: { title: string; description: string; tip: string }
-    inventory: { title: string; description: string; tip: string }
-    technicians: { title: string; description: string; tip: string }
-    maintenance: { title: string; description: string; tip: string }
-    emergency: { title: string; description: string; tip: string }
-    finance: { title: string; description: string; tip: string }
-    settings: { title: string; description: string; tip: string }
-    assignVisits: { title: string; description: string; tip: string }
-    elevators: { title: string; description: string; tip: string }
-    inspection: { title: string; description: string; tip: string }
+    dashboard: { title: string; description: string; tip: string; features?: { label: string; desc: string }[] }
+    myVisits: { title: string; description: string; tip: string; features?: { label: string; desc: string }[] }
+    clients: { title: string; description: string; tip: string; features?: { label: string; desc: string }[] }
+    projects: { title: string; description: string; tip: string; features?: { label: string; desc: string }[] }
+    installation: { title: string; description: string; tip: string; features?: { label: string; desc: string }[] }
+    inventory: { title: string; description: string; tip: string; features?: { label: string; desc: string }[] }
+    technicians: { title: string; description: string; tip: string; features?: { label: string; desc: string }[] }
+    maintenance: { title: string; description: string; tip: string; features?: { label: string; desc: string }[] }
+    emergency: { title: string; description: string; tip: string; features?: { label: string; desc: string }[] }
+    finance: { title: string; description: string; tip: string; features?: { label: string; desc: string }[] }
+    settings: { title: string; description: string; tip: string; features?: { label: string; desc: string }[] }
+    assignVisits: { title: string; description: string; tip: string; features?: { label: string; desc: string }[] }
+    elevators: { title: string; description: string; tip: string; features?: { label: string; desc: string }[] }
+    inspection: { title: string; description: string; tip: string; features?: { label: string; desc: string }[] }
   }
 }

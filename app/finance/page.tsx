@@ -64,60 +64,60 @@ export default function FinancePage() {
             <div className="mb-6 grid gap-4 md:grid-cols-4">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
+                  <CardTitle className="text-sm font-medium">{t.finance.totalRevenue}</CardTitle>
                   <DollarSign className="h-4 w-4 text-success" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">$2,458,000</div>
-                  <p className="text-xs text-success">+18% from last year</p>
+                  <div className="text-2xl font-bold">{t.finance.revenueValue}</div>
+                  <p className="text-xs text-success">{t.finance.revenueChange}</p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Outstanding</CardTitle>
+                  <CardTitle className="text-sm font-medium">{t.finance.outstanding}</CardTitle>
                   <AlertCircle className="h-4 w-4 text-warning" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">$465,500</div>
-                  <p className="text-xs text-muted-foreground">Across 8 projects</p>
+                  <div className="text-2xl font-bold">{t.finance.outstandingValue}</div>
+                  <p className="text-xs text-muted-foreground">{t.finance.outstandingDesc}</p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Overdue Payments</CardTitle>
+                  <CardTitle className="text-sm font-medium">{t.finance.overduePayments}</CardTitle>
                   <AlertCircle className="h-4 w-4 text-destructive" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">$12,500</div>
-                  <p className="text-xs text-destructive">1 invoice overdue</p>
+                  <div className="text-2xl font-bold">{t.finance.overdueValue}</div>
+                  <p className="text-xs text-destructive">{t.finance.overdueDesc}</p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Collected This Month</CardTitle>
+                  <CardTitle className="text-sm font-medium">{t.finance.collectedThisMonth}</CardTitle>
                   <TrendingUp className="h-4 w-4 text-chart-1" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">$384,000</div>
-                  <p className="text-xs text-success">+22% from last month</p>
+                  <div className="text-2xl font-bold">{t.finance.collectedValue}</div>
+                  <p className="text-xs text-success">{t.finance.collectedChange}</p>
                 </CardContent>
               </Card>
             </div>
 
             <Card>
               <CardHeader>
-                <CardTitle>Payment Schedule</CardTitle>
-                <CardDescription>Milestone-based payment tracking</CardDescription>
+                <CardTitle>{t.finance.paymentSchedule}</CardTitle>
+                <CardDescription>{t.finance.paymentScheduleDesc}</CardDescription>
               </CardHeader>
               <CardContent>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Project</TableHead>
-                      <TableHead>Milestone</TableHead>
-                      <TableHead>Amount</TableHead>
-                      <TableHead>Due Date</TableHead>
-                      <TableHead>Status</TableHead>
+                      <TableHead>{t.finance.project}</TableHead>
+                      <TableHead>{t.finance.milestone}</TableHead>
+                      <TableHead>{t.finance.amount}</TableHead>
+                      <TableHead>{t.finance.dueDate}</TableHead>
+                      <TableHead>{t.finance.status}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -144,8 +144,8 @@ export default function FinancePage() {
             title={t.demoGuide.finance.title}
             description={t.demoGuide.finance.description}
             features={[
-              { icon: "💰", label: "Revenue Summary", description: "Total revenue, due, overdue, and collected amounts" },
-              { icon: "📅", label: "Payment Schedule", description: "Table of upcoming and past payment installments" },
+              { icon: "💰", label: t.finance.revenueSummary, description: t.finance.revenueSummaryDesc },
+              { icon: "📅", label: t.finance.paymentSchedule, description: t.finance.paymentScheduleDesc },
             ]}
             tip={t.demoGuide.finance.tip}
           />

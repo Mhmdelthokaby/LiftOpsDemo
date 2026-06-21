@@ -88,27 +88,27 @@ export default function DashboardPage() {
               <KPICard
                 title={t.dashboard.totalProjects}
                 value={summary?.totalProjects ?? 0}
-                change={loading ? "Loading..." : "+0% from last month"}
+                change={loading ? t.common.loading : "+0% from last month"}
                 changeType="neutral"
                 icon={FolderKanban}
               />
               <KPICard
                 title={t.dashboard.activeInstallations}
                 value={summary?.activeInstallations ?? 0}
-                description="Ongoing projects"
+                description={t.dashboard.ongoingProjects}
                 icon={Wrench}
               />
               <KPICard
                 title={t.dashboard.maintenanceDue}
                 value={summary?.maintenanceDue ?? 0}
-                change="Scheduled visits"
+                change={t.dashboard.scheduledVisits}
                 changeType="neutral"
                 icon={Calendar}
               />
               <KPICard
                 title={t.dashboard.lowStockItems}
                 value={summary?.lowStockItems ?? 0}
-                change="Reorder recommended"
+                change={t.dashboard.reorderRecommended}
                 changeType="negative"
                 icon={Package}
               />
@@ -169,10 +169,10 @@ export default function DashboardPage() {
             title={t.demoGuide.dashboard.title}
             description={t.demoGuide.dashboard.description}
             features={[
-              { icon: "📊", label: "KPI Cards", description: "Total projects, active installations, maintenance due, low stock alerts" },
-              { icon: "🚨", label: "Emergency Status", description: "Live view of open, en-route, in-progress, and resolved tickets" },
-              { icon: "💹", label: "Revenue vs Expenses", description: "Monthly financial chart for 2024" },
-              { icon: "📋", label: "Recent Activity", description: "Latest actions across the system" },
+              { icon: "📊", label: t.demoGuide.dashboard.features[0].label, description: t.demoGuide.dashboard.features[0].desc },
+              { icon: "🚨", label: t.demoGuide.dashboard.features[1].label, description: t.demoGuide.dashboard.features[1].desc },
+              { icon: "💹", label: t.demoGuide.dashboard.features[2].label, description: t.demoGuide.dashboard.features[2].desc },
+              { icon: "📋", label: t.demoGuide.dashboard.features[3].label, description: t.demoGuide.dashboard.features[3].desc },
             ]}
             tip={t.demoGuide.dashboard.tip}
           />

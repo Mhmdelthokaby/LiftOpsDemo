@@ -54,9 +54,9 @@ export default function EmergencyPage() {
             title={t.demoGuide.emergency.title}
             description={t.demoGuide.emergency.description}
             features={[
-              { icon: "📊", label: "Stats Overview", description: "Open, in-progress, and resolved ticket counts" },
-              { icon: "📋", label: "Ticket List", description: "All emergency requests with priority and status" },
-              { icon: "🚨", label: "New Emergency", description: "Quickly open a new ticket for a breakdown" },
+              { icon: "📊", label: t.emergency.statsOverview, description: t.emergency.statsOverviewDesc },
+              { icon: "📋", label: t.emergency.ticketList, description: t.emergency.ticketListDesc },
+              { icon: "🚨", label: t.emergency.newEmergency, description: t.emergency.newEmergencyDesc },
             ]}
             tip={t.demoGuide.emergency.tip}
           />

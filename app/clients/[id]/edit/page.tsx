@@ -52,7 +52,7 @@ export default function EditClientPage() {
             const foundCustomer = customers.find(c => c.id === id)
             
             if (!foundCustomer) {
-                toast.error("Client not found")
+                toast.error(t.clientEdit.clientNotFound)
                 router.push("/clients")
                 return
             }
@@ -69,7 +69,7 @@ export default function EditClientPage() {
             })
         } catch (error: any) {
             console.error("Error fetching client:", error)
-            const errorMessage = error?.message || error?.data?.message || "Failed to load client details"
+            const errorMessage = error?.message || error?.data?.message || t.clientEdit.errorLoading
             toast.error(errorMessage)
             router.push("/clients")
         } finally {
@@ -82,15 +82,15 @@ export default function EditClientPage() {
         
         // Validation
         if (!formData.name.trim()) {
-            toast.error("Name is required")
+            toast.error(t.clientEdit.nameRequired)
             return
         }
         if (!formData.phone.trim()) {
-            toast.error("Phone is required")
+            toast.error(t.clientEdit.phoneRequired)
             return
         }
         if (!formData.email.trim()) {
-            toast.error("Email is required")
+            toast.error(t.clientEdit.emailRequired)
             return
         }
 
@@ -106,11 +106,11 @@ export default function EditClientPage() {
                 googleMapsLink: formData.googleMapsLink.trim()
             })
             
-            toast.success("Client updated successfully")
+            toast.success(t.clientEdit.success)
             router.push(`/clients/${id}`)
         } catch (error: any) {
             console.error("Error updating client:", error)
-            const errorMessage = error?.message || error?.response?.data?.message || "Failed to update client"
+            const errorMessage = error?.message || error?.response?.data?.message || t.clientEdit.errorSaving
             toast.error(errorMessage)
         } finally {
             setSaving(false)
@@ -133,7 +133,7 @@ export default function EditClientPage() {
                         <AppHeader />
                         <main className="flex-1 p-8 text-center">
                             <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
-                            <p>Loading client details...</p>
+                            <p>{t.clientEdit.loading}</p>
                         </main>
                     </div>
                 </div>
@@ -148,7 +148,7 @@ export default function EditClientPage() {
                     <AppSidebar />
                     <div className="flex flex-1 flex-col">
                         <AppHeader />
-                        <main className="flex-1 p-8 text-center">Client not found</main>
+                        <main className="flex-1 p-8 text-center">{t.clientEdit.clientNotFound}</main>
                     </div>
                 </div>
             </SidebarProvider>
@@ -168,7 +168,7 @@ export default function EditClientPage() {
                                 onClick={() => router.push(`/clients/${id}`)} 
                                 className="text-muted-foreground hover:text-foreground"
                             >
-                                <ChevronLeft className="mr-2 h-4 w-4" /> Back to Client Details
+                                <ChevronLeft className="mr-2 h-4 w-4" /> {t.clientEdit.backToClient}
                             </Button>
                         </div>
 
@@ -182,27 +182,27 @@ export default function EditClientPage() {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <Label htmlFor="name">
-                                                Name <span className="text-destructive">*</span>
+                                                {t.clientEdit.name}
                                             </Label>
                                             <Input
                                                 id="name"
                                                 value={formData.name}
                                                 onChange={(e) => handleChange("name", e.target.value)}
-                                                placeholder="Client name"
+                                                placeholder={t.clientEdit.namePlaceholder}
                                                 required
                                             />
                                         </div>
 
                                         <div className="space-y-2">
                                             <Label htmlFor="phone">
-                                                Phone <span className="text-destructive">*</span>
+                                                {t.clientEdit.phone}
                                             </Label>
                                             <Input
                                                 id="phone"
                                                 type="tel"
                                                 value={formData.phone}
                                                 onChange={(e) => handleChange("phone", e.target.value)}
-                                                placeholder="Phone number"
+                                                placeholder={t.clientEdit.phonePlaceholder}
                                                 required
                                             />
                                         </div>
@@ -210,58 +210,58 @@ export default function EditClientPage() {
 
                                     <div className="space-y-2">
                                         <Label htmlFor="email">
-                                            Email <span className="text-destructive">*</span>
+                                            {t.clientEdit.email}
                                         </Label>
                                         <Input
                                             id="email"
                                             type="email"
                                             value={formData.email}
                                             onChange={(e) => handleChange("email", e.target.value)}
-                                            placeholder="Email address"
+                                            placeholder={t.clientEdit.emailPlaceholder}
                                             required
                                         />
                                     </div>
 
                                     <div className="space-y-2">
-                                        <Label htmlFor="address">Address</Label>
+                                        <Label htmlFor="address">{t.clientEdit.address}</Label>
                                         <Textarea
                                             id="address"
                                             value={formData.address}
                                             onChange={(e) => handleChange("address", e.target.value)}
-                                            placeholder="Client address"
+                                            placeholder={t.clientEdit.addressPlaceholder}
                                             rows={3}
                                         />
                                     </div>
 
                                     <div className="space-y-2">
-                                        <Label htmlFor="city">City</Label>
+                                        <Label htmlFor="city">{t.clientEdit.city}</Label>
                                         <Input
                                             id="city"
                                             value={formData.city}
                                             onChange={(e) => handleChange("city", e.target.value)}
-                                            placeholder="City"
+                                            placeholder={t.clientEdit.cityPlaceholder}
                                         />
                                     </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-2">
-                                            <Label htmlFor="projectNumber">Project Number</Label>
+                                            <Label htmlFor="projectNumber">{t.clientEdit.projectNumber}</Label>
                                             <Input
                                                 id="projectNumber"
                                                 value={formData.projectNumber}
                                                 onChange={(e) => handleChange("projectNumber", e.target.value)}
-                                                placeholder="Project number"
+                                                placeholder={t.clientEdit.projectNumberPlaceholder}
                                             />
                                         </div>
 
                                         <div className="space-y-2">
-                                            <Label htmlFor="googleMapsLink">Google Maps Link</Label>
+                                            <Label htmlFor="googleMapsLink">{t.clientEdit.googleMapsLink}</Label>
                                             <Input
                                                 id="googleMapsLink"
                                                 type="url"
                                                 value={formData.googleMapsLink}
                                                 onChange={(e) => handleChange("googleMapsLink", e.target.value)}
-                                                placeholder="https://maps.google.com/..."
+                                                placeholder={t.clientEdit.googleMapsPlaceholder}
                                             />
                                         </div>
                                     </div>
@@ -273,18 +273,18 @@ export default function EditClientPage() {
                                             onClick={() => router.push(`/clients/${id}`)}
                                             disabled={saving}
                                         >
-                                            Cancel
+                                            {t.clientEdit.cancel}
                                         </Button>
                                         <Button type="submit" disabled={saving}>
                                             {saving ? (
                                                 <>
                                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                                    Saving...
+                                                    {t.clientEdit.saving}
                                                 </>
                                             ) : (
                                                 <>
                                                     <Save className="mr-2 h-4 w-4" />
-                                                    Save Changes
+                                                    {t.clientEdit.saveChanges}
                                                 </>
                                             )}
                                         </Button>
@@ -299,9 +299,9 @@ export default function EditClientPage() {
               title={t.demoGuide.clients.title}
               description={t.demoGuide.clients.description}
               features={[
-                { icon: "🔍", label: "Search & Filter", description: "Quickly find any client by name or contact" },
-                { icon: "📋", label: "Client Details", description: "View client profile, projects, and contracts" },
-                { icon: "➕", label: "Add / Edit", description: "Full client management with contact info" },
+                { icon: "🔍", label: t.clients.searchFilter, description: t.clients.searchFilterDesc },
+                { icon: "📋", label: t.clients.clientDetails, description: t.clients.clientDetailsDesc },
+                { icon: "➕", label: t.clients.addEdit, description: t.clients.addEditDesc },
               ]}
               tip={t.demoGuide.clients.tip}
             />

@@ -175,8 +175,8 @@ export default function ClientsPage() {
             } catch (error: any) {
                 console.error("Failed to load customers", error);
                 toast({
-                    title: "Error",
-                    description: error.message || "Failed to load customer data",
+                    title: t.clients.errorLoading,
+                    description: error.message,
                     variant: "destructive"
                 });
             } finally {
@@ -239,15 +239,15 @@ export default function ClientsPage() {
                         <Card>
                             <CardHeader>
                                 <div className="flex items-center justify-between">
-                                    <CardTitle>All Clients</CardTitle>
+                                    <CardTitle>{t.clients.allClients}</CardTitle>
                                     <div className="flex items-center gap-4">
                                         <Select value={sortField} onValueChange={(value) => handleSort(value as SortField)}>
                                             <SelectTrigger className="w-40">
-                                                <SelectValue placeholder="Sort by" />
+                                                <SelectValue placeholder={t.clients.sortBy} />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="name">Sort by Name</SelectItem>
-                                                <SelectItem value="last">Sort by Last Added</SelectItem>
+                                                <SelectItem value="name">{t.clients.sortByName}</SelectItem>
+                                                <SelectItem value="last">{t.clients.sortByLastAdded}</SelectItem>
                                             </SelectContent>
                                         </Select>
                                         <Button
@@ -264,7 +264,7 @@ export default function ClientsPage() {
                                         <div className="relative w-64">
                                             <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                                             <Input
-                                                placeholder="Search clients..."
+                                                placeholder={t.clients.searchClients}
                                                 className="pl-8"
                                                 value={searchTerm}
                                                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -284,7 +284,7 @@ export default function ClientsPage() {
                                                         onClick={() => handleSort("name")}
                                                         className="h-8 px-2 lg:px-3"
                                                     >
-                                                        Name
+                                                        {t.clients.name}
                                                         {sortField === "name" && (
                                                             sortDirection === "asc" ? (
                                                                 <ArrowUp className="ml-2 h-4 w-4" />
@@ -297,51 +297,51 @@ export default function ClientsPage() {
                                                         )}
                                                     </Button>
                                                 </TableHead>
-                                                <TableHead>Email</TableHead>
-                                                <TableHead>Phone</TableHead>
-                                                <TableHead>Address</TableHead>
-                                                <TableHead>Status</TableHead>
-                                                <TableHead>Installation Done</TableHead>
-                                                <TableHead>Installation In Progress</TableHead>
-                                                <TableHead>Maintenance</TableHead>
-                                                <TableHead>Actions</TableHead>
+                                                <TableHead>{t.clients.email}</TableHead>
+                                                <TableHead>{t.clients.phone}</TableHead>
+                                                <TableHead>{t.clients.address}</TableHead>
+                                                <TableHead>{t.clients.status}</TableHead>
+                                                <TableHead>{t.clients.installationDone}</TableHead>
+                                                <TableHead>{t.clients.installationInProgress}</TableHead>
+                                                <TableHead>{t.clients.maintenance}</TableHead>
+                                                <TableHead>{t.clients.actions}</TableHead>
                                             </TableRow>
                                         </TableHeader>
                                         <TableBody>
                                             {loading ? (
                                                 <TableRow>
                                                     <TableCell colSpan={9} className="h-24 text-center">
-                                                        Loading...
+                                                        {t.common.loading}
                                                     </TableCell>
                                                 </TableRow>
                                             ) : filteredCustomers.length === 0 ? (
                                                 <TableRow>
                                                     <TableCell colSpan={9} className="h-24 text-center">
-                                                        No results found.
+                                                        {t.common.noResults}
                                                     </TableCell>
                                                 </TableRow>
                                             ) : (
                                                 sortedCustomers.map((customer) => {
                                                     const getStatusBadge = (status: CustomerStatus) => {
                                                         switch (status) {
-                                                            case "Approved":
-                                                                return (
-                                                                    <Badge className="bg-green-500/10 text-green-500 hover:bg-green-500/20 border-green-500/20">
-                                                                        Approved
-                                                                    </Badge>
-                                                                );
-                                                            case "PendingInspectionQuotation":
-                                                                return (
-                                                                    <Badge variant="outline" className="text-yellow-500 border-yellow-500/20 bg-yellow-500/5">
-                                                                        Pending
-                                                                    </Badge>
-                                                                );
-                                                            case "Rejected":
-                                                                return (
-                                                                    <Badge className="bg-red-500/10 text-red-500 hover:bg-red-500/20 border-red-500/20">
-                                                                        Rejected
-                                                                    </Badge>
-                                                                );
+                                                    case "Approved":
+                                                                 return (
+                                                                     <Badge className="bg-green-500/10 text-green-500 hover:bg-green-500/20 border-green-500/20">
+                                                                         {t.common.approved}
+                                                                     </Badge>
+                                                                 );
+                                                             case "PendingInspectionQuotation":
+                                                                 return (
+                                                                     <Badge variant="outline" className="text-yellow-500 border-yellow-500/20 bg-yellow-500/5">
+                                                                         {t.common.pending}
+                                                                     </Badge>
+                                                                 );
+                                                             case "Rejected":
+                                                                 return (
+                                                                     <Badge className="bg-red-500/10 text-red-500 hover:bg-red-500/20 border-red-500/20">
+                                                                         {t.common.rejected}
+                                                                     </Badge>
+                                                                 );
                                                             default:
                                                                 return null;
                                                         }
@@ -352,14 +352,14 @@ export default function ClientsPage() {
                                                             <TableCell className="font-medium">{customer.name}</TableCell>
                                                             <TableCell>{customer.email}</TableCell>
                                                             <TableCell>{customer.phone}</TableCell>
-                                                            <TableCell>{customer.address || "N/A"}</TableCell>
+                                                            <TableCell>{customer.address || t.common.nA}</TableCell>
                                                             <TableCell>
                                                                 {getStatusBadge(customer.customerStatus)}
                                                             </TableCell>
                                                             <TableCell>
                                                                 {customer.completedInstallationCount > 0 ? (
                                                                     <Badge variant="default" className="w-fit bg-green-500/10 text-green-500 hover:bg-green-500/20 border-green-500/20">
-                                                                        {customer.completedInstallationCount} Done
+                                                                        {customer.completedInstallationCount} {t.common.done}
                                                                     </Badge>
                                                                 ) : (
                                                                     <span className="text-muted-foreground">0</span>
@@ -368,7 +368,7 @@ export default function ClientsPage() {
                                                             <TableCell>
                                                                 {customer.inProgressInstallationCount > 0 ? (
                                                                     <Badge variant="default" className="w-fit bg-blue-500/10 text-blue-500 hover:bg-blue-500/20 border-blue-500/20">
-                                                                        {customer.inProgressInstallationCount} In Progress
+                                                                        {customer.inProgressInstallationCount} {t.common.inProgress}
                                                                     </Badge>
                                                                 ) : (
                                                                     <span className="text-muted-foreground">0</span>
@@ -377,7 +377,7 @@ export default function ClientsPage() {
                                                             <TableCell>
                                                                 {customer.activeMaintenanceCount > 0 ? (
                                                                     <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 w-fit">
-                                                                        {customer.activeMaintenanceCount} Active
+                                                                        {customer.activeMaintenanceCount} {t.common.active}
                                                                     </Badge>
                                                                 ) : (
                                                                     <span className="text-muted-foreground">0</span>
@@ -386,7 +386,7 @@ export default function ClientsPage() {
                                                             <TableCell>
                                                                 <Link href={`/clients/${customer.id}`}>
                                                                     <Button variant="ghost" size="sm" className="hover:bg-primary/10 hover:text-primary">
-                                                                        View Details <ArrowRight className="ml-2 h-4 w-4" />
+                                                                        {t.clients.viewDetails} <ArrowRight className="ml-2 h-4 w-4" />
                                                                     </Button>
                                                                 </Link>
                                                             </TableCell>
@@ -404,9 +404,9 @@ export default function ClientsPage() {
                       title={t.demoGuide.clients.title}
                       description={t.demoGuide.clients.description}
                       features={[
-                        { icon: "🔍", label: "Search & Filter", description: "Quickly find any client by name or contact" },
-                        { icon: "📋", label: "Client Details", description: "View client profile, projects, and contracts" },
-                        { icon: "➕", label: "Add / Edit", description: "Full client management with contact info" },
+                        { icon: "🔍", label: t.clients.searchFilter, description: t.clients.searchFilterDesc },
+                        { icon: "📋", label: t.clients.clientDetails, description: t.clients.clientDetailsDesc },
+                        { icon: "➕", label: t.clients.addEdit, description: t.clients.addEditDesc },
                       ]}
                       tip={t.demoGuide.clients.tip}
                     />
