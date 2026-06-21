@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { ChevronLeft, Save, Loader2, Eye, EyeOff } from "lucide-react"
 import { toast } from "sonner"
 
@@ -296,6 +297,16 @@ export default function NewTechnicianPage() {
                     </main>
                 </div>
             </div>
+            <DemoGuidePanel
+              title="Technicians"
+              description="Manage your field team — their skills, ratings, and availability."
+              features={[
+                { icon: "👨‍🔧", label: "Team List", description: "All technicians with specialization and rating" },
+                { icon: "✏️", label: "Add / Edit / Delete", description: "Full team management" },
+                { icon: "🔘", label: "Enable / Disable", description: "Temporarily deactivate a technician without deleting" },
+              ]}
+              tip="Ratings are updated automatically based on completed job performance."
+            />
         </SidebarProvider>
     )
 }

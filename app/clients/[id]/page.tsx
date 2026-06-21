@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge"
 import { ChevronLeft, Mail, Phone, MapPin, Calendar, DollarSign, ArrowRight, Building2, CheckCircle2, Edit, CheckCircle, XCircle } from "lucide-react"
 import { toast } from "sonner"
 import Link from "next/link"
+import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { canViewMaintenance } from "@/lib/user"
 
 type CustomerStatusType = "Approved" | "PendingInspectionQuotation" | "Rejected";
@@ -453,6 +454,16 @@ export default function ClientDetailsPage() {
                     </main>
                 </div>
             </div>
+            <DemoGuidePanel
+              title="Clients"
+              description="Manage all your client relationships in one place."
+              features={[
+                { icon: "🔍", label: "Search & Filter", description: "Quickly find any client by name or contact" },
+                { icon: "📋", label: "Client Details", description: "View client profile, projects, and contracts" },
+                { icon: "➕", label: "Add / Edit", description: "Full client management with contact info" },
+              ]}
+              tip="Click any client row to see their full project and contract history."
+            />
         </SidebarProvider>
     )
 }

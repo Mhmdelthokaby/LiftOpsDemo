@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { ChevronLeft, Save, Loader2 } from "lucide-react"
 import { toast } from "sonner"
 
@@ -292,6 +293,16 @@ export default function EditClientPage() {
                     </main>
                 </div>
             </div>
+            <DemoGuidePanel
+              title="Clients"
+              description="Manage all your client relationships in one place."
+              features={[
+                { icon: "🔍", label: "Search & Filter", description: "Quickly find any client by name or contact" },
+                { icon: "📋", label: "Client Details", description: "View client profile, projects, and contracts" },
+                { icon: "➕", label: "Add / Edit", description: "Full client management with contact info" },
+              ]}
+              tip="Click any client row to see their full project and contract history."
+            />
         </SidebarProvider>
     )
 }

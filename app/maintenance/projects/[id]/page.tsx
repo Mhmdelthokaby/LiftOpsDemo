@@ -18,6 +18,7 @@ import { MonthlyMaintenanceDialog } from "@/components/maintenance/monthly-maint
 import { ElevatorMaintenanceHistory } from "@/components/maintenance/elevator-maintenance-history"
 import { EditContractDialog } from "@/components/maintenance/edit-contract-dialog"
 import { EditElevatorDialog } from "@/components/maintenance/edit-elevator-dialog"
+import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { canManageMaintenance } from "@/lib/user"
 import { formatDate } from "@/lib/utils"
 import {
@@ -882,6 +883,19 @@ export default function MaintenanceProjectDetailsPage() {
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
+            <DemoGuidePanel
+              title="Maintenance"
+              description="The core of your operations — manage all maintenance contracts and scheduled visits."
+              features={[
+                { icon: "📁", label: "Projects Tab", description: "All maintenance contracts by client" },
+                { icon: "📅", label: "Calendar Tab", description: "Visual monthly view of all scheduled visits" },
+                { icon: "📋", label: "List Tab", description: "Detailed list of all visits with status" },
+                { icon: "✅", label: "Checklist Tab", description: "Per-visit checklist for technicians" },
+                { icon: "👨‍🔧", label: "Assign Visits", description: "Assign technicians to specific visits" },
+                { icon: "🔧", label: "Elevator Status", description: "Freeze, stop, or activate individual elevators" },
+              ]}
+              tip="You can add a new maintenance contract directly from this page."
+            />
         </SidebarProvider>
     )
 }

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { getMaintenanceElevators, MaintenanceElevator, freezeElevator, stopElevator, activateElevator } from "@/lib/api"
+import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { canViewMaintenance, canManageMaintenance } from "@/lib/user"
 import { formatDate } from "@/lib/utils"
 import { AppHeader } from "@/components/app-header"
@@ -413,6 +414,17 @@ export default function MaintenanceElevatorsPage() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      <DemoGuidePanel
+        title="Elevator Fleet"
+        description="Manage all elevators under maintenance contracts — monitor and control their operational status."
+        features={[
+          { icon: "🔍", label: "Search & Filter", description: "Quickly find any elevator by code or contract" },
+          { icon: "❄️", label: "Freeze", description: "Pause an elevator temporarily without ending the contract" },
+          { icon: "⏹️", label: "Stop", description: "Take an elevator out of service permanently" },
+          { icon: "▶️", label: "Activate", description: "Reactivate a frozen or stopped elevator" },
+        ]}
+        tip="Freezing an elevator keeps the contract active while pausing maintenance visits."
+      />
     </SidebarProvider>
   )
 }

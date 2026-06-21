@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
+import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { Search, CheckCircle2, X, ArrowLeft, Loader2 } from "lucide-react"
 import { toast } from "sonner"
 import {
@@ -476,6 +477,16 @@ export default function NewInspectionProjectPage() {
                     </div>
                 </main>
             </div>
+            <DemoGuidePanel
+              title="Inspection"
+              description="Create a new inspection project — the first step before an installation project is approved."
+              features={[
+                { icon: "🔍", label: "Customer Search", description: "Search by phone to find existing customers" },
+                { icon: "📐", label: "Pit Measurements", description: "Record shaft dimensions, pit depth, and travel" },
+                { icon: "📝", label: "Notes & Details", description: "Add project address and GPS coordinates" },
+              ]}
+              tip="Inspections feed into the Installation Pipeline once approved."
+            />
         </SidebarProvider>
     )
 }

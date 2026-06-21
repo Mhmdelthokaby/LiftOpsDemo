@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
+import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { ChevronLeft, Save, Plus, Trash2, Search, CheckCircle2, X } from "lucide-react"
 import { toast } from "sonner"
 
@@ -661,6 +662,19 @@ export default function NewMaintenanceProjectPage() {
                     </main>
                 </div>
             </div>
+            <DemoGuidePanel
+              title="Maintenance"
+              description="The core of your operations — manage all maintenance contracts and scheduled visits."
+              features={[
+                { icon: "📁", label: "Projects Tab", description: "All maintenance contracts by client" },
+                { icon: "📅", label: "Calendar Tab", description: "Visual monthly view of all scheduled visits" },
+                { icon: "📋", label: "List Tab", description: "Detailed list of all visits with status" },
+                { icon: "✅", label: "Checklist Tab", description: "Per-visit checklist for technicians" },
+                { icon: "👨‍🔧", label: "Assign Visits", description: "Assign technicians to specific visits" },
+                { icon: "🔧", label: "Elevator Status", description: "Freeze, stop, or activate individual elevators" },
+              ]}
+              tip="You can add a new maintenance contract directly from this page."
+            />
         </SidebarProvider>
     )
 }

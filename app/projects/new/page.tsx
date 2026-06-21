@@ -16,6 +16,7 @@ import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
 import { ChevronLeft, ChevronRight, Save, Plus, Trash2, Search, CheckCircle2, X, CalendarIcon } from "lucide-react"
 import { toast } from "sonner"
+import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { formatDateInput, parseDateInput, formatDateInputValue, formatDateToLocalString, cn } from "@/lib/utils"
@@ -1099,6 +1100,17 @@ export default function NewProjectPage() {
                     </main>
                 </div>
             </div>
+            <DemoGuidePanel
+              title="Projects"
+              description="Track every elevator installation project from start to finish."
+              features={[
+                { icon: "📁", label: "Project List", description: "All active and completed installation projects" },
+                { icon: "🔄", label: "Progress Stages", description: "Foundation → Mechanical → Electrical → Testing" },
+                { icon: "🛗", label: "Elevator Management", description: "Manage individual elevators within each project" },
+                { icon: "➕", label: "New Project Wizard", description: "Multi-step form to create a new project" },
+              ]}
+              tip="Each project tracks its own elevators, timeline, and responsible team."
+            />
         </SidebarProvider>
     )
 }

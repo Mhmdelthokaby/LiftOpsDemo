@@ -15,6 +15,7 @@ import { toast } from "sonner"
 import { formatDate } from "@/lib/utils"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { canManageMaintenance } from "@/lib/user"
+import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { useRouter } from "next/navigation"
 
 export default function AssignVisitsPage() {
@@ -340,6 +341,16 @@ export default function AssignVisitsPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      <DemoGuidePanel
+        title="Assign Visits"
+        description="Assign monthly maintenance visits to technicians — ensuring every visit has a responsible field agent."
+        features={[
+          { icon: "📅", label: "Monthly Schedule", description: "See all generated visits grouped by date" },
+          { icon: "👨‍🔧", label: "Assign to Technician", description: "Pick a technician for each unassigned visit" },
+          { icon: "✅", label: "Track Assignment", description: "Know exactly who is handling each visit" },
+        ]}
+        tip="Unassigned visits are shown first so you never miss a scheduling gap."
+      />
     </SidebarProvider>
   )
 }

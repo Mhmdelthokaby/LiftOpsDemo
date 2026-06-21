@@ -15,6 +15,7 @@ import { ChevronLeft, CheckCircle2, Clock, MapPin, Phone, Mail, FileText, Plus, 
 import { toast } from "sonner"
 import { Separator } from "@/components/ui/separator"
 import { formatDate } from "@/lib/utils"
+import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { StageManagementDialog } from "@/components/installation/stage-management-dialog"
 import { EditProjectDialog } from "@/components/installation/edit-project-dialog"
 
@@ -559,6 +560,17 @@ export default function ProjectDetailsPage() {
                     onUpdate={fetchProject}
                 />
             )}
+            <DemoGuidePanel
+              title="Projects"
+              description="Track every elevator installation project from start to finish."
+              features={[
+                { icon: "📁", label: "Project List", description: "All active and completed installation projects" },
+                { icon: "🔄", label: "Progress Stages", description: "Foundation → Mechanical → Electrical → Testing" },
+                { icon: "🛗", label: "Elevator Management", description: "Manage individual elevators within each project" },
+                { icon: "➕", label: "New Project Wizard", description: "Multi-step form to create a new project" },
+              ]}
+              tip="Each project tracks its own elevators, timeline, and responsible team."
+            />
         </SidebarProvider>
     )
 }
