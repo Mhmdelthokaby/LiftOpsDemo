@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import "@/lib/api-client"
 import { useRouter, usePathname } from "next/navigation"
 import { isAuthenticated, getValidToken } from "@/lib/auth"
 import { 
