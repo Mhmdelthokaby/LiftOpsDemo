@@ -9,6 +9,7 @@ import { ChecklistItemsTable } from "@/components/maintenance/checklist-items-ta
 import { MaintenanceProjectsView } from "@/components/maintenance/maintenance-projects-view"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
+import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { Plus } from "lucide-react"
 import { useState, useRef, useEffect, Suspense } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
@@ -175,6 +176,19 @@ export default function MaintenancePage() {
       </SidebarProvider>
     }>
       <MaintenancePageContent />
+      <DemoGuidePanel
+        title="Maintenance"
+        description="The core of your operations — manage all maintenance contracts and scheduled visits."
+        features={[
+          { icon: "📁", label: "Projects Tab", description: "All maintenance contracts by client" },
+          { icon: "📅", label: "Calendar Tab", description: "Visual monthly view of all scheduled visits" },
+          { icon: "📋", label: "List Tab", description: "Detailed list of all visits with status" },
+          { icon: "✅", label: "Checklist Tab", description: "Per-visit checklist for technicians" },
+          { icon: "👨‍🔧", label: "Assign Visits", description: "Assign technicians to specific visits" },
+          { icon: "🔧", label: "Elevator Status", description: "Freeze, stop, or activate individual elevators" },
+        ]}
+        tip="You can add a new maintenance contract directly from this page."
+      />
     </Suspense>
   )
 }

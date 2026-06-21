@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/table"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { Search, ArrowUpDown, ArrowUp, ArrowDown, ArrowRight } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -397,6 +398,16 @@ export default function ClientsPage() {
                             </CardContent>
                         </Card>
                     </main>
+                    <DemoGuidePanel
+                      title="Clients"
+                      description="Manage all your client relationships in one place."
+                      features={[
+                        { icon: "🔍", label: "Search & Filter", description: "Quickly find any client by name or contact" },
+                        { icon: "📋", label: "Client Details", description: "View client profile, projects, and contracts" },
+                        { icon: "➕", label: "Add / Edit", description: "Full client management with contact info" },
+                      ]}
+                      tip="Click any client row to see their full project and contract history."
+                    />
                 </div>
             </div>
         </SidebarProvider>

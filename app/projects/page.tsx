@@ -18,6 +18,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
+import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { Plus, Search, Filter, ArrowRight, RefreshCw } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -233,6 +234,17 @@ export default function ProjectsPage() {
               </CardContent>
             </Card>
           </main>
+          <DemoGuidePanel
+            title="Projects"
+            description="Track every elevator installation project from start to finish."
+            features={[
+              { icon: "📁", label: "Project List", description: "All active and completed installation projects" },
+              { icon: "🔄", label: "Progress Stages", description: "Foundation → Mechanical → Electrical → Testing" },
+              { icon: "🛗", label: "Elevator Management", description: "Manage individual elevators within each project" },
+              { icon: "➕", label: "New Project Wizard", description: "Multi-step form to create a new project" },
+            ]}
+            tip="Each project tracks its own elevators, timeline, and responsible team."
+          />
         </div>
       </div>
     </SidebarProvider>

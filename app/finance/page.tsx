@@ -1,3 +1,6 @@
+"use client"
+
+import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { AppHeader } from "@/components/app-header"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
@@ -135,6 +138,15 @@ export default function FinancePage() {
               </CardContent>
             </Card>
           </main>
+          <DemoGuidePanel
+            title="Finance"
+            description="Track your revenue, collections, and outstanding payments."
+            features={[
+              { icon: "💰", label: "Revenue Summary", description: "Total revenue, due, overdue, and collected amounts" },
+              { icon: "📅", label: "Payment Schedule", description: "Table of upcoming and past payment installments" },
+            ]}
+            tip="Overdue payments are highlighted automatically so nothing slips through."
+          />
         </div>
       </div>
     </SidebarProvider>

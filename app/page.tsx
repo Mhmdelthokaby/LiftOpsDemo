@@ -9,6 +9,7 @@ import { ProjectProgressChart } from "@/components/dashboard/project-progress-ch
 import { ActivityFeed } from "@/components/dashboard/activity-feed"
 import { OnboardingOverlay } from "@/components/dashboard/onboarding-overlay"
 import { DemoBanner } from "@/components/dashboard/demo-banner"
+import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { FolderKanban, Wrench, Calendar, AlertCircle, Package, AlertTriangle, Navigation2, CheckCircle2 } from "lucide-react"
 import { useEffect, useState } from "react"
 import { getDashboardSummary, DashboardSummary, getEmergencyTickets } from "@/lib/api"
@@ -162,6 +163,17 @@ export default function DashboardPage() {
               <ActivityFeed activities={summary?.recentActivities} />
             </div>
           </main>
+          <DemoGuidePanel
+            title="Dashboard"
+            description="Your command center — see everything happening in your business at a glance."
+            features={[
+              { icon: "📊", label: "KPI Cards", description: "Total projects, active installations, maintenance due, low stock alerts" },
+              { icon: "🚨", label: "Emergency Status", description: "Live view of open, en-route, in-progress, and resolved tickets" },
+              { icon: "💹", label: "Revenue vs Expenses", description: "Monthly financial chart for 2024" },
+              { icon: "📋", label: "Recent Activity", description: "Latest actions across the system" },
+            ]}
+            tip="Check the Maintenance Due card daily — it shows how many visits are scheduled."
+          />
         </div>
       </div>
     </SidebarProvider>

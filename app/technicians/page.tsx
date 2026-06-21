@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/table"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { Search, Plus, Star, UserCheck, UserX, Edit, Trash2 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -306,6 +307,16 @@ export default function TechniciansPage() {
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
+            <DemoGuidePanel
+              title="Technicians"
+              description="Manage your field team — their skills, ratings, and availability."
+              features={[
+                { icon: "👨‍🔧", label: "Team List", description: "All technicians with specialization and rating" },
+                { icon: "✏️", label: "Add / Edit / Delete", description: "Full team management" },
+                { icon: "🔘", label: "Enable / Disable", description: "Temporarily deactivate a technician without deleting" },
+              ]}
+              tip="Ratings are updated automatically based on completed job performance."
+            />
         </SidebarProvider>
     )
 }

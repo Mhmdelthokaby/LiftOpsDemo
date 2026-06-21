@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { MapPin, Phone, Calendar, CheckCircle2, Clock, FileText, Map as MapIcon, ExternalLink, RefreshCw, CheckCircle, XCircle, AlertTriangle, Navigation2, Wrench, User } from "lucide-react"
 import { toast } from "sonner"
 import { formatDate } from "@/lib/utils"
@@ -798,6 +799,16 @@ export default function TechnicianVisitsPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      <DemoGuidePanel
+        title="My Visits"
+        description="Designed for field technicians — manage your assigned visits for the day."
+        features={[
+          { icon: "📅", label: "Assigned Visits", description: "See all maintenance visits assigned to you" },
+          { icon: "🚨", label: "Emergency Tickets", description: "Urgent breakdown requests that need immediate response" },
+          { icon: "▶️", label: "Start & Complete", description: "Update visit status in real-time from the field" },
+        ]}
+        tip="Technicians only see their own assigned visits — no access to other data."
+      />
     </SidebarProvider>
   )
 }

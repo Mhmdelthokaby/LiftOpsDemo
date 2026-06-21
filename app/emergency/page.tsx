@@ -6,6 +6,7 @@ import { AppSidebar } from "@/components/app-sidebar"
 import { EmergencyTickets } from "@/components/emergency/emergency-tickets"
 import { EmergencyStats } from "@/components/emergency/emergency-stats"
 import { Button } from "@/components/ui/button"
+import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { Plus } from "lucide-react"
 import { useState } from "react"
 import { EmergencyForm } from "@/components/emergency/emergency-form"
@@ -47,6 +48,16 @@ export default function EmergencyPage() {
               onSuccess={handleTicketCreated}
             />
           </main>
+          <DemoGuidePanel
+            title="Emergency Tickets"
+            description="Handle urgent breakdown requests fast — from opening a ticket to resolution."
+            features={[
+              { icon: "📊", label: "Stats Overview", description: "Open, in-progress, and resolved ticket counts" },
+              { icon: "📋", label: "Ticket List", description: "All emergency requests with priority and status" },
+              { icon: "🚨", label: "New Emergency", description: "Quickly open a new ticket for a breakdown" },
+            ]}
+            tip="Emergency tickets notify the assigned technician immediately."
+          />
         </div>
       </div>
     </SidebarProvider>

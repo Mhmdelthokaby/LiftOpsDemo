@@ -4,6 +4,7 @@ import { AppHeader } from "@/components/app-header"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -93,6 +94,15 @@ export default function SettingsPage() {
               </Card> */}
             </div>
           </main>
+          <DemoGuidePanel
+            title="Settings"
+            description="Configure your system — manage admins and organize your categories."
+            features={[
+              { icon: "👤", label: "Admin Management", description: "Add and manage system administrators" },
+              { icon: "🏷️", label: "Category Management", description: "Create categories for projects, parts, and more" },
+            ]}
+            tip="Only super admins can add new administrators."
+          />
         </div>
       </div>
     </SidebarProvider>

@@ -6,6 +6,7 @@ import { AppSidebar } from "@/components/app-sidebar"
 import { InventoryOverview, type InventoryOverviewRef } from "@/components/inventory/inventory-overview"
 import { InventoryTable } from "@/components/inventory/inventory-table"
 import { Button } from "@/components/ui/button"
+import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { Plus, Download } from "lucide-react"
 import { canManageInventory, canViewInventory } from "@/lib/user"
 import { useRouter } from "next/navigation"
@@ -146,6 +147,17 @@ export default function InventoryPage() {
             <InventoryOverview ref={refreshOverviewRef} />
             <InventoryTable onRefreshReady={(refreshFn) => { refreshTableRef.current = refreshFn }} />
           </main>
+          <DemoGuidePanel
+            title="Inventory"
+            description="Track all spare parts and get alerts before you run out."
+            features={[
+              { icon: "📦", label: "Parts Overview", description: "Full catalog of spare parts with quantities" },
+              { icon: "⚠️", label: "Low Stock Alerts", description: "Automatic warnings when stock falls below threshold" },
+              { icon: "➕", label: "Add Items & Categories", description: "Organize your inventory your way" },
+              { icon: "📤", label: "Export", description: "Download inventory data anytime" },
+            ]}
+            tip="Set minimum stock levels so the system alerts you automatically."
+          />
         </div>
       </div>
     </SidebarProvider>

@@ -1,3 +1,6 @@
+"use client"
+
+import { DemoGuidePanel } from "@/components/demo-guide-panel"
 import { AppHeader } from "@/components/app-header"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
@@ -61,6 +64,15 @@ export default function InstallationPage() {
               </TabsContent>
             </Tabs>
           </main>
+          <DemoGuidePanel
+            title="Installation Pipeline"
+            description="Bird's-eye view of all installations and their inspection status."
+            features={[
+              { icon: "🔍", label: "Pipeline View", description: "See all installations filtered by stage" },
+              { icon: "✅", label: "Inspections Tab", description: "Track inspection results per installation" },
+            ]}
+            tip="Use the stage filter to focus on installations that need attention."
+          />
         </div>
       </div>
     </SidebarProvider>
