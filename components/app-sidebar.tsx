@@ -68,7 +68,7 @@ function useNavItems() {
 export function AppSidebar() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const { t } = useTranslation()
+  const { t, dir } = useTranslation()
   const navItems = useNavItems()
   const [user, setUser] = useState<{ name: string, email: string } | null>(null);
 
@@ -79,8 +79,10 @@ export function AppSidebar() {
     }
   }, []);
 
+  const side = dir === 'rtl' ? 'right' as const : 'left' as const
+
   return (
-    <Sidebar>
+    <Sidebar side={side}>
       <SidebarHeader className="border-b border-sidebar-border">
         <div className="flex items-center gap-2 px-4 py-3">
           <div className="flex h-8 w-8 items-center justify-center">

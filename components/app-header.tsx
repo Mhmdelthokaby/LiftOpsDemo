@@ -1,15 +1,18 @@
 "use client"
 
-import { Bell, Search, Moon, Sun, Sunset, Snowflake } from "lucide-react"
+import { Bell, Search, Moon, Sun, Sunset, Snowflake, PanelLeft, PanelRight } from "lucide-react"
 import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { SidebarTrigger } from "@/components/ui/sidebar"
+import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar"
 import { Badge } from "@/components/ui/badge"
+import { useTranslation } from "@/lib/i18n/context"
 
 export function AppHeader() {
   const { theme, setTheme } = useTheme()
+  const { dir } = useTranslation()
+  const { toggleSidebar } = useSidebar()
 
   const cycleTheme = () => {
     if (theme === "light") {
@@ -25,7 +28,9 @@ export function AppHeader() {
 
   return (
     <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b border-border bg-background/95 px-6 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <SidebarTrigger className="-ml-2" />
+      <Button variant="ghost" size="icon" className="size-7" onClick={toggleSidebar}>
+        {dir === 'rtl' ? <PanelRight className="h-4 w-4" /> : <PanelLeft className="h-4 w-4" />}
+      </Button>
 
       <div className="flex flex-1 items-center gap-4">
         <div className="relative w-full max-w-md">
