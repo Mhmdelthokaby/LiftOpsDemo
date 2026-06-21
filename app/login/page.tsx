@@ -35,6 +35,11 @@ export default function LoginPage() {
             <h1 className="text-2xl font-semibold tracking-tight">LiftOps</h1>
           </div>
           <LoginForm />
+          <div className="rounded-lg border border-primary/20 bg-primary/5 px-4 py-3 text-center">
+            <p className="text-sm text-muted-foreground">
+              🔑 <span className="font-medium text-foreground">Demo Access</span> — use any email and any password to enter
+            </p>
+          </div>
           <p className="px-8 text-center text-sm text-muted-foreground">
             By clicking continue, you agree to our{" "}
             <a href="#" className="underline underline-offset-4 hover:text-primary">

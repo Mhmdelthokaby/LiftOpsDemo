@@ -7,6 +7,8 @@ import { KPICard } from "@/components/dashboard/kpi-card"
 import { RevenueChart } from "@/components/dashboard/revenue-chart"
 import { ProjectProgressChart } from "@/components/dashboard/project-progress-chart"
 import { ActivityFeed } from "@/components/dashboard/activity-feed"
+import { OnboardingOverlay } from "@/components/dashboard/onboarding-overlay"
+import { DemoBanner } from "@/components/dashboard/demo-banner"
 import { FolderKanban, Wrench, Calendar, AlertCircle, Package, AlertTriangle, Navigation2, CheckCircle2 } from "lucide-react"
 import { useEffect, useState } from "react"
 import { getDashboardSummary, DashboardSummary, getEmergencyTickets } from "@/lib/api"
@@ -71,6 +73,8 @@ export default function DashboardPage() {
         <div className="flex flex-1 flex-col">
           <AppHeader />
           <main className="flex-1 p-6">
+            <OnboardingOverlay />
+            <DemoBanner />
             <div className="mb-6">
               <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
               <p className="text-muted-foreground">Welcome back! Here's an overview of your operations.</p>
